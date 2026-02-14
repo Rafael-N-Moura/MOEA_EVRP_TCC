@@ -6,17 +6,18 @@ no problema EVRPTW-PR Multi-Objetivo.
 import argparse
 import time
 from pymoo.algorithms.moo.nsga2 import NSGA2
+from pymoo.algorithms.moo.nsga3 import NSGA3
 from pymoo.algorithms.moo.moead import MOEAD
 from pymoo.optimize import minimize
 from pymoo.operators.sampling.rnd import PermutationRandomSampling
 from pymoo.operators.crossover.ox import OrderCrossover
 from pymoo.operators.mutation.inversion import InversionMutation
-# Importação de get_reference_directions (necessário apenas para MOEA/D)
-# Será importado apenas quando necessário na função run_moead
+# Importação de get_reference_directions (necessário para MOEA/D e NSGA-III)
+# Será importado apenas quando necessário
 get_reference_directions = None
 from pymoo.visualization.scatter import Scatter
 
-from src import parse_instance, EVRPTWProblem
+from src import parse_instance, EVRPTWProblem, EVRPFlexProblem, OBJECTIVE_MAP
 
 
 def run_nsga2(problem, n_gen=100, pop_size=100, verbose=True):
@@ -101,6 +102,94 @@ def run_nsga2(problem, n_gen=100, pop_size=100, verbose=True):
             print(f"    - Trade-off entre custo e insatisfação não está sendo explorado")
     else:
         print("⚠️  Nenhuma solução encontrada!")
+    
+    print(f"{'='*60}\n")
+    
+    return res
+
+
+def run_nsga3(problem, n_gen=100, pop_size=100, n_partitions=12, verbose=True):
+    """
+    Executa algoritmo NSGA-III (para Many-Objective).
+    
+    Args:
+        problem: Instância do problema EVRPFlexProblem
+        n_gen: Número de gerações
+        pop_size: Tamanho da população (deve ser compatível com n_partitions)
+        n_partitions: Número de partições para pontos de referência
+        verbose: Se True, exibe progresso
+        
+    Returns:
+        Resultado da otimização
+    """
+    # Importa get_reference_directions quando necessário
+    global get_reference_directions
+    if get_reference_directions is None:
+        try:
+            from pymoo.util.reference_direction import get_reference_directions
+        except (ImportError, AttributeError):
+            try:
+                from pymoo.util.ref_dirs import get_reference_directions
+            except (ImportError, AttributeError):
+                import pymoo.util.reference_direction as ref_dir
+                get_reference_directions = getattr(ref_dir, 'get_reference_directions', None)
+                if get_reference_directions is None:
+                    raise ImportError(
+                        "Não foi possível importar get_reference_directions do pymoo.\n"
+                        "Isso é necessário para NSGA-III.\n"
+                        "Tente atualizar: pip install --upgrade pymoo"
+                    )
+    
+    n_obj = problem.n_obj
+    
+    # Gera pontos de referência (Das-Dennis)
+    ref_dirs = get_reference_directions("das-dennis", n_obj, n_partitions=n_partitions)
+    
+    # Ajusta pop_size para corresponder ao número de pontos de referência
+    actual_pop_size = len(ref_dirs)
+    if pop_size != actual_pop_size:
+        print(f"Aviso: Ajustando pop_size de {pop_size} para {actual_pop_size} "
+              f"(número de pontos de referência)")
+        pop_size = actual_pop_size
+    
+    algorithm = NSGA3(
+        ref_dirs,
+        pop_size=pop_size,
+        sampling=PermutationRandomSampling(),
+        crossover=OrderCrossover(),
+        mutation=InversionMutation(),
+        eliminate_duplicates=True
+    )
+    
+    print(f"\n{'='*60}")
+    print("Executando NSGA-III")
+    print(f"{'='*60}")
+    print(f"População: {pop_size}")
+    print(f"Gerações: {n_gen}")
+    print(f"Objetivos: {n_obj}")
+    print(f"Pontos de referência: {len(ref_dirs)}")
+    print(f"{'='*60}\n")
+    
+    start_time = time.time()
+    res = minimize(
+        problem,
+        algorithm,
+        ('n_gen', n_gen),
+        verbose=verbose,
+        seed=1
+    )
+    elapsed_time = time.time() - start_time
+    
+    print(f"\n{'='*60}")
+    print("NSGA-III Finalizado")
+    print(f"{'='*60}")
+    print(f"Tempo de execução: {elapsed_time:.2f} segundos")
+    print(f"Soluções na frente de Pareto: {len(res.F)}")
+    
+    if len(res.F) > 0:
+        print(f"\nEstatísticas dos Objetivos:")
+        for i in range(n_obj):
+            print(f"  f{i+1}: min={res.F[:, i].min():.2f}, max={res.F[:, i].max():.2f}, média={res.F[:, i].mean():.2f}")
     
     print(f"{'='*60}\n")
     
@@ -219,9 +308,17 @@ def main():
     parser.add_argument(
         '--algorithm',
         type=str,
-        choices=['nsga2', 'moead', 'both'],
+        choices=['nsga2', 'nsga3', 'moead', 'both'],
         default='both',
         help='Algoritmo a executar (default: both)'
+    )
+    parser.add_argument(
+        '--objectives',
+        type=str,
+        nargs='+',
+        choices=list(OBJECTIVE_MAP.keys()),
+        default=None,
+        help='Objetivos a otimizar (default: todos os 6). Ex: --objectives vehicles distance'
     )
     parser.add_argument(
         '--n-gen',
@@ -271,17 +368,42 @@ def main():
         print(f"✗ Erro ao carregar instância: {e}")
         return
     
-    # Cria problema
-    problem = EVRPTWProblem(context)
+    # Cria problema (flexível ou compatibilidade)
+    if args.objectives is None:
+        # Usa problema antigo para compatibilidade (2 objetivos agregados)
+        problem = EVRPTWProblem(context)
+        n_obj = 2
+        obj_names = ['custo', 'insatisfação']
+    else:
+        # Usa problema flexível com objetivos selecionados
+        problem = EVRPFlexProblem(context, objectives=args.objectives)
+        n_obj = len(args.objectives)
+        obj_names = args.objectives
+        print(f"\nObjetivos selecionados ({n_obj}): {', '.join(obj_names)}")
     
     # Executa algoritmos
     results = {}
     
     if args.algorithm in ['nsga2', 'both']:
+        if n_obj > 3:
+            print(f"\n⚠️  AVISO: NSGA-II não é recomendado para {n_obj} objetivos (>3)")
+            print(f"   Considere usar NSGA-III para many-objective")
         results['nsga2'] = run_nsga2(
             problem,
             n_gen=args.n_gen,
             pop_size=args.pop_size,
+            verbose=not args.no_verbose
+        )
+    
+    if args.algorithm == 'nsga3':
+        if n_obj <= 3:
+            print(f"\n⚠️  AVISO: NSGA-III é projetado para many-objective (>3 objetivos)")
+            print(f"   Para {n_obj} objetivos, NSGA-II pode ser mais eficiente")
+        results['nsga3'] = run_nsga3(
+            problem,
+            n_gen=args.n_gen,
+            pop_size=args.pop_size,
+            n_partitions=args.n_partitions,
             verbose=not args.no_verbose
         )
     
@@ -294,14 +416,22 @@ def main():
             verbose=not args.no_verbose
         )
     
-    # Visualização
+    # Visualização (apenas para 2-3 objetivos)
     if args.plot:
-        plot = Scatter()
-        if 'nsga2' in results:
-            plot.add(results['nsga2'].F, label="NSGA-II", s=30, alpha=0.6)
-        if 'moead' in results:
-            plot.add(results['moead'].F, label="MOEA/D", s=30, alpha=0.6, marker="x")
-        plot.show()
+        if n_obj > 3:
+            print(f"\n⚠️  Visualização não suportada para {n_obj} objetivos (>3)")
+            print(f"   Use análise de hipervolume ou outras métricas")
+        else:
+            plot = Scatter(title="Frente de Pareto")
+            if 'nsga2' in results:
+                plot.add(results['nsga2'].F, label="NSGA-II", s=30, alpha=0.6)
+            if 'nsga3' in results:
+                plot.add(results['nsga3'].F, label="NSGA-III", s=30, alpha=0.6, marker="^")
+            if 'moead' in results:
+                plot.add(results['moead'].F, label="MOEA/D", s=30, alpha=0.6, marker="x")
+            if n_obj == 2:
+                plot.set_axis_labels(obj_names[0], obj_names[1])
+            plot.show()
     
     print("\nExecução concluída!")
 

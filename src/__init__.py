@@ -5,7 +5,7 @@ Pacote src para Sistema de Avaliação EVRPTW-PR Multi-Objetivo
 from .model import Node, NodeType, Context, Route, RouteStep, Solution
 from .parser import parse_instance
 from .decoder import decode
-from .problem import EVRPTWProblem, PENALTY_COST, PENALTY_DISSATISFACTION
+from .problem import EVRPTWProblem, EVRPFlexProblem, PENALTY_MULTIPLIER, OBJECTIVE_MAP
 
 __all__ = [
     'Node',
@@ -17,6 +17,7 @@ __all__ = [
     'parse_instance',
     'decode',
     'EVRPTWProblem',
-    'PENALTY_COST',
-    'PENALTY_DISSATISFACTION'
+    'EVRPFlexProblem',
+    'PENALTY_MULTIPLIER',
+    'OBJECTIVE_MAP'
 ]

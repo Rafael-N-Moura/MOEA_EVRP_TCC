@@ -112,6 +112,9 @@ class RouteStep:
     recharge_amount: float = 0.0
     load: float = 0.0
     satisfaction_score: float = 1.0  # Score de satisfação (0.0 a 1.0)
+    wait_time: float = 0.0  # Tempo de espera (se chegou antes de ready_time)
+    recharge_time: float = 0.0  # Tempo gasto recarregando nesta parada
+    time_window_violation: float = 0.0  # Atraso em relação ao due_date (se > 0)
     
     def __post_init__(self):
         """Garante que battery_departure seja calculado corretamente"""
@@ -141,31 +144,96 @@ class Route:
 class Solution:
     """
     Solução completa do problema EVRPTW-PR.
-    Contém todas as rotas e métricas de avaliação.
+    Contém todas as rotas e métricas de avaliação granulares.
     """
     routes: List[Route] = field(default_factory=list)
+    
+    # Métricas básicas (calculadas automaticamente)
     total_vehicles: int = 0
     total_distance: float = 0.0
-    total_cost: float = 0.0  # f1: Custo total (veículos + distância)
-    avg_dissatisfaction: float = 0.0  # f2: Insatisfação média (0.0 = totalmente satisfeito, 1.0 = totalmente insatisfeito)
+    
+    # 6 Objetivos Atômicos (granulares)
+    val_vehicles: int = 0  # f1: Número de Veículos (K)
+    val_distance: float = 0.0  # f2: Distância Total Percorrida (D)
+    val_duration: float = 0.0  # f3: Duração Total das Rotas (T) - Viagem + Serviço + Espera + Recarga
+    val_time_window_violation: float = 0.0  # f4: Violação de Janelas de Tempo (Tw) - Soma dos atrasos
+    val_wait_time: float = 0.0  # f5: Tempo de Espera (W) - Tempo esperando cliente abrir
+    val_recharge_time: float = 0.0  # f6: Tempo de Recarga (Rc) - Tempo improdutivo conectado
+    
+    # Métricas agregadas (mantidas para compatibilidade)
+    total_cost: float = 0.0
+    avg_dissatisfaction: float = 0.0
+    
     is_feasible: bool = True
     violations: List[str] = field(default_factory=list)
     
     def __post_init__(self):
-        """Calcula métricas finais"""
+        """Calcula métricas básicas"""
         self.total_vehicles = len(self.routes)
         self.total_distance = sum(route.total_distance for route in self.routes)
-        # total_cost e avg_dissatisfaction serão calculados no decoder após ter todos os dados
     
-    def calculate_objectives(self, context: 'Context'):
+    def calculate_all_objectives(self, context: 'Context'):
         """
-        Calcula os objetivos finais (custo e insatisfação).
+        Calcula todos os 6 objetivos atômicos de forma granular.
         Deve ser chamado após todas as rotas estarem completas.
         """
-        # Calcula custo total: (Nveic * CustoVeic) + (Disttotal * CustoDist)
-        self.total_cost = (self.total_vehicles * context.vehicle_cost) + (self.total_distance * context.distance_cost)
+        # f1: Número de Veículos
+        self.val_vehicles = len(self.routes)
         
-        # Calcula satisfação média de todos os clientes
+        # f2: Distância Total
+        self.val_distance = sum(route.total_distance for route in self.routes)
+        
+        # Inicializa acumuladores para f3, f4, f5, f6
+        total_duration = 0.0
+        total_time_window_violation = 0.0
+        total_wait_time = 0.0
+        total_recharge_time = 0.0
+        
+        # Percorre todas as rotas e steps para calcular métricas
+        for route in self.routes:
+            if not route.steps:
+                continue
+            
+            # f3: Duração Total = soma de (viagem + serviço + espera + recarga)
+            # Para cada step: duração = departure_time - arrival_time
+            # Para cada transição: tempo de viagem = arrival_time[next] - departure_time[prev]
+            for i, step in enumerate(route.steps):
+                # Duração do step (serviço + espera + recarga)
+                step_duration = step.departure_time - step.arrival_time
+                total_duration += step_duration
+                
+                # Tempo de viagem até este step (se não é o primeiro)
+                if i > 0:
+                    prev_step = route.steps[i-1]
+                    travel_time = step.arrival_time - prev_step.departure_time
+                    total_duration += travel_time
+                
+                # f4: Violação de Janelas de Tempo (soma dos atrasos)
+                if step.time_window_violation > 0:
+                    total_time_window_violation += step.time_window_violation
+                
+                # f5: Tempo de Espera (wait_time já calculado no step)
+                total_wait_time += step.wait_time
+                
+                # f6: Tempo de Recarga
+                total_recharge_time += step.recharge_time
+        
+        # f3: Duração Total das Rotas
+        self.val_duration = total_duration
+        
+        # f4: Violação de Janelas de Tempo
+        self.val_time_window_violation = total_time_window_violation
+        
+        # f5: Tempo de Espera
+        self.val_wait_time = total_wait_time
+        
+        # f6: Tempo de Recarga
+        self.val_recharge_time = total_recharge_time
+        
+        # Calcula métricas agregadas (para compatibilidade)
+        self.total_cost = (self.val_vehicles * context.vehicle_cost) + (self.val_distance * context.distance_cost)
+        
+        # Calcula satisfação média (para compatibilidade)
         customer_satisfactions = []
         for route in self.routes:
             for step in route.steps:
@@ -174,10 +242,9 @@ class Solution:
         
         if customer_satisfactions:
             avg_satisfaction = sum(customer_satisfactions) / len(customer_satisfactions)
-            # Insatisfação = 1.0 - Satisfação média
             self.avg_dissatisfaction = 1.0 - avg_satisfaction
         else:
-            self.avg_dissatisfaction = 1.0  # Nenhum cliente atendido = máxima insatisfação
+            self.avg_dissatisfaction = 1.0
     
     def add_violation(self, message: str):
         """Registra uma violação física (bateria/carga) - violações de tempo não marcam como inviável"""

@@ -150,6 +150,7 @@ class Solution:
     avg_dissatisfaction: float = 0.0  # f2: Insatisfação média (0.0 = totalmente satisfeito, 1.0 = totalmente insatisfeito)
     is_feasible: bool = True
     violations: List[str] = field(default_factory=list)
+    battery_violation: float = 0.0  # G2: Déficit de bateria (positivo se violação, 0 se viável)
     
     def __post_init__(self):
         """Calcula métricas finais"""
@@ -178,6 +179,52 @@ class Solution:
             self.avg_dissatisfaction = 1.0 - avg_satisfaction
         else:
             self.avg_dissatisfaction = 1.0  # Nenhum cliente atendido = máxima insatisfação
+    
+    def calculate_battery_violation(self, context: 'Context'):
+        """
+        Calcula a violação de bateria (G2) como déficit de energia.
+        Retorna valor positivo se há violação, 0 se viável.
+        
+        Args:
+            context: Contexto com parâmetros do problema
+        
+        Returns:
+            Déficit de bateria (energia requerida - energia disponível)
+        """
+        total_deficit = 0.0
+        
+        for route in self.routes:
+            current_battery = context.battery_capacity
+            current_position = context.depot
+            
+            for step in route.steps:
+                if step.node == context.depot and step != route.steps[0]:
+                    # Retorno ao depósito - recarrega
+                    current_battery = context.battery_capacity
+                    current_position = context.depot
+                    continue
+                
+                # Calcula energia necessária para chegar ao próximo nó
+                distance = current_position.distance_to(step.node)
+                energy_needed = distance * context.consumption_rate
+                
+                # Verifica se tem bateria suficiente
+                if current_battery < energy_needed:
+                    # Violação: déficit de energia
+                    deficit = energy_needed - current_battery
+                    total_deficit += deficit
+                    current_battery = 0.0  # Continua com bateria zerada
+                else:
+                    current_battery -= energy_needed
+                
+                # Se for estação, recarrega
+                if step.node.type == NodeType.STATION and step.recharge_amount > 0:
+                    current_battery = min(context.battery_capacity, current_battery + step.recharge_amount)
+                
+                current_position = step.node
+        
+        self.battery_violation = total_deficit
+        return total_deficit
     
     def add_violation(self, message: str):
         """Registra uma violação física (bateria/carga) - violações de tempo não marcam como inviável"""

@@ -5,6 +5,7 @@ no problema EVRPTW-PR Multi-Objetivo.
 
 import argparse
 import time
+import numpy as np
 from pymoo.algorithms.moo.nsga2 import NSGA2
 from pymoo.algorithms.moo.moead import MOEAD
 from pymoo.optimize import minimize
@@ -17,6 +18,7 @@ get_reference_directions = None
 from pymoo.visualization.scatter import Scatter
 
 from src import parse_instance, EVRPTWProblem
+from src.battery_focused_nsga2 import BatteryFocusedNSGA2
 
 
 def run_nsga2(problem, n_gen=100, pop_size=100, verbose=True):
@@ -99,6 +101,88 @@ def run_nsga2(problem, n_gen=100, pop_size=100, verbose=True):
             print(f"    - População muito pequena (tente aumentar --pop-size)")
             print(f"    - Problema na avaliação (todas soluções têm mesmo valor)")
             print(f"    - Trade-off entre custo e insatisfação não está sendo explorado")
+    else:
+        print("⚠️  Nenhuma solução encontrada!")
+    
+    print(f"{'='*60}\n")
+    
+    return res
+
+
+def run_battery_focused_nsga2(problem, n_gen=100, pop_size=100, infeasible_ratio=0.25, verbose=True):
+    """
+    Executa algoritmo NSGA-II com Directed Mating focado em bateria.
+    
+    Args:
+        problem: Instância do problema EVRPTWProblem (deve usar use_constraints=True)
+        n_gen: Número de gerações
+        pop_size: Tamanho da população
+        infeasible_ratio: Proporção de soluções inviáveis a preservar (0.2 a 0.3)
+        verbose: Se True, exibe progresso
+        
+    Returns:
+        Resultado da otimização
+    """
+    algorithm = BatteryFocusedNSGA2(
+        pop_size=pop_size,
+        infeasible_ratio=infeasible_ratio,
+        crossover=OrderCrossover(),
+        mutation=InversionMutation(),
+        eliminate_duplicates=True
+    )
+    
+    print(f"\n{'='*60}")
+    print("Executando NSGA-II com Directed Mating (Bateria)")
+    print(f"{'='*60}")
+    print(f"População: {pop_size}")
+    print(f"Gerações: {n_gen}")
+    print(f"Taxa de inviáveis preservados: {infeasible_ratio*100:.1f}%")
+    print(f"{'='*60}\n")
+    
+    start_time = time.time()
+    res = minimize(
+        problem,
+        algorithm,
+        ('n_gen', n_gen),
+        verbose=verbose,
+        seed=1
+    )
+    elapsed_time = time.time() - start_time
+    
+    print(f"\n{'='*60}")
+    print("NSGA-II com Directed Mating Finalizado")
+    print(f"{'='*60}")
+    print(f"Tempo de execução: {elapsed_time:.2f} segundos")
+    
+    if hasattr(res, 'pop') and res.pop is not None:
+        pop_size_actual = len(res.pop)
+        print(f"Tamanho da população final: {pop_size_actual}")
+        
+        # Estatísticas de viabilidade
+        if hasattr(res.pop, 'get') and res.pop.has("G"):
+            G = res.pop.get("G")
+            n_feasible = np.sum(G[:, 1] <= 0)  # G2 <= 0
+            n_infeasible = len(G) - n_feasible
+            print(f"Soluções viáveis: {n_feasible} ({n_feasible/len(G)*100:.1f}%)")
+            print(f"Soluções inviáveis: {n_infeasible} ({n_infeasible/len(G)*100:.1f}%)")
+    
+    print(f"Soluções na frente de Pareto: {len(res.F)}")
+    
+    if len(res.F) > 0:
+        print(f"\nEstatísticas dos Objetivos:")
+        print(f"  f1 (custo): min={res.F[:, 0].min():.2f}, max={res.F[:, 0].max():.2f}, média={res.F[:, 0].mean():.2f}")
+        print(f"  f2 (insatisfação): min={res.F[:, 1].min():.4f}, max={res.F[:, 1].max():.4f}, média={res.F[:, 1].mean():.4f}")
+        
+        # Mostra algumas soluções da frente de Pareto
+        if len(res.F) <= 10:
+            print(f"\nTodas as soluções da frente de Pareto:")
+            for i, (f1, f2) in enumerate(res.F):
+                print(f"  Solução {i+1}: Custo={f1:.2f}, Insatisfação={f2:.4f}")
+        else:
+            print(f"\nPrimeiras 5 soluções da frente de Pareto:")
+            for i, (f1, f2) in enumerate(res.F[:5]):
+                print(f"  Solução {i+1}: Custo={f1:.2f}, Insatisfação={f2:.4f}")
+            print(f"  ... e mais {len(res.F) - 5} soluções")
     else:
         print("⚠️  Nenhuma solução encontrada!")
     
@@ -219,9 +303,9 @@ def main():
     parser.add_argument(
         '--algorithm',
         type=str,
-        choices=['nsga2', 'moead', 'both'],
+        choices=['nsga2', 'moead', 'battery-focused', 'both'],
         default='both',
-        help='Algoritmo a executar (default: both)'
+        help='Algoritmo a executar (default: both). battery-focused = NSGA-II com Directed Mating'
     )
     parser.add_argument(
         '--n-gen',
@@ -272,7 +356,9 @@ def main():
         return
     
     # Cria problema
-    problem = EVRPTWProblem(context)
+    # Para battery-focused, usa restrições em vez de penalização
+    use_constraints = args.algorithm == 'battery-focused'
+    problem = EVRPTWProblem(context, use_constraints=use_constraints, force_battery_feasible=False)
     
     # Executa algoritmos
     results = {}
@@ -282,6 +368,17 @@ def main():
             problem,
             n_gen=args.n_gen,
             pop_size=args.pop_size,
+            verbose=not args.no_verbose
+        )
+    
+    if args.algorithm == 'battery-focused':
+        # Cria problema com restrições para battery-focused
+        problem_battery = EVRPTWProblem(context, use_constraints=True, force_battery_feasible=False)
+        results['battery-focused'] = run_battery_focused_nsga2(
+            problem_battery,
+            n_gen=args.n_gen,
+            pop_size=args.pop_size,
+            infeasible_ratio=0.25,
             verbose=not args.no_verbose
         )
     

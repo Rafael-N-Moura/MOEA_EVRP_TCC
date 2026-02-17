@@ -1,0 +1,3774 @@
+================================================================================
+TESTE DE VIABILIDADE DO DECODER
+================================================================================
+
+Logs sendo salvos em: logs/test_decoder_feasibility_rc208_21_20260216_212058.txt
+================================================================================
+
+[1] Carregando instância: evrptw_instances/rc208_21.txt
+✓ Instância carregada:
+  - Clientes: 100
+  - Estações: 21
+  - Capacidade bateria: 165.63
+  - Taxa consumo: 1.0
+  - Taxa recarga: 0.18
+
+[2] Testando 1 indivíduos com force_battery_feasible=True
+--------------------------------------------------------------------------------
+
+[Teste 1/1]
+  Indivíduo: [69, 68, 48, 14, 41, 77, 15, 60, 33, 94]...
+[DECODE] Iniciando decodificação - force_battery_feasible=True
+[DECODE] Número de clientes: 100
+[VEÍCULO 1] INICIADO no depósito
+  Bateria inicial: 165.63/165.63
+  Carga inicial: 0.00/1000.00
+  Tempo inicial: 0.00
+
+[DECODE] Processando cliente 1/100: C70
+  Posição atual: D0, Bateria: 165.63/165.63
+  [ENERGIA] Para cliente C70:
+    Energia até cliente: 19.65
+    Energia cliente -> estação mais próxima (S5): 11.40
+    Total necessário (com safety): 31.05
+    Bateria atual: 165.63
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 165.63
+    Bateria depois: 145.98
+    Tempo de viagem: 19.65
+    Tempo total: 19.65
+  [CLIENTE] Cliente C70 visitado
+    Chegada: 242.00 (ready: 242.00, due: 674.00)
+    Partida: 252.00
+    Bateria: 145.98
+    Carga: 23.00
+    Satisfação: 1.000
+
+[DECODE] Processando cliente 2/100: C69
+  Posição atual: C70, Bateria: 145.98/165.63
+  [ENERGIA] Para cliente C69:
+    Energia até cliente: 17.46
+    Energia cliente -> estação mais próxima (S0): 9.22
+    Total necessário (com safety): 26.68
+    Bateria atual: 145.98
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 145.98
+    Bateria depois: 128.52
+    Tempo de viagem: 17.46
+    Tempo total: 269.46
+  [CLIENTE] Cliente C69 visitado
+    Chegada: 269.46 (ready: 10.00, due: 488.00)
+    Partida: 279.46
+    Bateria: 128.52
+    Carga: 50.00
+    Satisfação: 1.000
+
+[DECODE] Processando cliente 3/100: C49
+  Posição atual: C69, Bateria: 128.52/165.63
+  [ENERGIA] Para cliente C49:
+    Energia até cliente: 41.48
+    Energia cliente -> estação mais próxima (S16): 6.08
+    Total necessário (com safety): 47.57
+    Bateria atual: 128.52
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 128.52
+    Bateria depois: 87.03
+    Tempo de viagem: 41.48
+    Tempo total: 320.95
+  [CLIENTE] Cliente C49 visitado
+    Chegada: 320.95 (ready: 39.00, due: 515.00)
+    Partida: 330.95
+    Bateria: 87.03
+    Carga: 60.00
+    Satisfação: 1.000
+
+[DECODE] Processando cliente 4/100: C15
+  Posição atual: C49, Bateria: 87.03/165.63
+  [ENERGIA] Para cliente C15:
+    Energia até cliente: 48.83
+    Energia cliente -> estação mais próxima (S12): 7.28
+    Total necessário (com safety): 56.11
+    Bateria atual: 87.03
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 87.03
+    Bateria depois: 38.21
+    Tempo de viagem: 48.83
+    Tempo total: 379.78
+  [CLIENTE] Cliente C15 visitado
+    Chegada: 478.00 (ready: 478.00, due: 910.00)
+    Partida: 488.00
+    Bateria: 38.21
+    Carga: 80.00
+    Satisfação: 1.000
+
+[DECODE] Processando cliente 5/100: C42
+  Posição atual: C15, Bateria: 38.21/165.63
+  [ENERGIA] Para cliente C42:
+    Energia até cliente: 66.40
+    Energia cliente -> estação mais próxima (S3): 1.00
+    Total necessário (com safety): 67.40
+    Bateria atual: 38.21
+  [RECARGA PREVENTIVA 1] Bateria (38.21) < energia até cliente (66.40)
+    Vai para estação mais próxima de C15
+    [ESTAÇÃO] Estação mais próxima: S12
+      Distância: 7.28
+      Energia necessária: 7.28
+      Bateria atual: 38.21
+      [RECARGA] Cálculo:
+        Bateria após viagem: 30.93
+        Energia total necessária: 74.24
+        Quantidade a recarregar: 51.59
+      [RECARGA] Resultado:
+        Tempo de recarga: 9.29
+        Bateria após recarga: 82.52
+        Tempo de chegada: 495.28
+        Tempo de saída: 504.57
+      [ESTAÇÃO] Passo adicionado à rota: S12
+  [RECARGA] Após recarga:
+    Posição: S12 (era C15)
+    Bateria: 82.52 (era 38.21)
+    Tempo: 504.57 (era 488.00)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 82.52
+    Bateria depois: 9.28
+    Tempo de viagem: 73.24
+    Tempo total: 577.81
+  [CLIENTE] Cliente C42 visitado
+    Chegada: 577.81 (ready: 378.00, due: 782.00)
+    Partida: 587.81
+    Bateria: 9.28
+    Carga: 90.00
+    Satisfação: 1.000
+
+[DECODE] Processando cliente 6/100: C78
+  Posição atual: C42, Bateria: 9.28/165.63
+  [ENERGIA] Para cliente C78:
+    Energia até cliente: 52.77
+    Energia cliente -> estação mais próxima (S10): 7.00
+    Total necessário (com safety): 59.77
+    Bateria atual: 9.28
+  [RECARGA PREVENTIVA 1] Bateria (9.28) < energia até cliente (52.77)
+    Vai para estação mais próxima de C42
+    [ESTAÇÃO] Estação mais próxima: S3
+      Distância: 1.00
+      Energia necessária: 1.00
+      Bateria atual: 9.28
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 59.33
+        Quantidade a recarregar: 59.33
+      [RECARGA] Resultado:
+        Tempo de recarga: 10.68
+        Bateria após recarga: 67.61
+        Tempo de chegada: 588.81
+        Tempo de saída: 599.48
+      [ESTAÇÃO] Passo adicionado à rota: S3
+  [RECARGA] Após recarga:
+    Posição: S3 (era C42)
+    Bateria: 67.61 (era 9.28)
+    Tempo: 599.48 (era 587.81)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 67.61
+    Bateria depois: 15.28
+    Tempo de viagem: 52.33
+    Tempo total: 651.81
+  [CLIENTE] Cliente C78 visitado
+    Chegada: 651.81 (ready: 125.00, due: 699.00)
+    Partida: 661.81
+    Bateria: 15.28
+    Carga: 117.00
+    Satisfação: 1.000
+
+[DECODE] Processando cliente 7/100: C16
+  Posição atual: C78, Bateria: 15.28/165.63
+  [ENERGIA] Para cliente C16:
+    Energia até cliente: 17.89
+    Energia cliente -> estação mais próxima (S12): 5.39
+    Total necessário (com safety): 23.27
+    Bateria atual: 15.28
+  [RECARGA PREVENTIVA 1] Bateria (15.28) < energia até cliente (17.89)
+    Vai para estação mais próxima de C78
+    [ESTAÇÃO] Estação mais próxima: S10
+      Distância: 7.00
+      Energia necessária: 7.00
+      Bateria atual: 15.28
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 21.42
+        Quantidade a recarregar: 21.42
+      [RECARGA] Resultado:
+        Tempo de recarga: 3.85
+        Bateria após recarga: 29.70
+        Tempo de chegada: 668.81
+        Tempo de saída: 672.67
+      [ESTAÇÃO] Passo adicionado à rota: S10
+  [RECARGA] Após recarga:
+    Posição: S10 (era C78)
+    Bateria: 29.70 (era 15.28)
+    Tempo: 672.67 (era 661.81)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 29.70
+    Bateria depois: 13.67
+    Tempo de viagem: 16.03
+    Tempo total: 688.70
+  [CLIENTE] Cliente C16 visitado
+    Chegada: 688.70 (ready: 42.00, due: 543.00)
+    Partida: 698.70
+    Bateria: 13.67
+    Carga: 137.00
+    Satisfação: 0.272
+
+[DECODE] Processando cliente 8/100: C61
+  Posição atual: C16, Bateria: 13.67/165.63
+  [ENERGIA] Para cliente C61:
+    Energia até cliente: 51.48
+    Energia cliente -> estação mais próxima (S0): 15.81
+    Total necessário (com safety): 67.29
+    Bateria atual: 13.67
+  [RECARGA PREVENTIVA 1] Bateria (13.67) < energia até cliente (51.48)
+    Vai para estação mais próxima de C16
+    [ESTAÇÃO] Estação mais próxima: S12
+      Distância: 5.39
+      Energia necessária: 5.39
+      Bateria atual: 13.67
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 72.64
+        Quantidade a recarregar: 72.64
+      [RECARGA] Resultado:
+        Tempo de recarga: 13.07
+        Bateria após recarga: 80.92
+        Tempo de chegada: 704.08
+        Tempo de saída: 717.16
+      [ESTAÇÃO] Passo adicionado à rota: S12
+  [RECARGA] Após recarga:
+    Posição: S12 (era C16)
+    Bateria: 80.92 (era 13.67)
+    Tempo: 717.16 (era 698.70)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 80.92
+    Bateria depois: 24.09
+    Tempo de viagem: 56.82
+    Tempo total: 773.98
+  [CLIENTE] Cliente C61 visitado
+    Chegada: 773.98 (ready: 285.00, due: 934.00)
+    Partida: 783.98
+    Bateria: 24.09
+    Carga: 146.00
+    Satisfação: 1.000
+
+[DECODE] Processando cliente 9/100: C34
+  Posição atual: C61, Bateria: 24.09/165.63
+  [ENERGIA] Para cliente C34:
+    Energia até cliente: 50.00
+    Energia cliente -> estação mais próxima (S20): 10.30
+    Total necessário (com safety): 60.30
+    Bateria atual: 24.09
+  [RECARGA PREVENTIVA 1] Bateria (24.09) < energia até cliente (50.00)
+    Vai para estação mais próxima de C61
+    [ESTAÇÃO] Estação mais próxima: S0
+      Distância: 15.81
+      Energia necessária: 15.81
+      Bateria atual: 24.09
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 57.73
+        Quantidade a recarregar: 57.73
+      [RECARGA] Resultado:
+        Tempo de recarga: 10.39
+        Bateria após recarga: 66.01
+        Tempo de chegada: 799.79
+        Tempo de saída: 810.18
+      [ESTAÇÃO] Passo adicionado à rota: S0
+  [RECARGA] Após recarga:
+    Posição: S0 (era C61)
+    Bateria: 66.01 (era 24.09)
+    Tempo: 810.18 (era 783.98)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 66.01
+    Bateria depois: 18.58
+    Tempo de viagem: 47.43
+    Tempo total: 857.62
+  [CLIENTE] Cliente C34 visitado
+    Chegada: 857.62 (ready: 48.00, due: 534.00)
+    Partida: 867.62
+    Bateria: 18.58
+    Carga: 176.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 10/100: C95
+  Posição atual: C34, Bateria: 18.58/165.63
+  [ENERGIA] Para cliente C95:
+    Energia até cliente: 29.07
+    Energia cliente -> estação mais próxima (S15): 18.03
+    Total necessário (com safety): 47.10
+    Bateria atual: 18.58
+  [RECARGA PREVENTIVA 1] Bateria (18.58) < energia até cliente (29.07)
+    Vai para estação mais próxima de C34
+    [ESTAÇÃO] Estação mais próxima: S20
+      Distância: 10.30
+      Energia necessária: 10.30
+      Bateria atual: 18.58
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 52.74
+        Quantidade a recarregar: 52.74
+      [RECARGA] Resultado:
+        Tempo de recarga: 9.49
+        Bateria após recarga: 61.02
+        Tempo de chegada: 877.91
+        Tempo de saída: 887.41
+      [ESTAÇÃO] Passo adicionado à rota: S20
+  [RECARGA] Após recarga:
+    Posição: S20 (era C34)
+    Bateria: 61.02 (era 18.58)
+    Tempo: 887.41 (era 867.62)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 61.02
+    Bateria depois: 26.31
+    Tempo de viagem: 34.71
+    Tempo total: 922.12
+  [CLIENTE] Cliente C95 visitado
+    Chegada: 922.12 (ready: 316.00, due: 862.00)
+    Partida: 932.12
+    Bateria: 26.31
+    Carga: 182.00
+    Satisfação: 0.699
+
+[DECODE] Processando cliente 11/100: C50
+  Posição atual: C95, Bateria: 26.31/165.63
+  [ENERGIA] Para cliente C50:
+    Energia até cliente: 16.12
+    Energia cliente -> estação mais próxima (S19): 3.61
+    Total necessário (com safety): 19.73
+    Bateria atual: 26.31
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 26.31
+    Bateria depois: 10.18
+    Tempo de viagem: 16.12
+    Tempo total: 948.24
+  [CLIENTE] Cliente C50 visitado
+    Chegada: 948.24 (ready: 492.00, due: 914.00)
+    Partida: 958.24
+    Bateria: 10.18
+    Carga: 212.00
+    Satisfação: 0.829
+
+[DECODE] Processando cliente 12/100: C1
+  Posição atual: C50, Bateria: 10.18/165.63
+  [ENERGIA] Para cliente C1:
+    Energia até cliente: 68.62
+    Energia cliente -> estação mais próxima (S7): 5.39
+    Total necessário (com safety): 74.01
+    Bateria atual: 10.18
+  [RECARGA PREVENTIVA 1] Bateria (10.18) < energia até cliente (68.62)
+    Vai para estação mais próxima de C50
+    [ESTAÇÃO] Estação mais próxima: S19
+      Distância: 3.61
+      Energia necessária: 3.61
+      Bateria atual: 10.18
+      [RECARGA] Cálculo:
+        Bateria após viagem: 6.58
+        Energia total necessária: 77.57
+        Quantidade a recarregar: 79.27
+      [RECARGA] Resultado:
+        Tempo de recarga: 14.27
+        Bateria após recarga: 85.85
+        Tempo de chegada: 961.85
+        Tempo de saída: 976.12
+      [ESTAÇÃO] Passo adicionado à rota: S19
+  [RECARGA] Após recarga:
+    Posição: S19 (era C50)
+    Bateria: 85.85 (era 10.18)
+    Tempo: 976.12 (era 958.24)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 85.85
+    Bateria depois: 13.67
+    Tempo de viagem: 72.18
+    Tempo total: 1048.30
+  [CLIENTE] Cliente C1 visitado
+    Chegada: 1048.30 (ready: 155.00, due: 565.00)
+    Partida: 1058.30
+    Bateria: 13.67
+    Carga: 232.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 13/100: C44
+  Posição atual: C1, Bateria: 13.67/165.63
+  [ENERGIA] Para cliente C44:
+    Energia até cliente: 30.15
+    Energia cliente -> estação mais próxima (S3): 3.00
+    Total necessário (com safety): 33.15
+    Bateria atual: 13.67
+  [RECARGA PREVENTIVA 1] Bateria (13.67) < energia até cliente (30.15)
+    Vai para estação mais próxima de C1
+    [ESTAÇÃO] Estação mais próxima: S7
+      Distância: 5.39
+      Energia necessária: 5.39
+      Bateria atual: 13.67
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 35.06
+        Quantidade a recarregar: 35.06
+      [RECARGA] Resultado:
+        Tempo de recarga: 6.31
+        Bateria após recarga: 43.34
+        Tempo de chegada: 1063.68
+        Tempo de saída: 1069.99
+      [ESTAÇÃO] Passo adicionado à rota: S7
+  [RECARGA] Após recarga:
+    Posição: S7 (era C1)
+    Bateria: 43.34 (era 13.67)
+    Tempo: 1069.99 (era 1058.30)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 43.34
+    Bateria depois: 11.28
+    Tempo de viagem: 32.06
+    Tempo total: 1102.06
+  [CLIENTE] Cliente C44 visitado
+    Chegada: 1102.06 (ready: 262.00, due: 758.00)
+    Partida: 1112.06
+    Bateria: 11.28
+    Carga: 242.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 14/100: C80
+  Posição atual: C44, Bateria: 11.28/165.63
+  [ENERGIA] Para cliente C80:
+    Energia até cliente: 35.90
+    Energia cliente -> estação mais próxima (S0): 7.62
+    Total necessário (com safety): 43.52
+    Bateria atual: 11.28
+  [RECARGA PREVENTIVA 1] Bateria (11.28) < energia até cliente (35.90)
+    Vai para estação mais próxima de C44
+    [ESTAÇÃO] Estação mais próxima: S3
+      Distância: 3.00
+      Energia necessária: 3.00
+      Bateria atual: 11.28
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 40.60
+        Quantidade a recarregar: 40.60
+      [RECARGA] Resultado:
+        Tempo de recarga: 7.31
+        Bateria após recarga: 48.88
+        Tempo de chegada: 1115.06
+        Tempo de saída: 1122.37
+      [ESTAÇÃO] Passo adicionado à rota: S3
+  [RECARGA] Após recarga:
+    Posição: S3 (era C44)
+    Bateria: 48.88 (era 11.28)
+    Tempo: 1122.37 (era 1112.06)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 48.88
+    Bateria depois: 15.90
+    Tempo de viagem: 32.98
+    Tempo total: 1155.35
+  [CLIENTE] Cliente C80 visitado
+    Chegada: 1155.35 (ready: 137.00, due: 681.00)
+    Partida: 1165.35
+    Bateria: 15.90
+    Carga: 255.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 15/100: C19
+  Posição atual: C80, Bateria: 15.90/165.63
+  [ENERGIA] Para cliente C19:
+    Energia até cliente: 37.34
+    Energia cliente -> estação mais próxima (S16): 6.08
+    Total necessário (com safety): 43.42
+    Bateria atual: 15.90
+  [RECARGA PREVENTIVA 1] Bateria (15.90) < energia até cliente (37.34)
+    Vai para estação mais próxima de C80
+    [ESTAÇÃO] Estação mais próxima: S0
+      Distância: 7.62
+      Energia necessária: 7.62
+      Bateria atual: 15.90
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 46.13
+        Quantidade a recarregar: 46.13
+      [RECARGA] Resultado:
+        Tempo de recarga: 8.30
+        Bateria após recarga: 54.41
+        Tempo de chegada: 1172.97
+        Tempo de saída: 1181.27
+      [ESTAÇÃO] Passo adicionado à rota: S0
+  [RECARGA] Após recarga:
+    Posição: S0 (era C80)
+    Bateria: 54.41 (era 15.90)
+    Tempo: 1181.27 (era 1165.35)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 54.41
+    Bateria depois: 14.36
+    Tempo de viagem: 40.05
+    Tempo total: 1221.32
+  [CLIENTE] Cliente C19 visitado
+    Chegada: 1221.32 (ready: 41.00, due: 529.00)
+    Partida: 1231.32
+    Bateria: 14.36
+    Carga: 295.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 16/100: C7
+  Posição atual: C19, Bateria: 14.36/165.63
+  [ENERGIA] Para cliente C7:
+    Energia até cliente: 70.38
+    Energia cliente -> estação mais próxima (S7): 9.43
+    Total necessário (com safety): 79.82
+    Bateria atual: 14.36
+  [RECARGA PREVENTIVA 1] Bateria (14.36) < energia até cliente (70.38)
+    Vai para estação mais próxima de C19
+    [ESTAÇÃO] Estação mais próxima: S16
+      Distância: 6.08
+      Energia necessária: 6.08
+      Bateria atual: 14.36
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 81.44
+        Quantidade a recarregar: 81.44
+      [RECARGA] Resultado:
+        Tempo de recarga: 14.66
+        Bateria após recarga: 89.72
+        Tempo de chegada: 1237.40
+        Tempo de saída: 1252.06
+      [ESTAÇÃO] Passo adicionado à rota: S16
+  [RECARGA] Após recarga:
+    Posição: S16 (era C19)
+    Bateria: 89.72 (era 14.36)
+    Tempo: 1252.06 (era 1231.32)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 89.72
+    Bateria depois: 17.72
+    Tempo de viagem: 72.01
+    Tempo total: 1324.07
+  [CLIENTE] Cliente C7 visitado
+    Chegada: 1324.07 (ready: 36.00, due: 435.00)
+    Partida: 1334.07
+    Bateria: 17.72
+    Carga: 315.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 17/100: C8
+  Posição atual: C7, Bateria: 17.72/165.63
+  [ENERGIA] Para cliente C8:
+    Energia até cliente: 5.00
+    Energia cliente -> estação mais próxima (S7): 8.00
+    Total necessário (com safety): 13.00
+    Bateria atual: 17.72
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 17.72
+    Bateria depois: 12.72
+    Tempo de viagem: 5.00
+    Tempo total: 1339.07
+  [CLIENTE] Cliente C8 visitado
+    Chegada: 1339.07 (ready: 261.00, due: 739.00)
+    Partida: 1349.07
+    Bateria: 12.72
+    Carga: 325.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 18/100: C27
+  Posição atual: C8, Bateria: 12.72/165.63
+  [ENERGIA] Para cliente C27:
+    Energia até cliente: 91.79
+    Energia cliente -> estação mais próxima (S20): 10.30
+    Total necessário (com safety): 102.08
+    Bateria atual: 12.72
+  [RECARGA PREVENTIVA 1] Bateria (12.72) < energia até cliente (91.79)
+    Vai para estação mais próxima de C8
+    [ESTAÇÃO] Estação mais próxima: S7
+      Distância: 8.00
+      Energia necessária: 8.00
+      Bateria atual: 12.72
+      [RECARGA] Cálculo:
+        Bateria após viagem: 4.72
+        Energia total necessária: 95.20
+        Quantidade a recarregar: 98.77
+      [RECARGA] Resultado:
+        Tempo de recarga: 17.78
+        Bateria após recarga: 103.48
+        Tempo de chegada: 1357.07
+        Tempo de saída: 1374.85
+      [ESTAÇÃO] Passo adicionado à rota: S7
+  [RECARGA] Após recarga:
+    Posição: S7 (era C8)
+    Bateria: 103.48 (era 12.72)
+    Tempo: 1374.85 (era 1349.07)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 103.48
+    Bateria depois: 18.58
+    Tempo de viagem: 84.91
+    Tempo total: 1459.75
+  [CLIENTE] Cliente C27 visitado
+    Chegada: 1459.75 (ready: 320.00, due: 892.00)
+    Partida: 1469.75
+    Bateria: 18.58
+    Carga: 345.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 19/100: C21
+  Posição atual: C27, Bateria: 18.58/165.63
+  [ENERGIA] Para cliente C21:
+    Energia até cliente: 62.65
+    Energia cliente -> estação mais próxima (S16): 10.00
+    Total necessário (com safety): 72.65
+    Bateria atual: 18.58
+  [RECARGA PREVENTIVA 1] Bateria (18.58) < energia até cliente (62.65)
+    Vai para estação mais próxima de C27
+    [ESTAÇÃO] Estação mais próxima: S20
+      Distância: 10.30
+      Energia necessária: 10.30
+      Bateria atual: 18.58
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 73.41
+        Quantidade a recarregar: 73.41
+      [RECARGA] Resultado:
+        Tempo de recarga: 13.21
+        Bateria após recarga: 81.69
+        Tempo de chegada: 1480.05
+        Tempo de saída: 1493.26
+      [ESTAÇÃO] Passo adicionado à rota: S20
+  [RECARGA] Após recarga:
+    Posição: S20 (era C27)
+    Bateria: 81.69 (era 18.58)
+    Tempo: 1493.26 (era 1469.75)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 81.69
+    Bateria depois: 18.28
+    Tempo de viagem: 63.41
+    Tempo total: 1556.67
+  [CLIENTE] Cliente C21 visitado
+    Chegada: 1556.67 (ready: 324.00, due: 840.00)
+    Partida: 1566.67
+    Bateria: 18.28
+    Carga: 355.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 20/100: C82
+  Posição atual: C21, Bateria: 18.28/165.63
+  [ENERGIA] Para cliente C82:
+    Energia até cliente: 40.16
+    Energia cliente -> estação mais próxima (S13): 6.08
+    Total necessário (com safety): 46.24
+    Bateria atual: 18.28
+  [RECARGA PREVENTIVA 1] Bateria (18.28) < energia até cliente (40.16)
+    Vai para estação mais próxima de C21
+    [ESTAÇÃO] Estação mais próxima: S16
+      Distância: 10.00
+      Energia necessária: 10.00
+      Bateria atual: 18.28
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 44.36
+        Quantidade a recarregar: 44.36
+      [RECARGA] Resultado:
+        Tempo de recarga: 7.98
+        Bateria após recarga: 52.64
+        Tempo de chegada: 1576.67
+        Tempo de saída: 1584.66
+      [ESTAÇÃO] Passo adicionado à rota: S16
+  [RECARGA] Após recarga:
+    Posição: S16 (era C21)
+    Bateria: 52.64 (era 18.28)
+    Tempo: 1584.66 (era 1566.67)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 52.64
+    Bateria depois: 14.36
+    Tempo de viagem: 38.28
+    Tempo total: 1622.93
+  [CLIENTE] Cliente C82 visitado
+    Chegada: 1622.93 (ready: 347.00, due: 791.00)
+    Partida: 1632.93
+    Bateria: 14.36
+    Carga: 364.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 21/100: C48
+  Posição atual: C82, Bateria: 14.36/165.63
+  [ENERGIA] Para cliente C48:
+    Energia até cliente: 40.85
+    Energia cliente -> estação mais próxima (S16): 8.49
+    Total necessário (com safety): 49.34
+    Bateria atual: 14.36
+  [RECARGA PREVENTIVA 1] Bateria (14.36) < energia até cliente (40.85)
+    Vai para estação mais próxima de C82
+    [ESTAÇÃO] Estação mais próxima: S13
+      Distância: 6.08
+      Energia necessária: 6.08
+      Bateria atual: 14.36
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 44.26
+        Quantidade a recarregar: 44.26
+      [RECARGA] Resultado:
+        Tempo de recarga: 7.97
+        Bateria após recarga: 52.54
+        Tempo de chegada: 1639.02
+        Tempo de saída: 1646.98
+      [ESTAÇÃO] Passo adicionado à rota: S13
+  [RECARGA] Após recarga:
+    Posição: S13 (era C82)
+    Bateria: 52.54 (era 14.36)
+    Tempo: 1646.98 (era 1632.93)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 52.54
+    Bateria depois: 16.77
+    Tempo de viagem: 35.78
+    Tempo total: 1682.76
+  [CLIENTE] Cliente C48 visitado
+    Chegada: 1682.76 (ready: 46.00, due: 550.00)
+    Partida: 1692.76
+    Bateria: 16.77
+    Carga: 374.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 22/100: C87
+  Posição atual: C48, Bateria: 16.77/165.63
+  [ENERGIA] Para cliente C87:
+    Energia até cliente: 35.51
+    Energia cliente -> estação mais próxima (S11): 7.07
+    Total necessário (com safety): 42.58
+    Bateria atual: 16.77
+  [RECARGA PREVENTIVA 1] Bateria (16.77) < energia até cliente (35.51)
+    Vai para estação mais próxima de C48
+    [ESTAÇÃO] Estação mais próxima: S16
+      Distância: 8.49
+      Energia necessária: 8.49
+      Bateria atual: 16.77
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 45.35
+        Quantidade a recarregar: 45.35
+      [RECARGA] Resultado:
+        Tempo de recarga: 8.16
+        Bateria após recarga: 53.63
+        Tempo de chegada: 1701.25
+        Tempo de saída: 1709.41
+      [ESTAÇÃO] Passo adicionado à rota: S16
+  [RECARGA] Após recarga:
+    Posição: S16 (era C48)
+    Bateria: 53.63 (era 16.77)
+    Tempo: 1709.41 (era 1692.76)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 53.63
+    Bateria depois: 15.35
+    Tempo de viagem: 38.28
+    Tempo total: 1747.68
+  [CLIENTE] Cliente C87 visitado
+    Chegada: 1747.68 (ready: 277.00, due: 605.00)
+    Partida: 1757.68
+    Bateria: 15.35
+    Carga: 387.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 23/100: C23
+  Posição atual: C87, Bateria: 15.35/165.63
+  [ENERGIA] Para cliente C23:
+    Energia até cliente: 32.20
+    Energia cliente -> estação mais próxima (S16): 11.66
+    Total necessário (com safety): 43.86
+    Bateria atual: 15.35
+  [RECARGA PREVENTIVA 1] Bateria (15.35) < energia até cliente (32.20)
+    Vai para estação mais próxima de C87
+    [ESTAÇÃO] Estação mais próxima: S11
+      Distância: 7.07
+      Energia necessária: 7.07
+      Bateria atual: 15.35
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 47.73
+        Quantidade a recarregar: 47.73
+      [RECARGA] Resultado:
+        Tempo de recarga: 8.59
+        Bateria após recarga: 56.01
+        Tempo de chegada: 1764.75
+        Tempo de saída: 1773.35
+      [ESTAÇÃO] Passo adicionado à rota: S11
+  [RECARGA] Após recarga:
+    Posição: S11 (era C87)
+    Bateria: 56.01 (era 15.35)
+    Tempo: 1773.35 (era 1757.68)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 56.01
+    Bateria depois: 19.94
+    Tempo de viagem: 36.07
+    Tempo total: 1809.42
+  [CLIENTE] Cliente C23 visitado
+    Chegada: 1809.42 (ready: 46.00, due: 620.00)
+    Partida: 1819.42
+    Bateria: 19.94
+    Carga: 417.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 24/100: C38
+  Posição atual: C23, Bateria: 19.94/165.63
+  [ENERGIA] Para cliente C38:
+    Energia até cliente: 78.75
+    Energia cliente -> estação mais próxima (S3): 7.07
+    Total necessário (com safety): 85.82
+    Bateria atual: 19.94
+  [RECARGA PREVENTIVA 1] Bateria (19.94) < energia até cliente (78.75)
+    Vai para estação mais próxima de C23
+    [ESTAÇÃO] Estação mais próxima: S16
+      Distância: 11.66
+      Energia necessária: 11.66
+      Bateria atual: 19.94
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 77.48
+        Quantidade a recarregar: 77.48
+      [RECARGA] Resultado:
+        Tempo de recarga: 13.95
+        Bateria após recarga: 85.76
+        Tempo de chegada: 1831.08
+        Tempo de saída: 1845.02
+      [ESTAÇÃO] Passo adicionado à rota: S16
+  [RECARGA] Após recarga:
+    Posição: S16 (era C23)
+    Bateria: 85.76 (era 19.94)
+    Tempo: 1845.02 (era 1819.42)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 85.76
+    Bateria depois: 15.35
+    Tempo de viagem: 70.41
+    Tempo total: 1915.43
+  [CLIENTE] Cliente C38 visitado
+    Chegada: 1915.43 (ready: 38.00, due: 555.00)
+    Partida: 1925.43
+    Bateria: 15.35
+    Carga: 447.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 25/100: C64
+  Posição atual: C38, Bateria: 15.35/165.63
+  [ENERGIA] Para cliente C64:
+    Energia até cliente: 52.81
+    Energia cliente -> estação mais próxima (S15): 6.08
+    Total necessário (com safety): 58.89
+    Bateria atual: 15.35
+  [RECARGA PREVENTIVA 1] Bateria (15.35) < energia até cliente (52.81)
+    Vai para estação mais próxima de C38
+    [ESTAÇÃO] Estação mais próxima: S3
+      Distância: 7.07
+      Energia necessária: 7.07
+      Bateria atual: 15.35
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 56.09
+        Quantidade a recarregar: 56.09
+      [RECARGA] Resultado:
+        Tempo de recarga: 10.10
+        Bateria após recarga: 64.37
+        Tempo de chegada: 1932.50
+        Tempo de saída: 1942.60
+      [ESTAÇÃO] Passo adicionado à rota: S3
+  [RECARGA] Após recarga:
+    Posição: S3 (era C38)
+    Bateria: 64.37 (era 15.35)
+    Tempo: 1942.60 (era 1925.43)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 64.37
+    Bateria depois: 14.36
+    Tempo de viagem: 50.01
+    Tempo total: 1992.61
+  [CLIENTE] Cliente C64 visitado
+    Chegada: 1992.61 (ready: 468.00, due: 908.00)
+    Partida: 2002.61
+    Bateria: 14.36
+    Carga: 464.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 26/100: C26
+  Posição atual: C64, Bateria: 14.36/165.63
+  [ENERGIA] Para cliente C26:
+    Energia até cliente: 50.00
+    Energia cliente -> estação mais próxima (S20): 14.87
+    Total necessário (com safety): 64.87
+    Bateria atual: 14.36
+  [RECARGA PREVENTIVA 1] Bateria (14.36) < energia até cliente (50.00)
+    Vai para estação mais próxima de C64
+    [ESTAÇÃO] Estação mais próxima: S15
+      Distância: 6.08
+      Energia necessária: 6.08
+      Bateria atual: 14.36
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 70.87
+        Quantidade a recarregar: 70.87
+      [RECARGA] Resultado:
+        Tempo de recarga: 12.76
+        Bateria após recarga: 79.16
+        Tempo de chegada: 2008.69
+        Tempo de saída: 2021.45
+      [ESTAÇÃO] Passo adicionado à rota: S15
+  [RECARGA] Após recarga:
+    Posição: S15 (era C64)
+    Bateria: 79.16 (era 14.36)
+    Tempo: 2021.45 (era 2002.61)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 79.16
+    Bateria depois: 23.15
+    Tempo de viagem: 56.01
+    Tempo total: 2077.46
+  [CLIENTE] Cliente C26 visitado
+    Chegada: 2077.46 (ready: 422.00, due: 891.00)
+    Partida: 2087.46
+    Bateria: 23.15
+    Carga: 494.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 27/100: C89
+  Posição atual: C26, Bateria: 23.15/165.63
+  [ENERGIA] Para cliente C89:
+    Energia até cliente: 37.54
+    Energia cliente -> estação mais próxima (S17): 14.42
+    Total necessário (com safety): 51.96
+    Bateria atual: 23.15
+  [RECARGA PREVENTIVA 1] Bateria (23.15) < energia até cliente (37.54)
+    Vai para estação mais próxima de C26
+    [ESTAÇÃO] Estação mais próxima: S20
+      Distância: 14.87
+      Energia necessária: 14.87
+      Bateria atual: 23.15
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 59.70
+        Quantidade a recarregar: 59.70
+      [RECARGA] Resultado:
+        Tempo de recarga: 10.75
+        Bateria após recarga: 67.98
+        Tempo de chegada: 2102.32
+        Tempo de saída: 2113.07
+      [ESTAÇÃO] Passo adicionado à rota: S20
+  [RECARGA] Após recarga:
+    Posição: S20 (era C26)
+    Bateria: 67.98 (era 23.15)
+    Tempo: 2113.07 (era 2087.46)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 67.98
+    Bateria depois: 22.70
+    Tempo de viagem: 45.28
+    Tempo total: 2158.35
+  [CLIENTE] Cliente C89 visitado
+    Chegada: 2158.35 (ready: 379.00, due: 897.00)
+    Partida: 2168.35
+    Bateria: 22.70
+    Carga: 519.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 28/100: C46
+  Posição atual: C89, Bateria: 22.70/165.63
+  [ENERGIA] Para cliente C46:
+    Energia até cliente: 89.59
+    Energia cliente -> estação mais próxima (S7): 5.00
+    Total necessário (com safety): 94.59
+    Bateria atual: 22.70
+  [RECARGA PREVENTIVA 1] Bateria (22.70) < energia até cliente (89.59)
+    Vai para estação mais próxima de C89
+    [ESTAÇÃO] Estação mais próxima: S17
+      Distância: 14.42
+      Energia necessária: 14.42
+      Bateria atual: 22.70
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 80.17
+        Quantidade a recarregar: 80.17
+      [RECARGA] Resultado:
+        Tempo de recarga: 14.43
+        Bateria após recarga: 88.45
+        Tempo de chegada: 2182.77
+        Tempo de saída: 2197.20
+      [ESTAÇÃO] Passo adicionado à rota: S17
+  [RECARGA] Após recarga:
+    Posição: S17 (era C89)
+    Bateria: 88.45 (era 22.70)
+    Tempo: 2197.20 (era 2168.35)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 88.45
+    Bateria depois: 13.28
+    Tempo de viagem: 75.17
+    Tempo total: 2272.36
+  [CLIENTE] Cliente C46 visitado
+    Chegada: 2272.36 (ready: 414.00, due: 912.00)
+    Partida: 2282.36
+    Bateria: 13.28
+    Carga: 529.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 29/100: C79
+  Posição atual: C46, Bateria: 13.28/165.63
+  [ENERGIA] Para cliente C79:
+    Energia até cliente: 16.97
+    Energia cliente -> estação mais próxima (S10): 13.00
+    Total necessário (com safety): 29.97
+    Bateria atual: 13.28
+  [RECARGA PREVENTIVA 1] Bateria (13.28) < energia até cliente (16.97)
+    Vai para estação mais próxima de C46
+    [ESTAÇÃO] Estação mais próxima: S7
+      Distância: 5.00
+      Energia necessária: 5.00
+      Bateria atual: 13.28
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 33.81
+        Quantidade a recarregar: 33.81
+      [RECARGA] Resultado:
+        Tempo de recarga: 6.09
+        Bateria após recarga: 42.09
+        Tempo de chegada: 2287.36
+        Tempo de saída: 2293.45
+      [ESTAÇÃO] Passo adicionado à rota: S7
+  [RECARGA] Após recarga:
+    Posição: S7 (era C46)
+    Bateria: 42.09 (era 13.28)
+    Tempo: 2293.45 (era 2282.36)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 42.09
+    Bateria depois: 21.28
+    Tempo de viagem: 20.81
+    Tempo total: 2314.26
+  [CLIENTE] Cliente C79 visitado
+    Chegada: 2314.26 (ready: 39.00, due: 515.00)
+    Partida: 2324.26
+    Bateria: 21.28
+    Carga: 559.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 30/100: C81
+  Posição atual: C79, Bateria: 21.28/165.63
+  [ENERGIA] Para cliente C81:
+    Energia até cliente: 44.15
+    Energia cliente -> estação mais próxima (S0): 12.04
+    Total necessário (com safety): 56.19
+    Bateria atual: 21.28
+  [RECARGA PREVENTIVA 1] Bateria (21.28) < energia até cliente (44.15)
+    Vai para estação mais próxima de C79
+    [ESTAÇÃO] Estação mais próxima: S10
+      Distância: 13.00
+      Energia necessária: 13.00
+      Bateria atual: 21.28
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 60.08
+        Quantidade a recarregar: 60.08
+      [RECARGA] Resultado:
+        Tempo de recarga: 10.81
+        Bateria após recarga: 68.36
+        Tempo de chegada: 2337.26
+        Tempo de saída: 2348.07
+      [ESTAÇÃO] Passo adicionado à rota: S10
+  [RECARGA] Após recarga:
+    Posição: S10 (era C79)
+    Bateria: 68.36 (era 21.28)
+    Tempo: 2348.07 (era 2324.26)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 68.36
+    Bateria depois: 20.32
+    Tempo de viagem: 48.04
+    Tempo total: 2396.11
+  [CLIENTE] Cliente C81 visitado
+    Chegada: 2396.11 (ready: 485.00, due: 937.00)
+    Partida: 2406.11
+    Bateria: 20.32
+    Carga: 569.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 31/100: C72
+  Posição atual: C81, Bateria: 20.32/165.63
+  [ENERGIA] Para cliente C72:
+    Energia até cliente: 15.65
+    Energia cliente -> estação mais próxima (S3): 16.12
+    Total necessário (com safety): 31.78
+    Bateria atual: 20.32
+  [RECARGA PREVENTIVA 2] Look-ahead: Bateria (20.32) < total necessário (31.78)
+    Risco de ficar ilhado - recarga preventiva
+    Vai para estação mais próxima de C81
+    [ESTAÇÃO] Estação mais próxima: S0
+      Distância: 12.04
+      Energia necessária: 12.04
+      Bateria atual: 20.32
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 43.58
+        Quantidade a recarregar: 43.58
+      [RECARGA] Resultado:
+        Tempo de recarga: 7.85
+        Bateria após recarga: 51.87
+        Tempo de chegada: 2418.16
+        Tempo de saída: 2426.00
+      [ESTAÇÃO] Passo adicionado à rota: S0
+  [RECARGA] Após recarga preventiva:
+    Posição: S0 (era C81)
+    Bateria: 51.87 (era 20.32)
+    Tempo: 2426.00 (era 2406.11)
+    Nova energia até cliente: 27.46
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 51.87
+    Bateria depois: 24.41
+    Tempo de viagem: 27.46
+    Tempo total: 2453.46
+  [CLIENTE] Cliente C72 visitado
+    Chegada: 2453.46 (ready: 132.00, due: 650.00)
+    Partida: 2463.46
+    Bateria: 24.41
+    Carga: 577.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 32/100: C56
+  Posição atual: C72, Bateria: 24.41/165.63
+  [ENERGIA] Para cliente C56:
+    Energia até cliente: 32.70
+    Energia cliente -> estação mais próxima (S15): 11.70
+    Total necessário (com safety): 44.40
+    Bateria atual: 24.41
+  [RECARGA PREVENTIVA 1] Bateria (24.41) < energia até cliente (32.70)
+    Vai para estação mais próxima de C72
+    [ESTAÇÃO] Estação mais próxima: S3
+      Distância: 16.12
+      Energia necessária: 16.12
+      Bateria atual: 24.41
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 55.99
+        Quantidade a recarregar: 55.99
+      [RECARGA] Resultado:
+        Tempo de recarga: 10.08
+        Bateria após recarga: 64.27
+        Tempo de chegada: 2479.59
+        Tempo de saída: 2489.66
+      [ESTAÇÃO] Passo adicionado à rota: S3
+  [RECARGA] Após recarga:
+    Posição: S3 (era C72)
+    Bateria: 64.27 (era 24.41)
+    Tempo: 2489.66 (era 2463.46)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 64.27
+    Bateria depois: 19.99
+    Tempo de viagem: 44.28
+    Tempo total: 2533.95
+  [CLIENTE] Cliente C56 visitado
+    Chegada: 2533.95 (ready: 19.00, due: 546.00)
+    Partida: 2543.95
+    Bateria: 19.99
+    Carga: 596.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 33/100: C6
+  Posição atual: C56, Bateria: 19.99/165.63
+  [ENERGIA] Para cliente C6:
+    Energia até cliente: 51.22
+    Energia cliente -> estação mais próxima (S7): 7.07
+    Total necessário (com safety): 58.30
+    Bateria atual: 19.99
+  [RECARGA PREVENTIVA 1] Bateria (19.99) < energia até cliente (51.22)
+    Vai para estação mais próxima de C56
+    [ESTAÇÃO] Estação mais próxima: S15
+      Distância: 11.70
+      Energia necessária: 11.70
+      Bateria atual: 19.99
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 55.83
+        Quantidade a recarregar: 55.83
+      [RECARGA] Resultado:
+        Tempo de recarga: 10.05
+        Bateria após recarga: 64.11
+        Tempo de chegada: 2555.65
+        Tempo de saída: 2565.70
+      [ESTAÇÃO] Passo adicionado à rota: S15
+  [RECARGA] Após recarga:
+    Posição: S15 (era C56)
+    Bateria: 64.11 (era 19.99)
+    Tempo: 2565.70 (era 2543.95)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 64.11
+    Bateria depois: 15.35
+    Tempo de viagem: 48.75
+    Tempo total: 2614.45
+  [CLIENTE] Cliente C6 visitado
+    Chegada: 2614.45 (ready: 54.00, due: 582.00)
+    Partida: 2624.45
+    Bateria: 15.35
+    Carga: 616.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 34/100: C2
+  Posição atual: C6, Bateria: 15.35/165.63
+  [ENERGIA] Para cliente C2:
+    Energia até cliente: 4.00
+    Energia cliente -> estação mais próxima (S7): 5.10
+    Total necessário (com safety): 9.10
+    Bateria atual: 15.35
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 15.35
+    Bateria depois: 11.35
+    Tempo de viagem: 4.00
+    Tempo total: 2628.45
+  [CLIENTE] Cliente C2 visitado
+    Chegada: 2628.45 (ready: 31.00, due: 550.00)
+    Partida: 2638.45
+    Bateria: 11.35
+    Carga: 646.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 35/100: C36
+  Posição atual: C2, Bateria: 11.35/165.63
+  [ENERGIA] Para cliente C36:
+    Energia até cliente: 44.15
+    Energia cliente -> estação mais próxima (S4): 5.66
+    Total necessário (com safety): 49.80
+    Bateria atual: 11.35
+  [RECARGA PREVENTIVA 1] Bateria (11.35) < energia até cliente (44.15)
+    Vai para estação mais próxima de C2
+    [ESTAÇÃO] Estação mais próxima: S7
+      Distância: 5.10
+      Energia necessária: 5.10
+      Bateria atual: 11.35
+      [RECARGA] Cálculo:
+        Bateria após viagem: 6.25
+        Energia total necessária: 47.95
+        Quantidade a recarregar: 49.98
+      [RECARGA] Resultado:
+        Tempo de recarga: 9.00
+        Bateria após recarga: 56.23
+        Tempo de chegada: 2643.55
+        Tempo de saída: 2652.55
+      [ESTAÇÃO] Passo adicionado à rota: S7
+  [RECARGA] Após recarga:
+    Posição: S7 (era C2)
+    Bateria: 56.23 (era 11.35)
+    Tempo: 2652.55 (era 2638.45)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 56.23
+    Bateria depois: 13.94
+    Tempo de viagem: 42.30
+    Tempo total: 2694.85
+  [CLIENTE] Cliente C36 visitado
+    Chegada: 2694.85 (ready: 338.00, due: 816.00)
+    Partida: 2704.85
+    Bateria: 13.94
+    Carga: 686.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 36/100: C98
+  Posição atual: C36, Bateria: 13.94/165.63
+  [ENERGIA] Para cliente C98:
+    Energia até cliente: 51.09
+    Energia cliente -> estação mais próxima (S9): 10.00
+    Total necessário (com safety): 61.09
+    Bateria atual: 13.94
+  [RECARGA PREVENTIVA 1] Bateria (13.94) < energia até cliente (51.09)
+    Vai para estação mais próxima de C36
+    [ESTAÇÃO] Estação mais próxima: S4
+      Distância: 5.66
+      Energia necessária: 5.66
+      Bateria atual: 13.94
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 66.73
+        Quantidade a recarregar: 66.73
+      [RECARGA] Resultado:
+        Tempo de recarga: 12.01
+        Bateria após recarga: 75.01
+        Tempo de chegada: 2710.50
+        Tempo de saída: 2722.51
+      [ESTAÇÃO] Passo adicionado à rota: S4
+  [RECARGA] Após recarga:
+    Posição: S4 (era C36)
+    Bateria: 75.01 (era 13.94)
+    Tempo: 2722.51 (era 2704.85)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 75.01
+    Bateria depois: 18.28
+    Tempo de viagem: 56.73
+    Tempo total: 2779.24
+  [CLIENTE] Cliente C98 visitado
+    Chegada: 2779.24 (ready: 46.00, due: 510.00)
+    Partida: 2789.24
+    Bateria: 18.28
+    Carga: 695.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 37/100: C66
+  Posição atual: C98, Bateria: 18.28/165.63
+  [ENERGIA] Para cliente C66:
+    Energia até cliente: 21.21
+    Energia cliente -> estação mais próxima (S15): 6.32
+    Total necessário (com safety): 27.54
+    Bateria atual: 18.28
+  [RECARGA PREVENTIVA 1] Bateria (18.28) < energia até cliente (21.21)
+    Vai para estação mais próxima de C98
+    [ESTAÇÃO] Estação mais próxima: S9
+      Distância: 10.00
+      Energia necessária: 10.00
+      Bateria atual: 18.28
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 37.47
+        Quantidade a recarregar: 37.47
+      [RECARGA] Resultado:
+        Tempo de recarga: 6.74
+        Bateria após recarga: 45.75
+        Tempo de chegada: 2799.24
+        Tempo de saída: 2805.99
+      [ESTAÇÃO] Passo adicionado à rota: S9
+  [RECARGA] Após recarga:
+    Posição: S9 (era C98)
+    Bateria: 45.75 (era 18.28)
+    Tempo: 2805.99 (era 2789.24)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 45.75
+    Bateria depois: 14.61
+    Tempo de viagem: 31.14
+    Tempo total: 2837.13
+  [CLIENTE] Cliente C66 visitado
+    Chegada: 2837.13 (ready: 383.00, due: 905.00)
+    Partida: 2847.13
+    Bateria: 14.61
+    Carga: 711.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 38/100: C67
+  Posição atual: C66, Bateria: 14.61/165.63
+  [ENERGIA] Para cliente C67:
+    Energia até cliente: 23.54
+    Energia cliente -> estação mais próxima (S1): 13.45
+    Total necessário (com safety): 36.99
+    Bateria atual: 14.61
+  [RECARGA PREVENTIVA 1] Bateria (14.61) < energia até cliente (23.54)
+    Vai para estação mais próxima de C66
+    [ESTAÇÃO] Estação mais próxima: S15
+      Distância: 6.32
+      Energia necessária: 6.32
+      Bateria atual: 14.61
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 40.77
+        Quantidade a recarregar: 40.77
+      [RECARGA] Resultado:
+        Tempo de recarga: 7.34
+        Bateria após recarga: 49.05
+        Tempo de chegada: 2853.46
+        Tempo de saída: 2860.79
+      [ESTAÇÃO] Passo adicionado à rota: S15
+  [RECARGA] Após recarga:
+    Posição: S15 (era C66)
+    Bateria: 49.05 (era 14.61)
+    Tempo: 2860.79 (era 2847.13)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 49.05
+    Bateria depois: 21.74
+    Tempo de viagem: 27.31
+    Tempo total: 2888.11
+  [CLIENTE] Cliente C67 visitado
+    Chegada: 2888.11 (ready: 26.00, due: 513.00)
+    Partida: 2898.11
+    Bateria: 21.74
+    Carga: 720.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 39/100: C60
+  Posição atual: C67, Bateria: 21.74/165.63
+  [ENERGIA] Para cliente C60:
+    Energia até cliente: 52.20
+    Energia cliente -> estação mais próxima (S9): 3.61
+    Total necessário (com safety): 55.81
+    Bateria atual: 21.74
+  [RECARGA PREVENTIVA 1] Bateria (21.74) < energia até cliente (52.20)
+    Vai para estação mais próxima de C67
+    [ESTAÇÃO] Estação mais próxima: S1
+      Distância: 13.45
+      Energia necessária: 13.45
+      Bateria atual: 21.74
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 62.15
+        Quantidade a recarregar: 62.15
+      [RECARGA] Resultado:
+        Tempo de recarga: 11.19
+        Bateria após recarga: 70.44
+        Tempo de chegada: 2911.56
+        Tempo de saída: 2922.75
+      [ESTAÇÃO] Passo adicionado à rota: S1
+  [RECARGA] Após recarga:
+    Posição: S1 (era C67)
+    Bateria: 70.44 (era 21.74)
+    Tempo: 2922.75 (era 2898.11)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 70.44
+    Bateria depois: 11.89
+    Tempo de viagem: 58.55
+    Tempo total: 2981.30
+  [CLIENTE] Cliente C60 visitado
+    Chegada: 2981.30 (ready: 27.00, due: 520.00)
+    Partida: 2991.30
+    Bateria: 11.89
+    Carga: 737.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 40/100: C94
+  Posição atual: C60, Bateria: 11.89/165.63
+  [ENERGIA] Para cliente C94:
+    Energia até cliente: 43.68
+    Energia cliente -> estação mais próxima (S1): 16.49
+    Total necessário (com safety): 60.17
+    Bateria atual: 11.89
+  [RECARGA PREVENTIVA 1] Bateria (11.89) < energia até cliente (43.68)
+    Vai para estação mais próxima de C60
+    [ESTAÇÃO] Estação mais próxima: S9
+      Distância: 3.61
+      Energia necessária: 3.61
+      Bateria atual: 11.89
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 56.75
+        Quantidade a recarregar: 56.75
+      [RECARGA] Resultado:
+        Tempo de recarga: 10.22
+        Bateria após recarga: 65.04
+        Tempo de chegada: 2994.90
+        Tempo de saída: 3005.12
+      [ESTAÇÃO] Passo adicionado à rota: S9
+  [RECARGA] Após recarga:
+    Posição: S9 (era C60)
+    Bateria: 65.04 (era 11.89)
+    Tempo: 3005.12 (era 2991.30)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 65.04
+    Bateria depois: 24.77
+    Tempo de viagem: 40.26
+    Tempo total: 3045.38
+  [CLIENTE] Cliente C94 visitado
+    Chegada: 3045.38 (ready: 481.00, due: 932.00)
+    Partida: 3055.38
+    Bateria: 24.77
+    Carga: 760.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 41/100: C40
+  Posição atual: C94, Bateria: 24.77/165.63
+  [ENERGIA] Para cliente C40:
+    Energia até cliente: 37.12
+    Energia cliente -> estação mais próxima (S3): 7.81
+    Total necessário (com safety): 44.93
+    Bateria atual: 24.77
+  [RECARGA PREVENTIVA 1] Bateria (24.77) < energia até cliente (37.12)
+    Vai para estação mais próxima de C94
+    [ESTAÇÃO] Estação mais próxima: S1
+      Distância: 16.49
+      Energia necessária: 16.49
+      Bateria atual: 24.77
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 43.28
+        Quantidade a recarregar: 43.28
+      [RECARGA] Resultado:
+        Tempo de recarga: 7.79
+        Bateria após recarga: 51.56
+        Tempo de chegada: 3071.87
+        Tempo de saída: 3079.66
+      [ESTAÇÃO] Passo adicionado à rota: S1
+  [RECARGA] Após recarga:
+    Posição: S1 (era C94)
+    Bateria: 51.56 (era 24.77)
+    Tempo: 3079.66 (era 3055.38)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 51.56
+    Bateria depois: 16.09
+    Tempo de viagem: 35.47
+    Tempo total: 3115.13
+  [CLIENTE] Cliente C40 visitado
+    Chegada: 3115.13 (ready: 357.00, due: 787.00)
+    Partida: 3125.13
+    Bateria: 16.09
+    Carga: 790.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 42/100: C96
+  Posição atual: C40, Bateria: 16.09/165.63
+  [ENERGIA] Para cliente C96:
+    Energia até cliente: 31.40
+    Energia cliente -> estação mais próxima (S0): 15.52
+    Total necessário (com safety): 46.92
+    Bateria atual: 16.09
+  [RECARGA PREVENTIVA 1] Bateria (16.09) < energia até cliente (31.40)
+    Vai para estação mais próxima de C40
+    [ESTAÇÃO] Estação mais próxima: S3
+      Distância: 7.81
+      Energia necessária: 7.81
+      Bateria atual: 16.09
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 40.52
+        Quantidade a recarregar: 40.52
+      [RECARGA] Resultado:
+        Tempo de recarga: 7.29
+        Bateria após recarga: 48.81
+        Tempo de chegada: 3132.94
+        Tempo de saída: 3140.24
+      [ESTAÇÃO] Passo adicionado à rota: S3
+  [RECARGA] Após recarga:
+    Posição: S3 (era C40)
+    Bateria: 48.81 (era 16.09)
+    Tempo: 3140.24 (era 3125.13)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 48.81
+    Bateria depois: 23.81
+    Tempo de viagem: 25.00
+    Tempo total: 3165.24
+  [CLIENTE] Cliente C96 visitado
+    Chegada: 3165.24 (ready: 142.00, due: 532.00)
+    Partida: 3175.24
+    Bateria: 23.81
+    Carga: 816.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 43/100: C73
+  Posição atual: C96, Bateria: 23.81/165.63
+  [ENERGIA] Para cliente C73:
+    Energia até cliente: 53.34
+    Energia cliente -> estação mais próxima (S10): 4.12
+    Total necessário (com safety): 57.46
+    Bateria atual: 23.81
+  [RECARGA PREVENTIVA 1] Bateria (23.81) < energia até cliente (53.34)
+    Vai para estação mais próxima de C96
+    [ESTAÇÃO] Estação mais próxima: S0
+      Distância: 15.52
+      Energia necessária: 15.52
+      Bateria atual: 23.81
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 43.42
+        Quantidade a recarregar: 43.42
+      [RECARGA] Resultado:
+        Tempo de recarga: 7.82
+        Bateria após recarga: 51.70
+        Tempo de chegada: 3190.76
+        Tempo de saída: 3198.57
+      [ESTAÇÃO] Passo adicionado à rota: S0
+  [RECARGA] Após recarga:
+    Posição: S0 (era C96)
+    Bateria: 51.70 (era 23.81)
+    Tempo: 3198.57 (era 3175.24)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 51.70
+    Bateria depois: 12.40
+    Tempo de viagem: 39.29
+    Tempo total: 3237.87
+  [CLIENTE] Cliente C73 visitado
+    Chegada: 3237.87 (ready: 147.00, due: 553.00)
+    Partida: 3247.87
+    Bateria: 12.40
+    Carga: 821.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 44/100: C99
+  Posição atual: C73, Bateria: 12.40/165.63
+  [ENERGIA] Para cliente C99:
+    Energia até cliente: 34.66
+    Energia cliente -> estação mais próxima (S13): 2.00
+    Total necessário (com safety): 36.66
+    Bateria atual: 12.40
+  [RECARGA PREVENTIVA 1] Bateria (12.40) < energia até cliente (34.66)
+    Vai para estação mais próxima de C73
+    [ESTAÇÃO] Estação mais próxima: S10
+      Distância: 4.12
+      Energia necessária: 4.12
+      Bateria atual: 12.40
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 34.65
+        Quantidade a recarregar: 34.65
+      [RECARGA] Resultado:
+        Tempo de recarga: 6.24
+        Bateria após recarga: 42.93
+        Tempo de chegada: 3251.99
+        Tempo de saída: 3258.23
+      [ESTAÇÃO] Passo adicionado à rota: S10
+  [RECARGA] Após recarga:
+    Posição: S10 (era C73)
+    Bateria: 42.93 (era 12.40)
+    Tempo: 3258.23 (era 3247.87)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 42.93
+    Bateria depois: 10.28
+    Tempo de viagem: 32.65
+    Tempo total: 3290.88
+  [CLIENTE] Cliente C99 visitado
+    Chegada: 3290.88 (ready: 21.00, due: 442.00)
+    Partida: 3300.88
+    Bateria: 10.28
+    Carga: 836.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 45/100: C86
+  Posição atual: C99, Bateria: 10.28/165.63
+  [ENERGIA] Para cliente C86:
+    Energia até cliente: 12.08
+    Energia cliente -> estação mais próxima (S11): 10.63
+    Total necessário (com safety): 22.71
+    Bateria atual: 10.28
+  [RECARGA PREVENTIVA 1] Bateria (10.28) < energia até cliente (12.08)
+    Vai para estação mais próxima de C99
+    [ESTAÇÃO] Estação mais próxima: S13
+      Distância: 2.00
+      Energia necessária: 2.00
+      Bateria atual: 10.28
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 24.56
+        Quantidade a recarregar: 24.56
+      [RECARGA] Resultado:
+        Tempo de recarga: 4.42
+        Bateria após recarga: 32.84
+        Tempo de chegada: 3302.88
+        Tempo de saída: 3307.30
+      [ESTAÇÃO] Passo adicionado à rota: S13
+  [RECARGA] Após recarga:
+    Posição: S13 (era C99)
+    Bateria: 32.84 (era 10.28)
+    Tempo: 3307.30 (era 3300.88)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 32.84
+    Bateria depois: 18.91
+    Tempo de viagem: 13.93
+    Tempo total: 3321.23
+  [CLIENTE] Cliente C86 visitado
+    Chegada: 3321.23 (ready: 242.00, due: 624.00)
+    Partida: 3331.23
+    Bateria: 18.91
+    Carga: 864.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 46/100: C90
+  Posição atual: C86, Bateria: 18.91/165.63
+  [ENERGIA] Para cliente C90:
+    Energia até cliente: 28.02
+    Energia cliente -> estação mais próxima (S0): 4.24
+    Total necessário (com safety): 32.26
+    Bateria atual: 18.91
+  [RECARGA PREVENTIVA 1] Bateria (18.91) < energia até cliente (28.02)
+    Vai para estação mais próxima de C86
+    [ESTAÇÃO] Estação mais próxima: S11
+      Distância: 10.63
+      Energia necessária: 10.63
+      Bateria atual: 18.91
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 33.09
+        Quantidade a recarregar: 33.09
+      [RECARGA] Resultado:
+        Tempo de recarga: 5.96
+        Bateria após recarga: 41.37
+        Tempo de chegada: 3341.86
+        Tempo de saída: 3347.81
+      [ESTAÇÃO] Passo adicionado à rota: S11
+  [RECARGA] Após recarga:
+    Posição: S11 (era C86)
+    Bateria: 41.37 (era 18.91)
+    Tempo: 3347.81 (era 3331.23)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 41.37
+    Bateria depois: 12.52
+    Tempo de viagem: 28.84
+    Tempo total: 3376.66
+  [CLIENTE] Cliente C90 visitado
+    Chegada: 3376.66 (ready: 5.00, due: 447.00)
+    Partida: 3386.66
+    Bateria: 12.52
+    Carga: 870.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 47/100: C76
+  Posição atual: C90, Bateria: 12.52/165.63
+  [ENERGIA] Para cliente C76:
+    Energia até cliente: 41.88
+    Energia cliente -> estação mais próxima (S17): 5.10
+    Total necessário (com safety): 46.98
+    Bateria atual: 12.52
+  [RECARGA PREVENTIVA 1] Bateria (12.52) < energia até cliente (41.88)
+    Vai para estação mais próxima de C90
+    [ESTAÇÃO] Estação mais próxima: S0
+      Distância: 4.24
+      Energia necessária: 4.24
+      Bateria atual: 12.52
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 48.04
+        Quantidade a recarregar: 48.04
+      [RECARGA] Resultado:
+        Tempo de recarga: 8.65
+        Bateria após recarga: 56.32
+        Tempo de chegada: 3390.90
+        Tempo de saída: 3399.55
+      [ESTAÇÃO] Passo adicionado à rota: S0
+  [RECARGA] Após recarga:
+    Posição: S0 (era C90)
+    Bateria: 56.32 (era 12.52)
+    Tempo: 3399.55 (era 3386.66)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 56.32
+    Bateria depois: 13.38
+    Tempo de viagem: 42.94
+    Tempo total: 3442.49
+  [CLIENTE] Cliente C76 visitado
+    Chegada: 3442.49 (ready: 43.00, due: 529.00)
+    Partida: 3452.49
+    Bateria: 13.38
+    Carga: 901.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 48/100: C25
+  Posição atual: C76, Bateria: 13.38/165.63
+  [ENERGIA] Para cliente C25:
+    Energia até cliente: 25.96
+    Energia cliente -> estação mais próxima (S14): 10.63
+    Total necessário (com safety): 36.59
+    Bateria atual: 13.38
+  [RECARGA PREVENTIVA 1] Bateria (13.38) < energia até cliente (25.96)
+    Vai para estação mais próxima de C76
+    [ESTAÇÃO] Estação mais próxima: S17
+      Distância: 5.10
+      Energia necessária: 5.10
+      Bateria atual: 13.38
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 37.46
+        Quantidade a recarregar: 37.46
+      [RECARGA] Resultado:
+        Tempo de recarga: 6.74
+        Bateria após recarga: 45.74
+        Tempo de chegada: 3457.59
+        Tempo de saída: 3464.33
+      [ESTAÇÃO] Passo adicionado à rota: S17
+  [RECARGA] Após recarga:
+    Posição: S17 (era C76)
+    Bateria: 45.74 (era 13.38)
+    Tempo: 3464.33 (era 3452.49)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 45.74
+    Bateria depois: 18.91
+    Tempo de viagem: 26.83
+    Tempo total: 3491.16
+  [CLIENTE] Cliente C25 visitado
+    Chegada: 3491.16 (ready: 46.00, due: 505.00)
+    Partida: 3501.16
+    Bateria: 18.91
+    Carga: 921.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 49/100: C32
+  Posição atual: C25, Bateria: 18.91/165.63
+  [ENERGIA] Para cliente C32:
+    Energia até cliente: 57.70
+    Energia cliente -> estação mais próxima (S19): 13.15
+    Total necessário (com safety): 70.85
+    Bateria atual: 18.91
+  [RECARGA PREVENTIVA 1] Bateria (18.91) < energia até cliente (57.70)
+    Vai para estação mais próxima de C25
+    [ESTAÇÃO] Estação mais próxima: S14
+      Distância: 10.63
+      Energia necessária: 10.63
+      Bateria atual: 18.91
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 74.55
+        Quantidade a recarregar: 74.55
+      [RECARGA] Resultado:
+        Tempo de recarga: 13.42
+        Bateria após recarga: 82.83
+        Tempo de chegada: 3511.79
+        Tempo de saída: 3525.21
+      [ESTAÇÃO] Passo adicionado à rota: S14
+  [RECARGA] Após recarga:
+    Posição: S14 (era C25)
+    Bateria: 82.83 (era 18.91)
+    Tempo: 3525.21 (era 3501.16)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 82.83
+    Bateria depois: 21.43
+    Tempo de viagem: 61.40
+    Tempo total: 3586.61
+  [CLIENTE] Cliente C32 visitado
+    Chegada: 3586.61 (ready: 52.00, due: 522.00)
+    Partida: 3596.61
+    Bateria: 21.43
+    Carga: 931.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 50/100: C57
+  Posição atual: C32, Bateria: 21.43/165.63
+  [ENERGIA] Para cliente C57:
+    Energia até cliente: 57.22
+    Energia cliente -> estação mais próxima (S15): 10.82
+    Total necessário (com safety): 68.04
+    Bateria atual: 21.43
+  [RECARGA PREVENTIVA 1] Bateria (21.43) < energia até cliente (57.22)
+    Vai para estação mais próxima de C32
+    [ESTAÇÃO] Estação mais próxima: S19
+      Distância: 13.15
+      Energia necessária: 13.15
+      Bateria atual: 21.43
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 55.37
+        Quantidade a recarregar: 55.37
+      [RECARGA] Resultado:
+        Tempo de recarga: 9.97
+        Bateria após recarga: 63.65
+        Tempo de chegada: 3609.77
+        Tempo de saída: 3619.73
+      [ESTAÇÃO] Passo adicionado à rota: S19
+  [RECARGA] Após recarga:
+    Posição: S19 (era C32)
+    Bateria: 63.65 (era 21.43)
+    Tempo: 3619.73 (era 3596.61)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 63.65
+    Bateria depois: 19.10
+    Tempo de viagem: 44.55
+    Tempo total: 3664.29
+  [CLIENTE] Cliente C57 visitado
+    Chegada: 3664.29 (ready: 54.00, due: 518.00)
+    Partida: 3674.29
+    Bateria: 19.10
+    Carga: 954.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 51/100: C59
+  Posição atual: C57, Bateria: 19.10/165.63
+  [ENERGIA] Para cliente C59:
+    Energia até cliente: 20.62
+    Energia cliente -> estação mais próxima (S11): 11.40
+    Total necessário (com safety): 32.02
+    Bateria atual: 19.10
+  [RECARGA PREVENTIVA 1] Bateria (19.10) < energia até cliente (20.62)
+    Vai para estação mais próxima de C57
+    [ESTAÇÃO] Estação mais próxima: S15
+      Distância: 10.82
+      Energia necessária: 10.82
+      Bateria atual: 19.10
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 42.42
+        Quantidade a recarregar: 42.42
+      [RECARGA] Resultado:
+        Tempo de recarga: 7.64
+        Bateria após recarga: 50.70
+        Tempo de chegada: 3685.10
+        Tempo de saída: 3692.74
+      [ESTAÇÃO] Passo adicionado à rota: S15
+  [RECARGA] Após recarga:
+    Posição: S15 (era C57)
+    Bateria: 50.70 (era 19.10)
+    Tempo: 3692.74 (era 3674.29)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 50.70
+    Bateria depois: 19.68
+    Tempo de viagem: 31.02
+    Tempo total: 3723.75
+  [CLIENTE] Cliente C59 visitado
+    Chegada: 3723.75 (ready: 433.00, due: 907.00)
+    Partida: 3733.75
+    Bateria: 19.68
+    Carga: 973.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 52/100: C62
+  Posição atual: C59, Bateria: 19.68/165.63
+  [ENERGIA] Para cliente C62:
+    Energia até cliente: 57.01
+    Energia cliente -> estação mais próxima (S19): 9.49
+    Total necessário (com safety): 66.50
+    Bateria atual: 19.68
+  [RECARGA PREVENTIVA 1] Bateria (19.68) < energia até cliente (57.01)
+    Vai para estação mais próxima de C59
+    [ESTAÇÃO] Estação mais próxima: S11
+      Distância: 11.40
+      Energia necessária: 11.40
+      Bateria atual: 19.68
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 61.64
+        Quantidade a recarregar: 61.64
+      [RECARGA] Resultado:
+        Tempo de recarga: 11.10
+        Bateria após recarga: 69.92
+        Tempo de chegada: 3745.16
+        Tempo de saída: 3756.25
+      [ESTAÇÃO] Passo adicionado à rota: S11
+  [RECARGA] Após recarga:
+    Posição: S11 (era C59)
+    Bateria: 69.92 (era 19.68)
+    Tempo: 3756.25 (era 3733.75)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 69.92
+    Bateria depois: 17.77
+    Tempo de viagem: 52.15
+    Tempo total: 3808.41
+  [CLIENTE] Cliente C62 visitado
+    Chegada: 3808.41 (ready: 30.00, due: 507.00)
+    Partida: 3818.41
+    Bateria: 17.77
+    Carga: 976.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 53/100: C55
+  Posição atual: C62, Bateria: 17.77/165.63
+  [ENERGIA] Para cliente C55:
+    Energia até cliente: 43.01
+    Energia cliente -> estação mais próxima (S9): 12.17
+    Total necessário (com safety): 55.18
+    Bateria atual: 17.77
+  [RECARGA PREVENTIVA 1] Bateria (17.77) < energia até cliente (43.01)
+    Vai para estação mais próxima de C62
+    [ESTAÇÃO] Estação mais próxima: S19
+      Distância: 9.49
+      Energia necessária: 9.49
+      Bateria atual: 17.77
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 64.32
+        Quantidade a recarregar: 64.32
+      [RECARGA] Resultado:
+        Tempo de recarga: 11.58
+        Bateria após recarga: 72.60
+        Tempo de chegada: 3827.89
+        Tempo de saída: 3839.47
+      [ESTAÇÃO] Passo adicionado à rota: S19
+  [RECARGA] Após recarga:
+    Posição: S19 (era C62)
+    Bateria: 72.60 (era 17.77)
+    Tempo: 3839.47 (era 3818.41)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 72.60
+    Bateria depois: 20.45
+    Tempo de viagem: 52.15
+    Tempo total: 3891.62
+  [CLIENTE] Cliente C55 visitado
+    Chegada: 3891.62 (ready: 375.00, due: 935.00)
+    Partida: 3901.62
+    Bateria: 20.45
+    Carga: 992.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 54/100: C5
+  Posição atual: C55, Bateria: 20.45/165.63
+  [CAPACIDADE] Carga atual (992.00) + demanda (20.00) > capacidade (1000.00)
+  [VEÍCULO 1] FECHANDO - Retornando ao depósito por capacidade
+  [RETORNO] Retornando ao depósito
+    Posição atual: C55
+    Distância: 14.14
+    Energia necessária: 14.14
+    Bateria atual: 20.45
+    [OK] Bateria suficiente - chegando com 6.30
+  [VEÍCULO 1] FECHADO - G2 acumulado até agora: 0.00
+  [VEÍCULO 1] Total de passos: 101
+  [VEÍCULO 2] INICIADO no depósito
+    Bateria inicial: 165.63/165.63
+    Carga inicial: 0.00/1000.00
+    Tempo inicial: 0.00
+  [ENERGIA] Para cliente C5:
+    Energia até cliente: 40.31
+    Energia cliente -> estação mais próxima (S7): 5.83
+    Total necessário (com safety): 46.14
+    Bateria atual: 165.63
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 165.63
+    Bateria depois: 125.32
+    Tempo de viagem: 40.31
+    Tempo total: 40.31
+  [CLIENTE] Cliente C5 visitado
+    Chegada: 367.00 (ready: 367.00, due: 909.00)
+    Partida: 377.00
+    Bateria: 125.32
+    Carga: 20.00
+    Satisfação: 1.000
+
+[DECODE] Processando cliente 55/100: C58
+  Posição atual: C5, Bateria: 125.32/165.63
+  [ENERGIA] Para cliente C58:
+    Energia até cliente: 75.17
+    Energia cliente -> estação mais próxima (S14): 13.34
+    Total necessário (com safety): 88.51
+    Bateria atual: 125.32
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 125.32
+    Bateria depois: 50.15
+    Tempo de viagem: 75.17
+    Tempo total: 452.17
+  [CLIENTE] Cliente C58 visitado
+    Chegada: 452.17 (ready: 271.00, due: 735.00)
+    Partida: 462.17
+    Bateria: 50.15
+    Carga: 40.00
+    Satisfação: 1.000
+
+[DECODE] Processando cliente 56/100: C29
+  Posição atual: C58, Bateria: 50.15/165.63
+  [ENERGIA] Para cliente C29:
+    Energia até cliente: 79.06
+    Energia cliente -> estação mais próxima (S20): 9.00
+    Total necessário (com safety): 88.06
+    Bateria atual: 50.15
+  [RECARGA PREVENTIVA 1] Bateria (50.15) < energia até cliente (79.06)
+    Vai para estação mais próxima de C58
+    [ESTAÇÃO] Estação mais próxima: S14
+      Distância: 13.34
+      Energia necessária: 13.34
+      Bateria atual: 50.15
+      [RECARGA] Cálculo:
+        Bateria após viagem: 36.81
+        Energia total necessária: 74.79
+        Quantidade a recarregar: 46.26
+      [RECARGA] Resultado:
+        Tempo de recarga: 8.33
+        Bateria após recarga: 83.07
+        Tempo de chegada: 475.51
+        Tempo de saída: 483.83
+      [ESTAÇÃO] Passo adicionado à rota: S14
+  [RECARGA] Após recarga:
+    Posição: S14 (era C58)
+    Bateria: 83.07 (era 50.15)
+    Tempo: 483.83 (era 462.17)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 83.07
+    Bateria depois: 17.28
+    Tempo de viagem: 65.79
+    Tempo total: 549.62
+  [CLIENTE] Cliente C29 visitado
+    Chegada: 549.62 (ready: 333.00, due: 789.00)
+    Partida: 559.62
+    Bateria: 17.28
+    Carga: 50.00
+    Satisfação: 1.000
+
+[DECODE] Processando cliente 57/100: C4
+  Posição atual: C29, Bateria: 17.28/165.63
+  [ENERGIA] Para cliente C4:
+    Energia até cliente: 83.22
+    Energia cliente -> estação mais próxima (S7): 3.00
+    Total necessário (com safety): 86.22
+    Bateria atual: 17.28
+  [RECARGA PREVENTIVA 1] Bateria (17.28) < energia até cliente (83.22)
+    Vai para estação mais próxima de C29
+    [ESTAÇÃO] Estação mais próxima: S20
+      Distância: 9.00
+      Energia necessária: 9.00
+      Bateria atual: 17.28
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 81.71
+        Quantidade a recarregar: 81.71
+      [RECARGA] Resultado:
+        Tempo de recarga: 14.71
+        Bateria após recarga: 90.00
+        Tempo de chegada: 568.62
+        Tempo de saída: 583.33
+      [ESTAÇÃO] Passo adicionado à rota: S20
+  [RECARGA] Após recarga:
+    Posição: S20 (era C29)
+    Bateria: 90.00 (era 17.28)
+    Tempo: 583.33 (era 559.62)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 90.00
+    Bateria depois: 11.28
+    Tempo de viagem: 78.71
+    Tempo total: 662.05
+  [CLIENTE] Cliente C4 visitado
+    Chegada: 662.05 (ready: 516.00, due: 913.00)
+    Partida: 672.05
+    Bateria: 11.28
+    Carga: 90.00
+    Satisfação: 1.000
+
+[DECODE] Processando cliente 58/100: C39
+  Posição atual: C4, Bateria: 11.28/165.63
+  [ENERGIA] Para cliente C39:
+    Energia até cliente: 40.00
+    Energia cliente -> estação mais próxima (S3): 5.10
+    Total necessário (com safety): 45.10
+    Bateria atual: 11.28
+  [RECARGA PREVENTIVA 1] Bateria (11.28) < energia até cliente (40.00)
+    Vai para estação mais próxima de C4
+    [ESTAÇÃO] Estação mais próxima: S7
+      Distância: 3.00
+      Energia necessária: 3.00
+      Bateria atual: 11.28
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 42.10
+        Quantidade a recarregar: 42.10
+      [RECARGA] Resultado:
+        Tempo de recarga: 7.58
+        Bateria após recarga: 50.38
+        Tempo de chegada: 675.05
+        Tempo de saída: 682.62
+      [ESTAÇÃO] Passo adicionado à rota: S7
+  [RECARGA] Após recarga:
+    Posição: S7 (era C4)
+    Bateria: 50.38 (era 11.28)
+    Tempo: 682.62 (era 672.05)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 50.38
+    Bateria depois: 13.38
+    Tempo de viagem: 37.00
+    Tempo total: 719.62
+  [CLIENTE] Cliente C39 visitado
+    Chegada: 719.62 (ready: 378.00, due: 913.00)
+    Partida: 729.62
+    Bateria: 13.38
+    Carga: 100.00
+    Satisfação: 1.000
+
+[DECODE] Processando cliente 59/100: C9
+  Posição atual: C39, Bateria: 13.38/165.63
+  [ENERGIA] Para cliente C9:
+    Energia até cliente: 67.27
+    Energia cliente -> estação mais próxima (S11): 5.00
+    Total necessário (com safety): 72.27
+    Bateria atual: 13.38
+  [RECARGA PREVENTIVA 1] Bateria (13.38) < energia até cliente (67.27)
+    Vai para estação mais próxima de C39
+    [ESTAÇÃO] Estação mais próxima: S3
+      Distância: 5.10
+      Energia necessária: 5.10
+      Bateria atual: 13.38
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 67.94
+        Quantidade a recarregar: 67.94
+      [RECARGA] Resultado:
+        Tempo de recarga: 12.23
+        Bateria após recarga: 76.22
+        Tempo de chegada: 734.72
+        Tempo de saída: 746.95
+      [ESTAÇÃO] Passo adicionado à rota: S3
+  [RECARGA] Após recarga:
+    Posição: S3 (era C39)
+    Bateria: 76.22 (era 13.38)
+    Tempo: 746.95 (era 729.62)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 76.22
+    Bateria depois: 13.28
+    Tempo de viagem: 62.94
+    Tempo total: 809.89
+  [CLIENTE] Cliente C9 visitado
+    Chegada: 809.89 (ready: 406.00, due: 916.00)
+    Partida: 819.89
+    Bateria: 13.28
+    Carga: 120.00
+    Satisfação: 1.000
+
+[DECODE] Processando cliente 60/100: C91
+  Posição atual: C9, Bateria: 13.28/165.63
+  [ENERGIA] Para cliente C91:
+    Energia até cliente: 39.62
+    Energia cliente -> estação mais próxima (S0): 12.04
+    Total necessário (com safety): 51.66
+    Bateria atual: 13.28
+  [RECARGA PREVENTIVA 1] Bateria (13.28) < energia até cliente (39.62)
+    Vai para estação mais próxima de C9
+    [ESTAÇÃO] Estação mais próxima: S11
+      Distância: 5.00
+      Energia necessária: 5.00
+      Bateria atual: 13.28
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 49.68
+        Quantidade a recarregar: 49.68
+      [RECARGA] Resultado:
+        Tempo de recarga: 8.94
+        Bateria após recarga: 57.97
+        Tempo de chegada: 824.89
+        Tempo de saída: 833.83
+      [ESTAÇÃO] Passo adicionado à rota: S11
+  [RECARGA] Após recarga:
+    Posição: S11 (era C9)
+    Bateria: 57.97 (era 13.28)
+    Tempo: 833.83 (era 819.89)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 57.97
+    Bateria depois: 20.32
+    Tempo de viagem: 37.64
+    Tempo total: 871.47
+  [CLIENTE] Cliente C91 visitado
+    Chegada: 871.47 (ready: 234.00, due: 764.00)
+    Partida: 881.47
+    Bateria: 20.32
+    Carga: 133.00
+    Satisfação: 0.463
+
+[DECODE] Processando cliente 61/100: C84
+  Posição atual: C91, Bateria: 20.32/165.63
+  [ENERGIA] Para cliente C84:
+    Energia até cliente: 15.26
+    Energia cliente -> estação mais próxima (S17): 12.17
+    Total necessário (com safety): 27.43
+    Bateria atual: 20.32
+  [RECARGA PREVENTIVA 2] Look-ahead: Bateria (20.32) < total necessário (27.43)
+    Risco de ficar ilhado - recarga preventiva
+    Vai para estação mais próxima de C91
+    [ESTAÇÃO] Estação mais próxima: S0
+      Distância: 12.04
+      Energia necessária: 12.04
+      Bateria atual: 20.32
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 39.18
+        Quantidade a recarregar: 39.18
+      [RECARGA] Resultado:
+        Tempo de recarga: 7.05
+        Bateria após recarga: 47.47
+        Tempo de chegada: 893.52
+        Tempo de saída: 900.57
+      [ESTAÇÃO] Passo adicionado à rota: S0
+  [RECARGA] Após recarga preventiva:
+    Posição: S0 (era C91)
+    Bateria: 47.47 (era 20.32)
+    Tempo: 900.57 (era 881.47)
+    Nova energia até cliente: 27.02
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 47.47
+    Bateria depois: 20.45
+    Tempo de viagem: 27.02
+    Tempo total: 927.59
+  [CLIENTE] Cliente C84 visitado
+    Chegada: 927.59 (ready: 426.00, due: 922.00)
+    Partida: 937.59
+    Bateria: 20.45
+    Carga: 151.00
+    Satisfação: 0.972
+
+[DECODE] Processando cliente 62/100: C22
+  Posição atual: C84, Bateria: 20.45/165.63
+  [ENERGIA] Para cliente C22:
+    Energia até cliente: 22.02
+    Energia cliente -> estação mais próxima (S16): 8.94
+    Total necessário (com safety): 30.97
+    Bateria atual: 20.45
+  [RECARGA PREVENTIVA 1] Bateria (20.45) < energia até cliente (22.02)
+    Vai para estação mais próxima de C84
+    [ESTAÇÃO] Estação mais próxima: S17
+      Distância: 12.17
+      Energia necessária: 12.17
+      Bateria atual: 20.45
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 28.05
+        Quantidade a recarregar: 28.05
+      [RECARGA] Resultado:
+        Tempo de recarga: 5.05
+        Bateria após recarga: 36.33
+        Tempo de chegada: 949.75
+        Tempo de saída: 954.80
+      [ESTAÇÃO] Passo adicionado à rota: S17
+  [RECARGA] Após recarga:
+    Posição: S17 (era C84)
+    Bateria: 36.33 (era 20.45)
+    Tempo: 954.80 (era 937.59)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 36.33
+    Bateria depois: 17.23
+    Tempo de viagem: 19.10
+    Tempo total: 973.91
+  [CLIENTE] Cliente C22 visitado
+    Chegada: 973.91 (ready: 442.00, due: 915.00)
+    Partida: 983.91
+    Bateria: 17.23
+    Carga: 191.00
+    Satisfação: 0.705
+
+[DECODE] Processando cliente 63/100: C75
+  Posição atual: C22, Bateria: 17.23/165.63
+  [ENERGIA] Para cliente C75:
+    Energia até cliente: 36.40
+    Energia cliente -> estação mais próxima (S14): 24.35
+    Total necessário (com safety): 60.75
+    Bateria atual: 17.23
+  [RECARGA PREVENTIVA 1] Bateria (17.23) < energia até cliente (36.40)
+    Vai para estação mais próxima de C22
+    [ESTAÇÃO] Estação mais próxima: S16
+      Distância: 8.94
+      Energia necessária: 8.94
+      Bateria atual: 17.23
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 67.77
+        Quantidade a recarregar: 67.77
+      [RECARGA] Resultado:
+        Tempo de recarga: 12.20
+        Bateria após recarga: 76.05
+        Tempo de chegada: 992.85
+        Tempo de saída: 1005.05
+      [ESTAÇÃO] Passo adicionado à rota: S16
+  [RECARGA] Após recarga:
+    Posição: S16 (era C22)
+    Bateria: 76.05 (era 17.23)
+    Tempo: 1005.05 (era 983.91)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 76.05
+    Bateria depois: 32.63
+    Tempo de viagem: 43.42
+    Tempo total: 1048.47
+  [CLIENTE] Cliente C75 visitado
+    Chegada: 1048.47 (ready: 228.00, due: 660.00)
+    Partida: 1058.47
+    Bateria: 32.63
+    Carga: 207.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 64/100: C33
+  Posição atual: C75, Bateria: 32.63/165.63
+  [ENERGIA] Para cliente C33:
+    Energia até cliente: 82.46
+    Energia cliente -> estação mais próxima (S18): 12.17
+    Total necessário (com safety): 94.63
+    Bateria atual: 32.63
+  [RECARGA PREVENTIVA 1] Bateria (32.63) < energia até cliente (82.46)
+    Vai para estação mais próxima de C75
+    [ESTAÇÃO] Estação mais próxima: S14
+      Distância: 24.35
+      Energia necessária: 24.35
+      Bateria atual: 32.63
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 70.41
+        Quantidade a recarregar: 70.41
+      [RECARGA] Resultado:
+        Tempo de recarga: 12.67
+        Bateria após recarga: 78.70
+        Tempo de chegada: 1082.82
+        Tempo de saída: 1095.49
+      [ESTAÇÃO] Passo adicionado à rota: S14
+  [RECARGA] Após recarga:
+    Posição: S14 (era C75)
+    Bateria: 78.70 (era 32.63)
+    Tempo: 1095.49 (era 1058.47)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 78.70
+    Bateria depois: 20.45
+    Tempo de viagem: 58.25
+    Tempo total: 1153.74
+  [CLIENTE] Cliente C33 visitado
+    Chegada: 1153.74 (ready: 359.00, due: 898.00)
+    Partida: 1163.74
+    Bateria: 20.45
+    Carga: 217.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 65/100: C63
+  Posição atual: C33, Bateria: 20.45/165.63
+  [ENERGIA] Para cliente C63:
+    Energia até cliente: 20.62
+    Energia cliente -> estação mais próxima (S17): 6.71
+    Total necessário (com safety): 27.32
+    Bateria atual: 20.45
+  [RECARGA PREVENTIVA 1] Bateria (20.45) < energia até cliente (20.62)
+    Vai para estação mais próxima de C33
+    [ESTAÇÃO] Estação mais próxima: S18
+      Distância: 12.17
+      Energia necessária: 12.17
+      Bateria atual: 20.45
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 15.25
+        Quantidade a recarregar: 15.25
+      [RECARGA] Resultado:
+        Tempo de recarga: 2.75
+        Bateria após recarga: 23.53
+        Tempo de chegada: 1175.91
+        Tempo de saída: 1178.65
+      [ESTAÇÃO] Passo adicionado à rota: S18
+  [RECARGA] Após recarga:
+    Posição: S18 (era C33)
+    Bateria: 23.53 (era 20.45)
+    Tempo: 1178.65 (era 1163.74)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 23.53
+    Bateria depois: 14.99
+    Tempo de viagem: 8.54
+    Tempo total: 1187.20
+  [CLIENTE] Cliente C63 visitado
+    Chegada: 1187.20 (ready: 102.00, due: 650.00)
+    Partida: 1197.20
+    Bateria: 14.99
+    Carga: 223.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 66/100: C93
+  Posição atual: C63, Bateria: 14.99/165.63
+  [ENERGIA] Para cliente C93:
+    Energia até cliente: 32.25
+    Energia cliente -> estação mais próxima (S1): 12.00
+    Total necessário (com safety): 44.25
+    Bateria atual: 14.99
+  [RECARGA PREVENTIVA 1] Bateria (14.99) < energia até cliente (32.25)
+    Vai para estação mais próxima de C63
+    [ESTAÇÃO] Estação mais próxima: S17
+      Distância: 6.71
+      Energia necessária: 6.71
+      Bateria atual: 14.99
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 47.06
+        Quantidade a recarregar: 47.06
+      [RECARGA] Resultado:
+        Tempo de recarga: 8.47
+        Bateria após recarga: 55.34
+        Tempo de chegada: 1203.90
+        Tempo de saída: 1212.37
+      [ESTAÇÃO] Passo adicionado à rota: S17
+  [RECARGA] Após recarga:
+    Posição: S17 (era C63)
+    Bateria: 55.34 (era 14.99)
+    Tempo: 1212.37 (era 1197.20)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 55.34
+    Bateria depois: 20.28
+    Tempo de viagem: 35.06
+    Tempo total: 1247.43
+  [CLIENTE] Cliente C93 visitado
+    Chegada: 1247.43 (ready: 178.00, due: 576.00)
+    Partida: 1257.43
+    Bateria: 20.28
+    Carga: 226.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 67/100: C88
+  Posição atual: C93, Bateria: 20.28/165.63
+  [ENERGIA] Para cliente C88:
+    Energia até cliente: 37.48
+    Energia cliente -> estação mais próxima (S9): 6.00
+    Total necessário (com safety): 43.48
+    Bateria atual: 20.28
+  [RECARGA PREVENTIVA 1] Bateria (20.28) < energia até cliente (37.48)
+    Vai para estação mais próxima de C93
+    [ESTAÇÃO] Estação mais próxima: S1
+      Distância: 12.00
+      Energia necessária: 12.00
+      Bateria atual: 20.28
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 55.37
+        Quantidade a recarregar: 55.37
+      [RECARGA] Resultado:
+        Tempo de recarga: 9.97
+        Bateria após recarga: 63.65
+        Tempo de chegada: 1269.43
+        Tempo de saída: 1279.40
+      [ESTAÇÃO] Passo adicionado à rota: S1
+  [RECARGA] Após recarga:
+    Posição: S1 (era C93)
+    Bateria: 63.65 (era 20.28)
+    Tempo: 1279.40 (era 1257.43)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 63.65
+    Bateria depois: 14.28
+    Tempo de viagem: 49.37
+    Tempo total: 1328.76
+  [CLIENTE] Cliente C88 visitado
+    Chegada: 1328.76 (ready: 364.00, due: 878.00)
+    Partida: 1338.76
+    Bateria: 14.28
+    Carga: 245.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 68/100: C71
+  Posição atual: C88, Bateria: 14.28/165.63
+  [ENERGIA] Para cliente C71:
+    Energia até cliente: 41.11
+    Energia cliente -> estação mais próxima (S1): 8.54
+    Total necessário (com safety): 49.65
+    Bateria atual: 14.28
+  [RECARGA PREVENTIVA 1] Bateria (14.28) < energia até cliente (41.11)
+    Vai para estação mais próxima de C88
+    [ESTAÇÃO] Estação mais próxima: S9
+      Distância: 6.00
+      Energia necessária: 6.00
+      Bateria atual: 14.28
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 55.64
+        Quantidade a recarregar: 55.64
+      [RECARGA] Resultado:
+        Tempo de recarga: 10.02
+        Bateria após recarga: 63.92
+        Tempo de chegada: 1344.76
+        Tempo de saída: 1354.78
+      [ESTAÇÃO] Passo adicionado à rota: S9
+  [RECARGA] Após recarga:
+    Posição: S9 (era C88)
+    Bateria: 63.92 (era 14.28)
+    Tempo: 1354.78 (era 1338.76)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 63.92
+    Bateria depois: 16.83
+    Tempo de viagem: 47.10
+    Tempo total: 1401.87
+  [CLIENTE] Cliente C71 visitado
+    Chegada: 1401.87 (ready: 512.00, due: 924.00)
+    Partida: 1411.87
+    Bateria: 16.83
+    Carga: 259.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 69/100: C30
+  Posição atual: C71, Bateria: 16.83/165.63
+  [ENERGIA] Para cliente C30:
+    Energia até cliente: 33.97
+    Energia cliente -> estação mais próxima (S19): 14.14
+    Total necessário (com safety): 48.11
+    Bateria atual: 16.83
+  [RECARGA PREVENTIVA 1] Bateria (16.83) < energia até cliente (33.97)
+    Vai para estação mais próxima de C71
+    [ESTAÇÃO] Estação mais próxima: S1
+      Distância: 8.54
+      Energia necessária: 8.54
+      Bateria atual: 16.83
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 40.77
+        Quantidade a recarregar: 40.77
+      [RECARGA] Resultado:
+        Tempo de recarga: 7.34
+        Bateria após recarga: 49.05
+        Tempo de chegada: 1420.42
+        Tempo de saída: 1427.76
+      [ESTAÇÃO] Passo adicionado à rota: S1
+  [RECARGA] Após recarga:
+    Posição: S1 (era C71)
+    Bateria: 49.05 (era 16.83)
+    Tempo: 1427.76 (era 1411.87)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 49.05
+    Bateria depois: 22.42
+    Tempo de viagem: 26.63
+    Tempo total: 1454.38
+  [CLIENTE] Cliente C30 visitado
+    Chegada: 1454.38 (ready: 251.00, due: 701.00)
+    Partida: 1464.38
+    Bateria: 22.42
+    Carga: 269.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 70/100: C45
+  Posição atual: C30, Bateria: 22.42/165.63
+  [ENERGIA] Para cliente C45:
+    Energia até cliente: 85.60
+    Energia cliente -> estação mais próxima (S7): 3.61
+    Total necessário (com safety): 89.21
+    Bateria atual: 22.42
+  [RECARGA PREVENTIVA 1] Bateria (22.42) < energia até cliente (85.60)
+    Vai para estação mais próxima de C30
+    [ESTAÇÃO] Estação mais próxima: S19
+      Distância: 14.14
+      Energia necessária: 14.14
+      Bateria atual: 22.42
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 77.20
+        Quantidade a recarregar: 77.20
+      [RECARGA] Resultado:
+        Tempo de recarga: 13.90
+        Bateria após recarga: 85.48
+        Tempo de chegada: 1478.53
+        Tempo de saída: 1492.42
+      [ESTAÇÃO] Passo adicionado à rota: S19
+  [RECARGA] Após recarga:
+    Posição: S19 (era C30)
+    Bateria: 85.48 (era 22.42)
+    Tempo: 1492.42 (era 1464.38)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 85.48
+    Bateria depois: 11.89
+    Tempo de viagem: 73.59
+    Tempo total: 1566.02
+  [CLIENTE] Cliente C45 visitado
+    Chegada: 1566.02 (ready: 335.00, due: 912.00)
+    Partida: 1576.02
+    Bateria: 11.89
+    Carga: 279.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 71/100: C54
+  Posição atual: C45, Bateria: 11.89/165.63
+  [ENERGIA] Para cliente C54:
+    Energia até cliente: 41.34
+    Energia cliente -> estação mais próxima (S0): 18.03
+    Total necessário (com safety): 59.37
+    Bateria atual: 11.89
+  [RECARGA PREVENTIVA 1] Bateria (11.89) < energia até cliente (41.34)
+    Vai para estação mais próxima de C45
+    [ESTAÇÃO] Estação mais próxima: S7
+      Distância: 3.61
+      Energia necessária: 3.61
+      Bateria atual: 11.89
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 55.76
+        Quantidade a recarregar: 55.76
+      [RECARGA] Resultado:
+        Tempo de recarga: 10.04
+        Bateria após recarga: 64.05
+        Tempo de chegada: 1579.62
+        Tempo de saída: 1589.66
+      [ESTAÇÃO] Passo adicionado à rota: S7
+  [RECARGA] Após recarga:
+    Posição: S7 (era C45)
+    Bateria: 64.05 (era 11.89)
+    Tempo: 1589.66 (era 1576.02)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 64.05
+    Bateria depois: 26.31
+    Tempo de viagem: 37.74
+    Tempo total: 1627.39
+  [CLIENTE] Cliente C54 visitado
+    Chegada: 1627.39 (ready: 381.00, due: 853.00)
+    Partida: 1637.39
+    Bateria: 26.31
+    Carga: 295.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 72/100: C77
+  Posição atual: C54, Bateria: 26.31/165.63
+  [ENERGIA] Para cliente C77:
+    Energia até cliente: 65.37
+    Energia cliente -> estação mais próxima (S14): 11.18
+    Total necessário (com safety): 76.55
+    Bateria atual: 26.31
+  [RECARGA PREVENTIVA 1] Bateria (26.31) < energia até cliente (65.37)
+    Vai para estação mais próxima de C54
+    [ESTAÇÃO] Estação mais próxima: S0
+      Distância: 18.03
+      Energia necessária: 18.03
+      Bateria atual: 26.31
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 61.16
+        Quantidade a recarregar: 61.16
+      [RECARGA] Resultado:
+        Tempo de recarga: 11.01
+        Bateria após recarga: 69.44
+        Tempo de chegada: 1655.42
+        Tempo de saída: 1666.43
+      [ESTAÇÃO] Passo adicionado à rota: S0
+  [RECARGA] Após recarga:
+    Posição: S0 (era C54)
+    Bateria: 69.44 (era 26.31)
+    Tempo: 1666.43 (era 1637.39)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 69.44
+    Bateria depois: 19.46
+    Tempo de viagem: 49.98
+    Tempo total: 1716.41
+  [CLIENTE] Cliente C77 visitado
+    Chegada: 1716.41 (ready: 50.00, due: 551.00)
+    Partida: 1726.41
+    Bateria: 19.46
+    Carga: 302.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 73/100: C68
+  Posição atual: C77, Bateria: 19.46/165.63
+  [ENERGIA] Para cliente C68:
+    Energia até cliente: 59.48
+    Energia cliente -> estação mais próxima (S0): 10.00
+    Total necessário (com safety): 69.48
+    Bateria atual: 19.46
+  [RECARGA PREVENTIVA 1] Bateria (19.46) < energia até cliente (59.48)
+    Vai para estação mais próxima de C77
+    [ESTAÇÃO] Estação mais próxima: S14
+      Distância: 11.18
+      Energia necessária: 11.18
+      Bateria atual: 19.46
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 58.51
+        Quantidade a recarregar: 58.51
+      [RECARGA] Resultado:
+        Tempo de recarga: 10.53
+        Bateria após recarga: 66.79
+        Tempo de chegada: 1737.59
+        Tempo de saída: 1748.12
+      [ESTAÇÃO] Passo adicionado à rota: S14
+  [RECARGA] Após recarga:
+    Posição: S14 (era C77)
+    Bateria: 66.79 (era 19.46)
+    Tempo: 1748.12 (era 1726.41)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 66.79
+    Bateria depois: 18.28
+    Tempo de viagem: 48.51
+    Tempo total: 1796.63
+  [CLIENTE] Cliente C68 visitado
+    Chegada: 1796.63 (ready: 422.00, due: 940.00)
+    Partida: 1806.63
+    Bateria: 18.28
+    Carga: 323.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 74/100: C31
+  Posição atual: C68, Bateria: 18.28/165.63
+  [ENERGIA] Para cliente C31:
+    Energia até cliente: 54.12
+    Energia cliente -> estação mais próxima (S20): 9.22
+    Total necessário (com safety): 63.34
+    Bateria atual: 18.28
+  [RECARGA PREVENTIVA 1] Bateria (18.28) < energia até cliente (54.12)
+    Vai para estação mais próxima de C68
+    [ESTAÇÃO] Estação mais próxima: S0
+      Distância: 10.00
+      Energia necessária: 10.00
+      Bateria atual: 18.28
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 59.51
+        Quantidade a recarregar: 59.51
+      [RECARGA] Resultado:
+        Tempo de recarga: 10.71
+        Bateria após recarga: 67.79
+        Tempo de chegada: 1816.63
+        Tempo de saída: 1827.34
+      [ESTAÇÃO] Passo adicionado à rota: S0
+  [RECARGA] Após recarga:
+    Posição: S0 (era C68)
+    Bateria: 67.79 (era 18.28)
+    Tempo: 1827.34 (era 1806.63)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 67.79
+    Bateria depois: 17.50
+    Tempo de viagem: 50.29
+    Tempo total: 1877.63
+  [CLIENTE] Cliente C31 visitado
+    Chegada: 1877.63 (ready: 255.00, due: 899.00)
+    Partida: 1887.63
+    Bateria: 17.50
+    Carga: 343.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 75/100: C10
+  Posição atual: C31, Bateria: 17.50/165.63
+  [ENERGIA] Para cliente C10:
+    Energia até cliente: 78.16
+    Energia cliente -> estação mais próxima (S11): 9.49
+    Total necessário (com safety): 87.65
+    Bateria atual: 17.50
+  [RECARGA PREVENTIVA 1] Bateria (17.50) < energia até cliente (78.16)
+    Vai para estação mais próxima de C31
+    [ESTAÇÃO] Estação mais próxima: S20
+      Distância: 9.22
+      Energia necessária: 9.22
+      Bateria atual: 17.50
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 89.59
+        Quantidade a recarregar: 89.59
+      [RECARGA] Resultado:
+        Tempo de recarga: 16.13
+        Bateria após recarga: 97.87
+        Tempo de chegada: 1896.85
+        Tempo de saída: 1912.98
+      [ESTAÇÃO] Passo adicionado à rota: S20
+  [RECARGA] Após recarga:
+    Posição: S20 (era C31)
+    Bateria: 97.87 (era 17.50)
+    Tempo: 1912.98 (era 1887.63)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 97.87
+    Bateria depois: 17.77
+    Tempo de viagem: 80.10
+    Tempo total: 1993.08
+  [CLIENTE] Cliente C10 visitado
+    Chegada: 1993.08 (ready: 243.00, due: 689.00)
+    Partida: 2003.08
+    Bateria: 17.77
+    Carga: 373.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 76/100: C74
+  Posição atual: C10, Bateria: 17.77/165.63
+  [ENERGIA] Para cliente C74:
+    Energia até cliente: 22.36
+    Energia cliente -> estação mais próxima (S14): 10.63
+    Total necessário (com safety): 32.99
+    Bateria atual: 17.77
+  [RECARGA PREVENTIVA 1] Bateria (17.77) < energia até cliente (22.36)
+    Vai para estação mais próxima de C10
+    [ESTAÇÃO] Estação mais próxima: S11
+      Distância: 9.49
+      Energia necessária: 9.49
+      Bateria atual: 17.77
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 23.67
+        Quantidade a recarregar: 23.67
+      [RECARGA] Resultado:
+        Tempo de recarga: 4.26
+        Bateria após recarga: 31.95
+        Tempo de chegada: 2012.56
+        Tempo de saída: 2016.82
+      [ESTAÇÃO] Passo adicionado à rota: S11
+  [RECARGA] Após recarga:
+    Posição: S11 (era C10)
+    Bateria: 31.95 (era 17.77)
+    Tempo: 2016.82 (era 2003.08)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 31.95
+    Bateria depois: 18.91
+    Tempo de viagem: 13.04
+    Tempo total: 2029.86
+  [CLIENTE] Cliente C74 visitado
+    Chegada: 2029.86 (ready: 486.00, due: 913.00)
+    Partida: 2039.86
+    Bateria: 18.91
+    Carga: 381.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 77/100: C24
+  Posição atual: C74, Bateria: 18.91/165.63
+  [ENERGIA] Para cliente C24:
+    Energia até cliente: 18.68
+    Energia cliente -> estação mais próxima (S14): 10.20
+    Total necessário (com safety): 28.88
+    Bateria atual: 18.91
+  [RECARGA PREVENTIVA 2] Look-ahead: Bateria (18.91) < total necessário (28.88)
+    Risco de ficar ilhado - recarga preventiva
+    Vai para estação mais próxima de C74
+    [ESTAÇÃO] Estação mais próxima: S14
+      Distância: 10.63
+      Energia necessária: 10.63
+      Bateria atual: 18.91
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 20.40
+        Quantidade a recarregar: 20.40
+      [RECARGA] Resultado:
+        Tempo de recarga: 3.67
+        Bateria após recarga: 28.68
+        Tempo de chegada: 2050.49
+        Tempo de saída: 2054.16
+      [ESTAÇÃO] Passo adicionado à rota: S14
+  [RECARGA] Após recarga preventiva:
+    Posição: S14 (era C74)
+    Bateria: 28.68 (era 18.91)
+    Tempo: 2054.16 (era 2039.86)
+    Nova energia até cliente: 10.20
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 28.68
+    Bateria depois: 18.48
+    Tempo de viagem: 10.20
+    Tempo total: 2064.36
+  [CLIENTE] Cliente C24 visitado
+    Chegada: 2064.36 (ready: 36.00, due: 490.00)
+    Partida: 2074.36
+    Bateria: 18.48
+    Carga: 391.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 78/100: C97
+  Posição atual: C24, Bateria: 18.48/165.63
+  [ENERGIA] Para cliente C97:
+    Energia até cliente: 34.13
+    Energia cliente -> estação mais próxima (S11): 15.81
+    Total necessário (com safety): 49.94
+    Bateria atual: 18.48
+  [RECARGA PREVENTIVA 1] Bateria (18.48) < energia até cliente (34.13)
+    Vai para estação mais próxima de C24
+    [ESTAÇÃO] Estação mais próxima: S14
+      Distância: 10.20
+      Energia necessária: 10.20
+      Bateria atual: 18.48
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 40.33
+        Quantidade a recarregar: 40.33
+      [RECARGA] Resultado:
+        Tempo de recarga: 7.26
+        Bateria após recarga: 48.61
+        Tempo de chegada: 2084.56
+        Tempo de saída: 2091.82
+      [ESTAÇÃO] Passo adicionado à rota: S14
+  [RECARGA] Após recarga:
+    Posição: S14 (era C24)
+    Bateria: 48.61 (era 18.48)
+    Tempo: 2091.82 (era 2074.36)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 48.61
+    Bateria depois: 24.09
+    Tempo de viagem: 24.52
+    Tempo total: 2116.33
+  [CLIENTE] Cliente C97 visitado
+    Chegada: 2116.33 (ready: 517.00, due: 901.00)
+    Partida: 2126.33
+    Bateria: 24.09
+    Carga: 426.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 79/100: C65
+  Posição atual: C97, Bateria: 24.09/165.63
+  [ENERGIA] Para cliente C65:
+    Energia até cliente: 38.01
+    Energia cliente -> estação mais próxima (S13): 9.49
+    Total necessário (com safety): 47.50
+    Bateria atual: 24.09
+  [RECARGA PREVENTIVA 1] Bateria (24.09) < energia até cliente (38.01)
+    Vai para estação mais próxima de C97
+    [ESTAÇÃO] Estação mais próxima: S11
+      Distância: 15.81
+      Energia necessária: 15.81
+      Bateria atual: 24.09
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 33.26
+        Quantidade a recarregar: 33.26
+      [RECARGA] Resultado:
+        Tempo de recarga: 5.99
+        Bateria após recarga: 41.54
+        Tempo de chegada: 2142.14
+        Tempo de saída: 2148.13
+      [ESTAÇÃO] Passo adicionado à rota: S11
+  [RECARGA] Após recarga:
+    Posição: S11 (era C97)
+    Bateria: 41.54 (era 24.09)
+    Tempo: 2148.13 (era 2126.33)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 41.54
+    Bateria depois: 17.77
+    Tempo de viagem: 23.77
+    Tempo total: 2171.90
+  [CLIENTE] Cliente C65 visitado
+    Chegada: 2171.90 (ready: 12.00, due: 451.00)
+    Partida: 2181.90
+    Bateria: 17.77
+    Carga: 442.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 80/100: C11
+  Posição atual: C65, Bateria: 17.77/165.63
+  [ENERGIA] Para cliente C11:
+    Energia até cliente: 27.00
+    Energia cliente -> estação mais próxima (S11): 10.30
+    Total necessário (com safety): 37.30
+    Bateria atual: 17.77
+  [RECARGA PREVENTIVA 1] Bateria (17.77) < energia até cliente (27.00)
+    Vai para estação mais próxima de C65
+    [ESTAÇÃO] Estação mais próxima: S13
+      Distância: 9.49
+      Energia necessária: 9.49
+      Bateria atual: 17.77
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 28.54
+        Quantidade a recarregar: 28.54
+      [RECARGA] Resultado:
+        Tempo de recarga: 5.14
+        Bateria após recarga: 36.83
+        Tempo de chegada: 2191.39
+        Tempo de saída: 2196.53
+      [ESTAÇÃO] Passo adicionado à rota: S13
+  [RECARGA] Após recarga:
+    Posição: S13 (era C65)
+    Bateria: 36.83 (era 17.77)
+    Tempo: 2196.53 (era 2181.90)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 36.83
+    Bateria depois: 18.58
+    Tempo de viagem: 18.25
+    Tempo total: 2214.77
+  [CLIENTE] Cliente C11 visitado
+    Chegada: 2214.77 (ready: 225.00, due: 697.00)
+    Partida: 2224.77
+    Bateria: 18.58
+    Carga: 482.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 81/100: C14
+  Posição atual: C11, Bateria: 18.58/165.63
+  [ENERGIA] Para cliente C14:
+    Energia até cliente: 5.83
+    Energia cliente -> estação mais próxima (S10): 11.70
+    Total necessário (com safety): 17.54
+    Bateria atual: 18.58
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 18.58
+    Bateria depois: 12.75
+    Tempo de viagem: 5.83
+    Tempo total: 2230.60
+  [CLIENTE] Cliente C14 visitado
+    Chegada: 2230.60 (ready: 36.00, due: 525.00)
+    Partida: 2240.60
+    Bateria: 12.75
+    Carga: 492.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 82/100: C17
+  Posição atual: C14, Bateria: 12.75/165.63
+  [ENERGIA] Para cliente C17:
+    Energia até cliente: 5.00
+    Energia cliente -> estação mais próxima (S12): 8.60
+    Total necessário (com safety): 13.60
+    Bateria atual: 12.75
+  [RECARGA PREVENTIVA 2] Look-ahead: Bateria (12.75) < total necessário (13.60)
+    Risco de ficar ilhado - recarga preventiva
+    Vai para estação mais próxima de C14
+    [ESTAÇÃO] Estação mais próxima: S10
+      Distância: 11.70
+      Energia necessária: 11.70
+      Bateria atual: 12.75
+      [RECARGA] Cálculo:
+        Bateria após viagem: 1.04
+        Energia total necessária: 19.65
+        Quantidade a recarregar: 26.89
+      [RECARGA] Resultado:
+        Tempo de recarga: 4.84
+        Bateria após recarga: 27.93
+        Tempo de chegada: 2252.31
+        Tempo de saída: 2257.15
+      [ESTAÇÃO] Passo adicionado à rota: S10
+  [RECARGA] Após recarga preventiva:
+    Posição: S10 (era C14)
+    Bateria: 27.93 (era 12.75)
+    Tempo: 2257.15 (era 2240.60)
+    Nova energia até cliente: 11.05
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 27.93
+    Bateria depois: 16.88
+    Tempo de viagem: 11.05
+    Tempo total: 2268.19
+  [CLIENTE] Cliente C17 visitado
+    Chegada: 2268.19 (ready: 41.00, due: 483.00)
+    Partida: 2278.19
+    Bateria: 16.88
+    Carga: 512.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 83/100: C28
+  Posição atual: C17, Bateria: 16.88/165.63
+  [ENERGIA] Para cliente C28:
+    Energia até cliente: 93.21
+    Energia cliente -> estação mais próxima (S20): 14.14
+    Total necessário (com safety): 107.36
+    Bateria atual: 16.88
+  [RECARGA PREVENTIVA 1] Bateria (16.88) < energia até cliente (93.21)
+    Vai para estação mais próxima de C17
+    [ESTAÇÃO] Estação mais próxima: S12
+      Distância: 8.60
+      Energia necessária: 8.60
+      Bateria atual: 16.88
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 111.47
+        Quantidade a recarregar: 111.47
+      [RECARGA] Resultado:
+        Tempo de recarga: 20.06
+        Bateria após recarga: 119.75
+        Tempo de chegada: 2286.80
+        Tempo de saída: 2306.86
+      [ESTAÇÃO] Passo adicionado à rota: S12
+  [RECARGA] Após recarga:
+    Posição: S12 (era C17)
+    Bateria: 119.75 (era 16.88)
+    Tempo: 2306.86 (era 2278.19)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 119.75
+    Bateria depois: 22.42
+    Tempo de viagem: 97.33
+    Tempo total: 2404.19
+  [CLIENTE] Cliente C28 visitado
+    Chegada: 2404.19 (ready: 56.00, due: 557.00)
+    Partida: 2414.19
+    Bateria: 22.42
+    Carga: 522.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 84/100: C43
+  Posição atual: C28, Bateria: 22.42/165.63
+  [ENERGIA] Para cliente C43:
+    Energia até cliente: 66.29
+    Energia cliente -> estação mais próxima (S3): 6.00
+    Total necessário (com safety): 72.29
+    Bateria atual: 22.42
+  [RECARGA PREVENTIVA 1] Bateria (22.42) < energia até cliente (66.29)
+    Vai para estação mais próxima de C28
+    [ESTAÇÃO] Estação mais próxima: S20
+      Distância: 14.14
+      Energia necessária: 14.14
+      Bateria atual: 22.42
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 59.91
+        Quantidade a recarregar: 59.91
+      [RECARGA] Resultado:
+        Tempo de recarga: 10.78
+        Bateria após recarga: 68.19
+        Tempo de chegada: 2428.33
+        Tempo de saída: 2439.12
+      [ESTAÇÃO] Passo adicionado à rota: S20
+  [RECARGA] Após recarga:
+    Posição: S20 (era C28)
+    Bateria: 68.19 (era 22.42)
+    Tempo: 2439.12 (era 2414.19)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 68.19
+    Bateria depois: 14.28
+    Tempo de viagem: 53.91
+    Tempo total: 2493.02
+  [CLIENTE] Cliente C43 visitado
+    Chegada: 2493.02 (ready: 39.00, due: 610.00)
+    Partida: 2503.02
+    Bateria: 14.28
+    Carga: 542.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 85/100: C35
+  Posição atual: C43, Bateria: 14.28/165.63
+  [ENERGIA] Para cliente C35:
+    Energia até cliente: 12.00
+    Energia cliente -> estação mais próxima (S4): 4.47
+    Total necessário (com safety): 16.47
+    Bateria atual: 14.28
+  [RECARGA PREVENTIVA 2] Look-ahead: Bateria (14.28) < total necessário (16.47)
+    Risco de ficar ilhado - recarga preventiva
+    Vai para estação mais próxima de C43
+    [ESTAÇÃO] Estação mais próxima: S3
+      Distância: 6.00
+      Energia necessária: 6.00
+      Bateria atual: 14.28
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 17.89
+        Quantidade a recarregar: 17.89
+      [RECARGA] Resultado:
+        Tempo de recarga: 3.22
+        Bateria após recarga: 26.17
+        Tempo de chegada: 2509.02
+        Tempo de saída: 2512.24
+      [ESTAÇÃO] Passo adicionado à rota: S3
+  [RECARGA] Após recarga preventiva:
+    Posição: S3 (era C43)
+    Bateria: 26.17 (era 14.28)
+    Tempo: 2512.24 (era 2503.02)
+    Nova energia até cliente: 13.42
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 26.17
+    Bateria depois: 12.75
+    Tempo de viagem: 13.42
+    Tempo total: 2525.66
+  [CLIENTE] Cliente C35 visitado
+    Chegada: 2525.66 (ready: 350.00, due: 905.00)
+    Partida: 2535.66
+    Bateria: 12.75
+    Carga: 562.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 86/100: C18
+  Posição atual: C35, Bateria: 12.75/165.63
+  [ENERGIA] Para cliente C18:
+    Energia até cliente: 83.24
+    Energia cliente -> estação mais próxima (S16): 7.21
+    Total necessário (com safety): 90.45
+    Bateria atual: 12.75
+  [RECARGA PREVENTIVA 1] Bateria (12.75) < energia até cliente (83.24)
+    Vai para estação mais próxima de C35
+    [ESTAÇÃO] Estação mais próxima: S4
+      Distância: 4.47
+      Energia necessária: 4.47
+      Bateria atual: 12.75
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 94.85
+        Quantidade a recarregar: 94.85
+      [RECARGA] Resultado:
+        Tempo de recarga: 17.07
+        Bateria após recarga: 103.13
+        Tempo de chegada: 2540.13
+        Tempo de saída: 2557.21
+      [ESTAÇÃO] Passo adicionado à rota: S4
+  [RECARGA] Após recarga:
+    Posição: S4 (era C35)
+    Bateria: 103.13 (era 12.75)
+    Tempo: 2557.21 (era 2535.66)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 103.13
+    Bateria depois: 15.49
+    Tempo de viagem: 87.64
+    Tempo total: 2644.85
+  [CLIENTE] Cliente C18 visitado
+    Chegada: 2644.85 (ready: 450.00, due: 904.00)
+    Partida: 2654.85
+    Bateria: 15.49
+    Carga: 582.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 87/100: C41
+  Posição atual: C18, Bateria: 15.49/165.63
+  [ENERGIA] Para cliente C41:
+    Energia até cliente: 71.39
+    Energia cliente -> estação mais próxima (S3): 5.00
+    Total necessário (com safety): 76.39
+    Bateria atual: 15.49
+  [RECARGA PREVENTIVA 1] Bateria (15.49) < energia até cliente (71.39)
+    Vai para estação mais próxima de C18
+    [ESTAÇÃO] Estação mais próxima: S16
+      Distância: 7.21
+      Energia necessária: 7.21
+      Bateria atual: 15.49
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 69.78
+        Quantidade a recarregar: 69.78
+      [RECARGA] Resultado:
+        Tempo de recarga: 12.56
+        Bateria após recarga: 78.06
+        Tempo de chegada: 2662.06
+        Tempo de saída: 2674.62
+      [ESTAÇÃO] Passo adicionado à rota: S16
+  [RECARGA] Após recarga:
+    Posição: S16 (era C18)
+    Bateria: 78.06 (era 15.49)
+    Tempo: 2674.62 (era 2654.85)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 78.06
+    Bateria depois: 13.28
+    Tempo de viagem: 64.78
+    Tempo total: 2739.39
+  [CLIENTE] Cliente C41 visitado
+    Chegada: 2739.39 (ready: 73.00, due: 561.00)
+    Partida: 2749.39
+    Bateria: 13.28
+    Carga: 602.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 88/100: C20
+  Posição atual: C41, Bateria: 13.28/165.63
+  [ENERGIA] Para cliente C20:
+    Energia até cliente: 62.10
+    Energia cliente -> estação mais próxima (S16): 7.21
+    Total necessário (com safety): 69.31
+    Bateria atual: 13.28
+  [RECARGA PREVENTIVA 1] Bateria (13.28) < energia até cliente (62.10)
+    Vai para estação mais próxima de C41
+    [ESTAÇÃO] Estação mais próxima: S3
+      Distância: 5.00
+      Energia necessária: 5.00
+      Bateria atual: 13.28
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 72.52
+        Quantidade a recarregar: 72.52
+      [RECARGA] Resultado:
+        Tempo de recarga: 13.05
+        Bateria após recarga: 80.80
+        Tempo de chegada: 2754.39
+        Tempo de saída: 2767.45
+      [ESTAÇÃO] Passo adicionado à rota: S3
+  [RECARGA] Após recarga:
+    Posição: S3 (era C41)
+    Bateria: 80.80 (era 13.28)
+    Tempo: 2767.45 (era 2749.39)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 80.80
+    Bateria depois: 15.49
+    Tempo de viagem: 65.31
+    Tempo total: 2832.75
+  [CLIENTE] Cliente C20 visitado
+    Chegada: 2832.75 (ready: 59.00, due: 477.00)
+    Partida: 2842.75
+    Bateria: 15.49
+    Carga: 612.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 89/100: C53
+  Posição atual: C20, Bateria: 15.49/165.63
+  [ENERGIA] Para cliente C53:
+    Energia até cliente: 41.34
+    Energia cliente -> estação mais próxima (S9): 8.25
+    Total necessário (com safety): 49.59
+    Bateria atual: 15.49
+  [RECARGA PREVENTIVA 1] Bateria (15.49) < energia até cliente (41.34)
+    Vai para estação mais próxima de C20
+    [ESTAÇÃO] Estação mais próxima: S16
+      Distância: 7.21
+      Energia necessária: 7.21
+      Bateria atual: 15.49
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 56.26
+        Quantidade a recarregar: 56.26
+      [RECARGA] Resultado:
+        Tempo de recarga: 10.13
+        Bateria após recarga: 64.54
+        Tempo de chegada: 2849.97
+        Tempo de saída: 2860.09
+      [ESTAÇÃO] Passo adicionado à rota: S16
+  [RECARGA] Após recarga:
+    Posição: S16 (era C20)
+    Bateria: 64.54 (era 15.49)
+    Tempo: 2860.09 (era 2842.75)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 64.54
+    Bateria depois: 16.53
+    Tempo de viagem: 48.01
+    Tempo total: 2908.10
+  [CLIENTE] Cliente C53 visitado
+    Chegada: 2908.10 (ready: 85.00, due: 569.00)
+    Partida: 2918.10
+    Bateria: 16.53
+    Carga: 617.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 90/100: C37
+  Posição atual: C53, Bateria: 16.53/165.63
+  [ENERGIA] Para cliente C37:
+    Energia até cliente: 55.22
+    Energia cliente -> estação mais próxima (S4): 8.06
+    Total necessário (com safety): 63.28
+    Bateria atual: 16.53
+  [RECARGA PREVENTIVA 1] Bateria (16.53) < energia até cliente (55.22)
+    Vai para estação mais próxima de C53
+    [ESTAÇÃO] Estação mais próxima: S9
+      Distância: 8.25
+      Energia necessária: 8.25
+      Bateria atual: 16.53
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 60.84
+        Quantidade a recarregar: 60.84
+      [RECARGA] Resultado:
+        Tempo de recarga: 10.95
+        Bateria após recarga: 69.12
+        Tempo de chegada: 2926.35
+        Tempo de saída: 2937.30
+      [ESTAÇÃO] Passo adicionado à rota: S9
+  [RECARGA] Após recarga:
+    Posição: S9 (era C53)
+    Bateria: 69.12 (era 16.53)
+    Tempo: 2937.30 (era 2918.10)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 69.12
+    Bateria depois: 16.34
+    Tempo de viagem: 52.77
+    Tempo total: 2990.07
+  [CLIENTE] Cliente C37 visitado
+    Chegada: 2990.07 (ready: 41.00, due: 614.00)
+    Partida: 3000.07
+    Bateria: 16.34
+    Carga: 627.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 91/100: C13
+  Posição atual: C37, Bateria: 16.34/165.63
+  [ENERGIA] Para cliente C13:
+    Energia até cliente: 76.22
+    Energia cliente -> estação mais próxima (S11): 8.94
+    Total necessário (com safety): 85.16
+    Bateria atual: 16.34
+  [RECARGA PREVENTIVA 1] Bateria (16.34) < energia até cliente (76.22)
+    Vai para estação mais próxima de C37
+    [ESTAÇÃO] Estação mais próxima: S4
+      Distância: 8.06
+      Energia necessária: 8.06
+      Bateria atual: 16.34
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 92.68
+        Quantidade a recarregar: 92.68
+      [RECARGA] Resultado:
+        Tempo de recarga: 16.68
+        Bateria após recarga: 100.96
+        Tempo de chegada: 3008.13
+        Tempo de saída: 3024.82
+      [ESTAÇÃO] Passo adicionado à rota: S4
+  [RECARGA] Após recarga:
+    Posição: S4 (era C37)
+    Bateria: 100.96 (era 16.34)
+    Tempo: 3024.82 (era 3000.07)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 100.96
+    Bateria depois: 17.23
+    Tempo de viagem: 83.74
+    Tempo total: 3108.55
+  [CLIENTE] Cliente C13 visitado
+    Chegada: 3108.55 (ready: 39.00, due: 511.00)
+    Partida: 3118.55
+    Bateria: 17.23
+    Carga: 637.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 92/100: C3
+  Posição atual: C13, Bateria: 17.23/165.63
+  [ENERGIA] Para cliente C3:
+    Energia até cliente: 52.81
+    Energia cliente -> estação mais próxima (S7): 5.10
+    Total necessário (com safety): 57.91
+    Bateria atual: 17.23
+  [RECARGA PREVENTIVA 1] Bateria (17.23) < energia até cliente (52.81)
+    Vai para estação mais próxima de C13
+    [ESTAÇÃO] Estação mais próxima: S11
+      Distância: 8.94
+      Energia necessária: 8.94
+      Bateria atual: 17.23
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 59.84
+        Quantidade a recarregar: 59.84
+      [RECARGA] Resultado:
+        Tempo de recarga: 10.77
+        Bateria após recarga: 68.13
+        Tempo de chegada: 3127.50
+        Tempo de saída: 3138.27
+      [ESTAÇÃO] Passo adicionado à rota: S11
+  [RECARGA] Após recarga:
+    Posição: S11 (era C13)
+    Bateria: 68.13 (era 17.23)
+    Tempo: 3138.27 (era 3118.55)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 68.13
+    Bateria depois: 13.38
+    Tempo de viagem: 54.74
+    Tempo total: 3193.02
+  [CLIENTE] Cliente C3 visitado
+    Chegada: 3193.02 (ready: 86.00, due: 710.00)
+    Partida: 3203.02
+    Bateria: 13.38
+    Carga: 647.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 93/100: C100
+  Posição atual: C3, Bateria: 13.38/165.63
+  [ENERGIA] Para cliente C100:
+    Energia até cliente: 20.12
+    Energia cliente -> estação mais próxima (S5): 13.04
+    Total necessário (com safety): 33.16
+    Bateria atual: 13.38
+  [RECARGA PREVENTIVA 1] Bateria (13.38) < energia até cliente (20.12)
+    Vai para estação mais próxima de C3
+    [ESTAÇÃO] Estação mais próxima: S7
+      Distância: 5.10
+      Energia necessária: 5.10
+      Bateria atual: 13.38
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 28.30
+        Quantidade a recarregar: 28.30
+      [RECARGA] Resultado:
+        Tempo de recarga: 5.09
+        Bateria após recarga: 36.58
+        Tempo de chegada: 3208.11
+        Tempo de saída: 3213.21
+      [ESTAÇÃO] Passo adicionado à rota: S7
+  [RECARGA] Após recarga:
+    Posição: S7 (era C3)
+    Bateria: 36.58 (era 13.38)
+    Tempo: 3213.21 (era 3203.02)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 36.58
+    Bateria depois: 21.32
+    Tempo de viagem: 15.26
+    Tempo total: 3228.47
+  [CLIENTE] Cliente C100 visitado
+    Chegada: 3228.47 (ready: 372.00, due: 684.00)
+    Partida: 3238.47
+    Bateria: 21.32
+    Carga: 650.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 94/100: C51
+  Posição atual: C100, Bateria: 21.32/165.63
+  [ENERGIA] Para cliente C51:
+    Energia até cliente: 52.77
+    Energia cliente -> estação mais próxima (S17): 5.00
+    Total necessário (com safety): 57.77
+    Bateria atual: 21.32
+  [RECARGA PREVENTIVA 1] Bateria (21.32) < energia até cliente (52.77)
+    Vai para estação mais próxima de C100
+    [ESTAÇÃO] Estação mais próxima: S5
+      Distância: 13.04
+      Energia necessária: 13.04
+      Bateria atual: 21.32
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 69.26
+        Quantidade a recarregar: 69.26
+      [RECARGA] Resultado:
+        Tempo de recarga: 12.47
+        Bateria após recarga: 77.54
+        Tempo de chegada: 3251.51
+        Tempo de saída: 3263.98
+      [ESTAÇÃO] Passo adicionado à rota: S5
+  [RECARGA] Após recarga:
+    Posição: S5 (era C100)
+    Bateria: 77.54 (era 21.32)
+    Tempo: 3263.98 (era 3238.47)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 77.54
+    Bateria depois: 13.28
+    Tempo de viagem: 64.26
+    Tempo total: 3328.24
+  [CLIENTE] Cliente C51 visitado
+    Chegada: 3328.24 (ready: 298.00, due: 786.00)
+    Partida: 3338.24
+    Bateria: 13.28
+    Carga: 669.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 95/100: C12
+  Posição atual: C51, Bateria: 13.28/165.63
+  [ENERGIA] Para cliente C12:
+    Energia até cliente: 53.24
+    Energia cliente -> estação mais próxima (S10): 13.04
+    Total necessário (com safety): 66.27
+    Bateria atual: 13.28
+  [RECARGA PREVENTIVA 1] Bateria (13.28) < energia até cliente (53.24)
+    Vai para estação mais próxima de C51
+    [ESTAÇÃO] Estação mais próxima: S17
+      Distância: 5.00
+      Energia necessária: 5.00
+      Bateria atual: 13.28
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 71.22
+        Quantidade a recarregar: 71.22
+      [RECARGA] Resultado:
+        Tempo de recarga: 12.82
+        Bateria após recarga: 79.50
+        Tempo de chegada: 3343.24
+        Tempo de saída: 3356.06
+      [ESTAÇÃO] Passo adicionado à rota: S17
+  [RECARGA] Após recarga:
+    Posição: S17 (era C51)
+    Bateria: 79.50 (era 13.28)
+    Tempo: 3356.06 (era 3338.24)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 79.50
+    Bateria depois: 21.32
+    Tempo de viagem: 58.18
+    Tempo total: 3414.24
+  [CLIENTE] Cliente C12 visitado
+    Chegada: 3414.24 (ready: 510.00, due: 917.00)
+    Partida: 3424.24
+    Bateria: 21.32
+    Carga: 689.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 96/100: C92
+  Posição atual: C12, Bateria: 21.32/165.63
+  [ENERGIA] Para cliente C92:
+    Energia até cliente: 45.04
+    Energia cliente -> estação mais próxima (S0): 14.76
+    Total necessário (com safety): 59.81
+    Bateria atual: 21.32
+  [RECARGA PREVENTIVA 1] Bateria (21.32) < energia até cliente (45.04)
+    Vai para estação mais próxima de C12
+    [ESTAÇÃO] Estação mais próxima: S10
+      Distância: 13.04
+      Energia necessária: 13.04
+      Bateria atual: 21.32
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 68.37
+        Quantidade a recarregar: 68.37
+      [RECARGA] Resultado:
+        Tempo de recarga: 12.31
+        Bateria após recarga: 76.65
+        Tempo de chegada: 3437.27
+        Tempo de saída: 3449.58
+      [ESTAÇÃO] Passo adicionado à rota: S10
+  [RECARGA] Após recarga:
+    Posição: S10 (era C12)
+    Bateria: 76.65 (era 21.32)
+    Tempo: 3449.58 (era 3424.24)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 76.65
+    Bateria depois: 23.05
+    Tempo de viagem: 53.60
+    Tempo total: 3503.18
+  [CLIENTE] Cliente C92 visitado
+    Chegada: 3503.18 (ready: 367.00, due: 935.00)
+    Partida: 3513.18
+    Bateria: 23.05
+    Carga: 703.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 97/100: C83
+  Posição atual: C92, Bateria: 23.05/165.63
+  [ENERGIA] Para cliente C83:
+    Energia até cliente: 20.00
+    Energia cliente -> estação mais próxima (S15): 2.00
+    Total necessário (com safety): 22.00
+    Bateria atual: 23.05
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 23.05
+    Bateria depois: 3.05
+    Tempo de viagem: 20.00
+    Tempo total: 3533.18
+  [CLIENTE] Cliente C83 visitado
+    Chegada: 3533.18 (ready: 248.00, due: 738.00)
+    Partida: 3543.18
+    Bateria: 3.05
+    Carga: 717.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 98/100: C47
+  Posição atual: C83, Bateria: 3.05/165.63
+  [ENERGIA] Para cliente C47:
+    Energia até cliente: 37.70
+    Energia cliente -> estação mais próxima (S12): 9.90
+    Total necessário (com safety): 47.60
+    Bateria atual: 3.05
+  [RECARGA PREVENTIVA 1] Bateria (3.05) < energia até cliente (37.70)
+    Vai para estação mais próxima de C83
+    [ESTAÇÃO] Estação mais próxima: S15
+      Distância: 2.00
+      Energia necessária: 2.00
+      Bateria atual: 3.05
+      [RECARGA] Cálculo:
+        Bateria após viagem: 1.05
+        Energia total necessária: 49.46
+        Quantidade a recarregar: 56.69
+      [RECARGA] Resultado:
+        Tempo de recarga: 10.21
+        Bateria após recarga: 57.74
+        Tempo de chegada: 3545.18
+        Tempo de saída: 3555.39
+      [ESTAÇÃO] Passo adicionado à rota: S15
+  [RECARGA] Após recarga:
+    Posição: S15 (era C83)
+    Bateria: 57.74 (era 3.05)
+    Tempo: 3555.39 (era 3543.18)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 57.74
+    Bateria depois: 18.18
+    Tempo de viagem: 39.56
+    Tempo total: 3594.95
+  [CLIENTE] Cliente C47 visitado
+    Chegada: 3594.95 (ready: 63.00, due: 575.00)
+    Partida: 3604.95
+    Bateria: 18.18
+    Carga: 727.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 99/100: C52
+  Posição atual: C47, Bateria: 18.18/165.63
+  [ENERGIA] Para cliente C52:
+    Energia até cliente: 27.46
+    Energia cliente -> estação mais próxima (S13): 7.07
+    Total necessário (com safety): 34.53
+    Bateria atual: 18.18
+  [RECARGA PREVENTIVA 1] Bateria (18.18) < energia até cliente (27.46)
+    Vai para estação mais próxima de C47
+    [ESTAÇÃO] Estação mais próxima: S12
+      Distância: 9.90
+      Energia necessária: 9.90
+      Bateria atual: 18.18
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 38.12
+        Quantidade a recarregar: 38.12
+      [RECARGA] Resultado:
+        Tempo de recarga: 6.86
+        Bateria após recarga: 46.40
+        Tempo de chegada: 3614.84
+        Tempo de saída: 3621.71
+      [ESTAÇÃO] Passo adicionado à rota: S12
+  [RECARGA] Após recarga:
+    Posição: S12 (era C47)
+    Bateria: 46.40 (era 18.18)
+    Tempo: 3621.71 (era 3604.95)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 46.40
+    Bateria depois: 15.35
+    Tempo de viagem: 31.05
+    Tempo total: 3652.75
+  [CLIENTE] Cliente C52 visitado
+    Chegada: 3652.75 (ready: 344.00, due: 882.00)
+    Partida: 3662.75
+    Bateria: 15.35
+    Carga: 730.00
+    Satisfação: 0.000
+
+[DECODE] Processando cliente 100/100: C85
+  Posição atual: C52, Bateria: 15.35/165.63
+  [ENERGIA] Para cliente C85:
+    Energia até cliente: 38.64
+    Energia cliente -> estação mais próxima (S17): 7.21
+    Total necessário (com safety): 45.85
+    Bateria atual: 15.35
+  [RECARGA PREVENTIVA 1] Bateria (15.35) < energia até cliente (38.64)
+    Vai para estação mais próxima de C52
+    [ESTAÇÃO] Estação mais próxima: S13
+      Distância: 7.07
+      Energia necessária: 7.07
+      Bateria atual: 15.35
+      [RECARGA] Cálculo:
+        Bateria após viagem: 8.28
+        Energia total necessária: 46.77
+        Quantidade a recarregar: 46.77
+      [RECARGA] Resultado:
+        Tempo de recarga: 8.42
+        Bateria após recarga: 55.05
+        Tempo de chegada: 3669.83
+        Tempo de saída: 3678.24
+      [ESTAÇÃO] Passo adicionado à rota: S13
+  [RECARGA] Após recarga:
+    Posição: S13 (era C52)
+    Bateria: 55.05 (era 15.35)
+    Tempo: 3678.24 (era 3662.75)
+  [VIAGEM] Bateria suficiente - viajando normalmente
+    Bateria antes: 55.05
+    Bateria depois: 15.49
+    Tempo de viagem: 39.56
+    Tempo total: 3717.80
+  [CLIENTE] Cliente C85 visitado
+    Chegada: 3717.80 (ready: 36.00, due: 633.00)
+    Partida: 3727.80
+    Bateria: 15.49
+    Carga: 732.00
+    Satisfação: 0.000
+
+[DECODE] Finalizando - Retornando ao depósito
+  Veículo: 2
+  Posição: C85, Bateria: 15.49, G2 acumulado: 0.00
+  [RETORNO] Retornando ao depósito
+    Posição atual: C85
+    Distância: 35.47
+    Energia necessária: 35.47
+    Bateria atual: 15.49
+    [RECARGA PREVENTIVA] Bateria insuficiente para retornar diretamente
+      Vai para estação mais próxima para recarregar
+      Estação mais próxima: S17
+      Distância até estação: 7.21
+      Energia necessária até estação: 7.21
+      [RECARGA] Cálculo:
+        Bateria após chegar à estação: 8.28
+        Energia estação -> depósito: 38.08
+        Margem de segurança: 8.28
+        Total necessário: 46.36
+        Quantidade a recarregar: 38.08
+      [RECARGA] Resultado:
+        Tempo de recarga: 6.85
+        Bateria após recarga: 46.36
+      [RETORNO] Após recarga, retornando ao depósito
+        Bateria: 46.36
+        Energia necessária: 38.08
+        [OK] Bateria suficiente após recarga - chegando com 8.28
+  [VEÍCULO 2] FECHADO
+    Total de passos: 93
+    G2 final: 0.00
+  ✓ VIÁVEL (G2 = 0.00)
+    - Veículos: 2
+    - Distância: 5174.11
+    - Custo: 7174.11
+    - Insatisfação: 0.831
+
+================================================================================
+RESUMO DOS TESTES
+================================================================================
+Total de testes: 1
+Viáveis: 1 (100.0%)
+Inviáveis: 0 (0.0%)
+
+================================================================================

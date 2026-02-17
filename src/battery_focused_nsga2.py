@@ -102,7 +102,12 @@ class InfeasibleSurvival(Selection):
     
     Preenche população com:
     - Cota de viáveis: usando Rank & Crowding Distance
-    - Cota de inviáveis: ordenados por menor custo (f1)
+    - Cota de inviáveis: ordenados por Shadow Cost (SC = f1 + gamma*G2)
+    
+    Shadow Cost:
+    - Penaliza violações de bateria (G2) proporcionalmente à sua gravidade
+    - Gamma é calculado dinamicamente baseado no contexto do problema
+    - severity_multiplier = 20.0 (aumentado para desencorajar violações triviais)
     """
     
     def __init__(self, infeasible_ratio: float = 0.25):
@@ -184,12 +189,52 @@ class InfeasibleSurvival(Selection):
             # Ajusta cota de inviáveis
             n_infeasible_target = n_select - len(selected)
         
-        # ===== PASSO 2: Seleção de Inviáveis (Elite por Custo f1) =====
+        # ===== PASSO 2: Seleção de Inviáveis (por Shadow Cost) =====
         if len(infeasible_indices) > 0 and len(selected) < n_select:
             infeasible_pop = pop[infeasible_indices]
-            f1_values = infeasible_pop.get("F")[:, 0]  # Custo (f1)
-            # Ordena por menor custo (menor f1 = melhor)
-            infeasible_sorted = infeasible_indices[np.argsort(f1_values)]
+            F = infeasible_pop.get("F")
+            G = infeasible_pop.get("G")
+            
+            f1_values = F[:, 0]  # Custo (f1)
+            g2_values = G[:, 1]  # Violação de bateria (G2)
+            
+            # Calcula Shadow Cost: SC = f1 + (gamma * G2)
+            # Gamma é calculado baseado no contexto do problema
+            gamma = None
+            if 'algorithm' in kwargs and hasattr(kwargs['algorithm'], 'problem'):
+                problem = kwargs['algorithm'].problem
+                if hasattr(problem, 'context'):
+                    context = problem.context
+                    # Calcula gamma baseado no custo de energia
+                    # Gamma = (km_per_kWh * distance_cost) * severity_multiplier
+                    km_per_kwh = 1.0 / context.consumption_rate
+                    base_energy_cost = km_per_kwh * context.distance_cost
+                    severity_multiplier = 5.0  # Aumentado de 5.0 para desencorajar violações triviais
+                    gamma = base_energy_cost * severity_multiplier
+                    print(f"  [SHADOW_COST] Gamma calculado: {gamma:.2f} (base={base_energy_cost:.2f}, severity={severity_multiplier})")
+            
+            if gamma is None:
+                # Fallback: usa gamma fixo se não conseguir acessar contexto
+                # Estimativa conservadora: assume que 1 kWh = 2 km e custo = 2.0/km
+                # Então base_energy_cost = 2 km/kWh * 2.0 R$/km = 4.0 R$/kWh
+                # Com severity_multiplier = 20.0: gamma = 80.0
+                gamma = 80.0
+                print(f"  [SHADOW_COST] AVISO: Usando gamma fixo (fallback): {gamma:.2f}")
+            
+            # Calcula Shadow Cost para cada inviável
+            shadow_costs = f1_values + (gamma * g2_values)
+            
+            # Ordena por menor Shadow Cost (menor = melhor)
+            infeasible_sorted = infeasible_indices[np.argsort(shadow_costs)]
+            
+            # Log das top 3 soluções inviáveis (para debug)
+            if len(shadow_costs) > 0:
+                top3_indices = np.argsort(shadow_costs)[:min(3, len(shadow_costs))]
+                print(f"  [SHADOW_COST] Top 3 inviáveis: ", end="")
+                for idx in top3_indices:
+                    orig_idx = infeasible_indices[idx]
+                    print(f"f1={f1_values[idx]:.1f}, G2={g2_values[idx]:.2f}, SC={shadow_costs[idx]:.1f} | ", end="")
+                print()
             
             # CORTE RÍGIDO: Seleciona no máximo n_infeasible_target
             n_remaining = n_select - len(selected)
@@ -930,9 +975,49 @@ class BatteryFocusedNSGA2(NSGA2):
         # VALIDAÇÃO 3: Após criar offspring, valida X dos filhos
         off = self._validate_and_fix_pop_X(off, self.problem, log_prefix=f"[GEN {self._current_gen}] Post-mating: ")
         
-        # Avalia filhos
+        # ===== REPARO PROBABILÍSTICO (LAMARCKIANO) =====
+        # 50% dos filhos são avaliados com force_battery_feasible=True (tentativa de gerar novos viáveis)
+        # 50% dos filhos são avaliados com force_battery_feasible=False (exploração de novos limites inviáveis)
         if len(off) > 0:
-            self.evaluator.eval(self.problem, off, **kwargs)
+            n_offspring = len(off)
+            n_repair = n_offspring // 2  # 50% para reparo
+            
+            # Embaralha índices para seleção aleatória (usa random_state do algoritmo)
+            # self.random_state é um Generator, não RandomState
+            repair_indices = self.random_state.choice(n_offspring, size=n_repair, replace=False)
+            repair_mask = np.zeros(n_offspring, dtype=bool)
+            repair_mask[repair_indices] = True
+            
+            # Salva estado original do problema
+            original_force_feasible = self.problem.force_battery_feasible
+            
+            # Avalia 50% com force_battery_feasible=True (REPARO)
+            if np.any(repair_mask):
+                off_repair = off[repair_mask]
+                self.problem.force_battery_feasible = True
+                try:
+                    self.evaluator.eval(self.problem, off_repair, **kwargs)
+                    # Log: verifica quantos ficaram viáveis após reparo
+                    if off_repair.has("G"):
+                        G_repair = off_repair.get("G")
+                        n_feasible_after_repair = np.sum(G_repair[:, 1] <= 0)
+                        print(f"  [REPARO] {len(off_repair)} filhos avaliados com force_battery_feasible=True → {n_feasible_after_repair} viáveis")
+                    else:
+                        print(f"  [REPARO] {len(off_repair)} filhos avaliados com force_battery_feasible=True")
+                finally:
+                    # Restaura estado original
+                    self.problem.force_battery_feasible = original_force_feasible
+            
+            # Avalia 50% com force_battery_feasible=False (EXPLORAÇÃO)
+            if np.any(~repair_mask):
+                off_explore = off[~repair_mask]
+                self.problem.force_battery_feasible = False
+                try:
+                    self.evaluator.eval(self.problem, off_explore, **kwargs)
+                    print(f"  [EXPLORAÇÃO] {len(off_explore)} filhos avaliados com force_battery_feasible=False")
+                finally:
+                    # Restaura estado original
+                    self.problem.force_battery_feasible = original_force_feasible
         
         # VALIDAÇÃO 4: Após avaliação, valida X novamente
         # (avaliação não deve modificar X, mas vamos garantir)
@@ -945,7 +1030,7 @@ class BatteryFocusedNSGA2(NSGA2):
         pop = self._validate_and_fix_pop_X(pop, self.problem, log_prefix=f"[GEN {self._current_gen}] Post-merge: ")
         
         # Aplica sobrevivência customizada para manter tamanho
-        selected_indices = self._infeasible_survival._do(pop, self.pop_size)
+        selected_indices = self._infeasible_survival._do(pop, self.pop_size, algorithm=self)
         self.pop = pop[selected_indices]
         
         # VALIDAÇÃO 6: Após survival, valida X final

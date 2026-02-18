@@ -1,0 +1,1448 @@
+
+================================================================================
+EXECUTANDO NSGA-II COM DIRECTED MATING (BATERIA)
+================================================================================
+Logs sendo salvos em: logs/battery_focused_nsga2_rc208_21_20260217_203106.txt
+================================================================================
+População: 100
+Gerações: 100
+Taxa de inviáveis preservados: 25.0%
+================================================================================
+
+[INIT] Passo 3: Criadas populações - Viáveis: 50, Inviáveis: 50
+[INIT] Passo 4A: Avaliando 50 indivíduos com force_battery_feasible=True
+[INIT] Passo 4A: Após avaliação - 22/50 realmente viáveis (G2 <= 0)
+[INIT] Passo 4B: Avaliando 50 indivíduos com force_battery_feasible=False
+[INIT] Passo 4B: Após avaliação - 50/50 realmente inviáveis (G2 > 0)
+[INIT] Passo 5: População fundida - Tamanho total: 100
+[INIT] Passo 5: Após merge - Viáveis: 22 (22.0%), Inviáveis: 78
+[INIT] Passo 6: Atualizando opt...
+[UPDATE_OPT] População tem 100 indivíduos, 22 viáveis (cv == 0)
+[UPDATE_OPT] Filtrando 22 soluções viáveis para opt
+[UPDATE_OPT] Non-dominated sorting encontrou 7 frentes
+[UPDATE_OPT] Opt criado com 2 soluções da primeira frente viável
+[INIT] Passo 6: Opt atualizado - Tamanho: 2
+[INIT] Passo 6: Opt contém 2/2 soluções viáveis
+[INIT] Passo 6: Opt tem 'cv' - min: 0.0, max: 0.0
+Gen   0 | Pop: 100 | Viáveis:  22 ( 22.0%) | Inviáveis:  78 [Inicial]
+[POST_ADVANCE] Iniciando - Gen: 0, Pop: 100, Opt: 2
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581215888, Opt size: 2
+==========================================================================================
+n_gen  |  n_eval  | n_nds  |     cv_min    |     cv_avg    |      eps      |   indicator  
+==========================================================================================
+     1 |      100 |      2 |  0.000000E+00 |  8.737956E+01 |             - |             -
+[POST_ADVANCE] Concluído com sucesso
+Gen   1 | Pop: 100 | Viáveis:  22 ( 22.0%) | Inviáveis:  78
+  └─ Viáveis: f1 médio=7009.9, min=6690.4 | f2 médio=0.845, min=0.802
+  └─ Inviáveis: f1 médio=7561.2, min=6663.9 | f2 médio=0.824 | G2 médio=112.03, min=25.12, max=290.67
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 26 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=6546.1, G2=73.95, SC=6915.9 | f1=6462.1, G2=97.67, SC=6950.5 | f1=6746.1, G2=55.48, SC=7023.5 | 
+      | Pop: 100 | Viáveis:  48 ( 48.0%) | Inviáveis:  52 [Após Seleção]
+        └─ Viáveis: f1 médio=7025.5, min=6690.4 | f2 médio=0.847, min=0.796
+        └─ Inviáveis: f1 médio=6945.9, min=6462.1 | f2 médio=0.846 | G2 médio=70.43, min=11.68, max=119.95
+[POST_ADVANCE] Iniciando - Gen: 1, Pop: 100, Opt: 4
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581166608, Opt size: 4
+     2 |      300 |      4 |  0.000000E+00 |  3.662258E+01 |  0.0774812039 |         ideal
+[POST_ADVANCE] Concluído com sucesso
+Gen   2 | Pop: 100 | Viáveis:  48 ( 48.0%) | Inviáveis:  52
+  └─ Viáveis: f1 médio=7025.5, min=6690.4 | f2 médio=0.847, min=0.796
+  └─ Inviáveis: f1 médio=6945.9, min=6462.1 | f2 médio=0.846 | G2 médio=70.43, min=11.68, max=119.95
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 25 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=6279.8, G2=103.79, SC=6798.8 | f1=6506.7, G2=76.41, SC=6888.7 | f1=6546.1, G2=73.95, SC=6915.9 | 
+      | Pop: 100 | Viáveis:  73 ( 73.0%) | Inviáveis:  27 [Após Seleção]
+        └─ Viáveis: f1 médio=6998.7, min=6667.7 | f2 médio=0.846, min=0.796
+        └─ Inviáveis: f1 médio=6707.4, min=6279.8 | f2 médio=0.832 | G2 médio=71.87, min=23.40, max=103.79
+[POST_ADVANCE] Iniciando - Gen: 2, Pop: 100, Opt: 4
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581166448, Opt size: 4
+     3 |      500 |      4 |  0.000000E+00 |  1.940392E+01 |  0.0554713781 |         ideal
+[POST_ADVANCE] Concluído com sucesso
+Gen   3 | Pop: 100 | Viáveis:  73 ( 73.0%) | Inviáveis:  27
+  └─ Viáveis: f1 médio=6998.7, min=6667.7 | f2 médio=0.846, min=0.796
+  └─ Inviáveis: f1 médio=6707.4, min=6279.8 | f2 médio=0.832 | G2 médio=71.87, min=23.40, max=103.79
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 30 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=6230.0, G2=86.21, SC=6661.1 | f1=6279.8, G2=103.79, SC=6798.8 | f1=6376.5, G2=85.10, SC=6802.0 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=6901.8, min=6456.5 | f2 médio=0.836, min=0.778
+        └─ Inviáveis: f1 médio=6619.5, min=6230.0 | f2 médio=0.823 | G2 médio=72.60, min=33.31, max=104.42
+[POST_ADVANCE] Iniciando - Gen: 3, Pop: 100, Opt: 3
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581165808, Opt size: 3
+     4 |      700 |      3 |  0.000000E+00 |  1.814902E+01 |  0.5870840459 |         ideal
+[POST_ADVANCE] Concluído com sucesso
+Gen   4 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=6901.8, min=6456.5 | f2 médio=0.836, min=0.778
+  └─ Inviáveis: f1 médio=6619.5, min=6230.0 | f2 médio=0.823 | G2 médio=72.60, min=33.31, max=104.42
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 34 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=6296.2, G2=72.86, SC=6660.5 | f1=6230.0, G2=86.21, SC=6661.1 | f1=6503.9, G2=38.97, SC=6698.7 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=6818.5, min=6416.2 | f2 médio=0.831, min=0.778
+        └─ Inviáveis: f1 médio=6560.6, min=6230.0 | f2 médio=0.814 | G2 médio=66.91, min=17.19, max=103.79
+[POST_ADVANCE] Iniciando - Gen: 4, Pop: 100, Opt: 3
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581174448, Opt size: 3
+     5 |      900 |      3 |  0.000000E+00 |  1.672859E+01 |  0.1006647392 |         ideal
+[POST_ADVANCE] Concluído com sucesso
+Gen   5 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=6818.5, min=6416.2 | f2 médio=0.831, min=0.778
+  └─ Inviáveis: f1 médio=6560.6, min=6230.0 | f2 médio=0.814 | G2 médio=66.91, min=17.19, max=103.79
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 35 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=6542.2, G2=14.53, SC=6614.8 | f1=6296.2, G2=72.86, SC=6660.5 | f1=6230.0, G2=86.21, SC=6661.1 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=6729.4, min=6209.5 | f2 médio=0.821, min=0.743
+        └─ Inviáveis: f1 médio=6471.3, min=6230.0 | f2 médio=0.809 | G2 médio=62.87, min=14.53, max=103.79
+[POST_ADVANCE] Iniciando - Gen: 5, Pop: 100, Opt: 2
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581174608, Opt size: 2
+     6 |     1100 |      2 |  0.000000E+00 |  1.571723E+01 |  5.7360562152 |         ideal
+[POST_ADVANCE] Concluído com sucesso
+Gen   6 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=6729.4, min=6209.5 | f2 médio=0.821, min=0.743
+  └─ Inviáveis: f1 médio=6471.3, min=6230.0 | f2 médio=0.809 | G2 médio=62.87, min=14.53, max=103.79
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 35 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=6542.2, G2=14.53, SC=6614.8 | f1=6446.4, G2=41.13, SC=6652.0 | f1=6296.2, G2=72.86, SC=6660.5 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=6644.7, min=6209.5 | f2 médio=0.814, min=0.731
+        └─ Inviáveis: f1 médio=6412.5, min=6230.0 | f2 médio=0.809 | G2 médio=63.85, min=14.53, max=103.79
+[POST_ADVANCE] Iniciando - Gen: 6, Pop: 100, Opt: 3
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581174128, Opt size: 3
+     7 |     1300 |      3 |  0.000000E+00 |  1.596282E+01 |  0.6683361840 |         ideal
+[POST_ADVANCE] Concluído com sucesso
+Gen   7 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=6644.7, min=6209.5 | f2 médio=0.814, min=0.731
+  └─ Inviáveis: f1 médio=6412.5, min=6230.0 | f2 médio=0.809 | G2 médio=63.85, min=14.53, max=103.79
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 31 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=6542.2, G2=14.53, SC=6614.8 | f1=6447.5, G2=35.68, SC=6625.9 | f1=6344.7, G2=58.30, SC=6636.2 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=6600.9, min=6209.5 | f2 médio=0.806, min=0.731
+        └─ Inviáveis: f1 médio=6413.8, min=6230.0 | f2 médio=0.803 | G2 médio=57.46, min=14.53, max=86.21
+[POST_ADVANCE] Iniciando - Gen: 7, Pop: 100, Opt: 3
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581173808, Opt size: 3
+     8 |     1500 |      3 |  0.000000E+00 |  1.436382E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen   8 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=6600.9, min=6209.5 | f2 médio=0.806, min=0.731
+  └─ Inviáveis: f1 médio=6413.8, min=6230.0 | f2 médio=0.803 | G2 médio=57.46, min=14.53, max=86.21
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 44 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=6152.0, G2=79.93, SC=6551.7 | f1=6158.2, G2=82.31, SC=6569.7 | f1=6542.2, G2=14.53, SC=6614.8 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=6542.3, min=6209.5 | f2 médio=0.800, min=0.731
+        └─ Inviáveis: f1 médio=6380.4, min=6152.0 | f2 médio=0.798 | G2 médio=56.95, min=14.53, max=99.64
+[POST_ADVANCE] Iniciando - Gen: 8, Pop: 100, Opt: 3
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581173328, Opt size: 3
+     9 |     1700 |      3 |  0.000000E+00 |  1.423711E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen   9 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=6542.3, min=6209.5 | f2 médio=0.800, min=0.731
+  └─ Inviáveis: f1 médio=6380.4, min=6152.0 | f2 médio=0.798 | G2 médio=56.95, min=14.53, max=99.64
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 39 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=6171.0, G2=47.32, SC=6407.7 | f1=6362.4, G2=29.15, SC=6508.1 | f1=6152.0, G2=79.93, SC=6551.7 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=6501.8, min=6209.5 | f2 médio=0.795, min=0.731
+        └─ Inviáveis: f1 médio=6345.7, min=6152.0 | f2 médio=0.798 | G2 médio=56.81, min=14.53, max=99.64
+[POST_ADVANCE] Iniciando - Gen: 9, Pop: 100, Opt: 3
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581174288, Opt size: 3
+    10 |     1900 |      3 |  0.000000E+00 |  1.420223E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  10 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=6501.8, min=6209.5 | f2 médio=0.795, min=0.731
+  └─ Inviáveis: f1 médio=6345.7, min=6152.0 | f2 médio=0.798 | G2 médio=56.81, min=14.53, max=99.64
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 34 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=6171.0, G2=47.32, SC=6407.7 | f1=6362.4, G2=29.15, SC=6508.1 | f1=6285.9, G2=49.88, SC=6535.3 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=6474.7, min=6209.5 | f2 médio=0.790, min=0.731
+        └─ Inviáveis: f1 médio=6343.4, min=6152.0 | f2 médio=0.793 | G2 médio=53.48, min=14.53, max=86.21
+[POST_ADVANCE] Iniciando - Gen: 10, Pop: 100, Opt: 3
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581172688, Opt size: 3
+    11 |     2100 |      3 |  0.000000E+00 |  1.337029E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  11 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=6474.7, min=6209.5 | f2 médio=0.790, min=0.731
+  └─ Inviáveis: f1 médio=6343.4, min=6152.0 | f2 médio=0.793 | G2 médio=53.48, min=14.53, max=86.21
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 36 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=6171.0, G2=47.32, SC=6407.7 | f1=6362.4, G2=29.15, SC=6508.1 | f1=6256.9, G2=51.20, SC=6512.9 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=6452.0, min=6181.4 | f2 médio=0.789, min=0.731
+        └─ Inviáveis: f1 médio=6340.8, min=6152.0 | f2 médio=0.794 | G2 médio=48.55, min=14.53, max=92.78
+[POST_ADVANCE] Iniciando - Gen: 11, Pop: 100, Opt: 4
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581172368, Opt size: 4
+    12 |     2300 |      4 |  0.000000E+00 |  1.213788E+01 |  0.0791132383 |         ideal
+[POST_ADVANCE] Concluído com sucesso
+Gen  12 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=6452.0, min=6181.4 | f2 médio=0.789, min=0.731
+  └─ Inviáveis: f1 médio=6340.8, min=6152.0 | f2 médio=0.794 | G2 médio=48.55, min=14.53, max=92.78
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 45 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=6171.0, G2=47.32, SC=6407.7 | f1=6294.9, G2=31.89, SC=6454.4 | f1=6307.0, G2=40.17, SC=6507.8 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=6421.8, min=6166.9 | f2 médio=0.789, min=0.731
+        └─ Inviáveis: f1 médio=6322.9, min=6152.0 | f2 médio=0.796 | G2 médio=48.24, min=14.53, max=92.78
+[POST_ADVANCE] Iniciando - Gen: 12, Pop: 100, Opt: 5
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581172048, Opt size: 5
+    13 |     2500 |      5 |  0.000000E+00 |  1.206068E+01 |  0.0391592398 |         ideal
+[POST_ADVANCE] Concluído com sucesso
+Gen  13 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=6421.8, min=6166.9 | f2 médio=0.789, min=0.731
+  └─ Inviáveis: f1 médio=6322.9, min=6152.0 | f2 médio=0.796 | G2 médio=48.24, min=14.53, max=92.78
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 39 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=6171.0, G2=47.32, SC=6407.7 | f1=6205.9, G2=48.94, SC=6450.6 | f1=6294.9, G2=31.89, SC=6454.4 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=6405.3, min=6139.9 | f2 médio=0.785, min=0.722
+        └─ Inviáveis: f1 médio=6294.4, min=6139.0 | f2 médio=0.803 | G2 médio=49.46, min=20.61, max=82.31
+[POST_ADVANCE] Iniciando - Gen: 13, Pop: 100, Opt: 4
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581171568, Opt size: 4
+    14 |     2700 |      4 |  0.000000E+00 |  1.236434E+01 |  0.1769773673 |         ideal
+[POST_ADVANCE] Concluído com sucesso
+Gen  14 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=6405.3, min=6139.9 | f2 médio=0.785, min=0.722
+  └─ Inviáveis: f1 médio=6294.4, min=6139.0 | f2 médio=0.803 | G2 médio=49.46, min=20.61, max=82.31
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 38 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=6171.0, G2=47.32, SC=6407.7 | f1=6184.4, G2=52.00, SC=6444.4 | f1=6205.9, G2=48.94, SC=6450.6 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=6380.3, min=6139.9 | f2 médio=0.787, min=0.722
+        └─ Inviáveis: f1 médio=6290.9, min=6139.0 | f2 médio=0.809 | G2 médio=47.93, min=20.50, max=82.31
+[POST_ADVANCE] Iniciando - Gen: 14, Pop: 100, Opt: 4
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581171248, Opt size: 4
+    15 |     2900 |      4 |  0.000000E+00 |  1.198360E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  15 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=6380.3, min=6139.9 | f2 médio=0.787, min=0.722
+  └─ Inviáveis: f1 médio=6290.9, min=6139.0 | f2 médio=0.809 | G2 médio=47.93, min=20.50, max=82.31
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 40 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=6171.0, G2=47.32, SC=6407.7 | f1=6134.9, G2=57.60, SC=6422.9 | f1=6238.7, G2=37.45, SC=6426.0 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=6361.1, min=6139.9 | f2 médio=0.787, min=0.722
+        └─ Inviáveis: f1 médio=6260.3, min=6091.7 | f2 médio=0.812 | G2 médio=47.76, min=11.22, max=86.19
+[POST_ADVANCE] Iniciando - Gen: 15, Pop: 100, Opt: 4
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581170928, Opt size: 4
+    16 |     3100 |      4 |  0.000000E+00 |  1.193877E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  16 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=6361.1, min=6139.9 | f2 médio=0.787, min=0.722
+  └─ Inviáveis: f1 médio=6260.3, min=6091.7 | f2 médio=0.812 | G2 médio=47.76, min=11.22, max=86.19
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 41 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5879.7, G2=53.36, SC=6146.5 | f1=6120.9, G2=37.79, SC=6309.9 | f1=6171.0, G2=47.32, SC=6407.7 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=6338.7, min=6139.9 | f2 médio=0.784, min=0.711
+        └─ Inviáveis: f1 médio=6231.6, min=5879.7 | f2 médio=0.820 | G2 médio=46.11, min=11.22, max=103.23
+[POST_ADVANCE] Iniciando - Gen: 16, Pop: 100, Opt: 5
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581170608, Opt size: 5
+    17 |     3300 |      5 |  0.000000E+00 |  1.152871E+01 |  0.1604744293 |         ideal
+[POST_ADVANCE] Concluído com sucesso
+Gen  17 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=6338.7, min=6139.9 | f2 médio=0.784, min=0.711
+  └─ Inviáveis: f1 médio=6231.6, min=5879.7 | f2 médio=0.820 | G2 médio=46.11, min=11.22, max=103.23
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 43 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5879.7, G2=53.36, SC=6146.5 | f1=6120.9, G2=37.79, SC=6309.9 | f1=6017.0, G2=60.15, SC=6317.7 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=6318.2, min=6139.9 | f2 médio=0.782, min=0.711
+        └─ Inviáveis: f1 médio=6188.5, min=5879.7 | f2 médio=0.812 | G2 médio=49.33, min=11.22, max=103.23
+[POST_ADVANCE] Iniciando - Gen: 17, Pop: 100, Opt: 7
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581170288, Opt size: 7
+    18 |     3500 |      7 |  0.000000E+00 |  1.233209E+01 |  0.0403759759 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  18 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=6318.2, min=6139.9 | f2 médio=0.782, min=0.711
+  └─ Inviáveis: f1 médio=6188.5, min=5879.7 | f2 médio=0.812 | G2 médio=49.33, min=11.22, max=103.23
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 41 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5879.7, G2=53.36, SC=6146.5 | f1=6120.9, G2=37.79, SC=6309.9 | f1=6017.0, G2=60.15, SC=6317.7 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=6303.9, min=5935.7 | f2 médio=0.781, min=0.711
+        └─ Inviáveis: f1 médio=6169.1, min=5879.7 | f2 médio=0.812 | G2 médio=49.06, min=11.22, max=91.71
+[POST_ADVANCE] Iniciando - Gen: 18, Pop: 100, Opt: 7
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581169968, Opt size: 7
+    19 |     3700 |      7 |  0.000000E+00 |  1.226400E+01 |  0.4512508528 |         ideal
+[POST_ADVANCE] Concluído com sucesso
+Gen  19 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=6303.9, min=5935.7 | f2 médio=0.781, min=0.711
+  └─ Inviáveis: f1 médio=6169.1, min=5879.7 | f2 médio=0.812 | G2 médio=49.06, min=11.22, max=91.71
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 47 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5879.7, G2=53.36, SC=6146.5 | f1=5871.9, G2=79.24, SC=6268.1 | f1=6120.9, G2=37.79, SC=6309.9 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=6293.6, min=5935.7 | f2 médio=0.778, min=0.711
+        └─ Inviáveis: f1 médio=6142.9, min=5871.9 | f2 médio=0.806 | G2 médio=48.60, min=11.22, max=91.71
+[POST_ADVANCE] Iniciando - Gen: 19, Pop: 100, Opt: 7
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581169648, Opt size: 7
+    20 |     3900 |      7 |  0.000000E+00 |  1.215024E+01 |  0.0223869143 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  20 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=6293.6, min=5935.7 | f2 médio=0.778, min=0.711
+  └─ Inviáveis: f1 médio=6142.9, min=5871.9 | f2 médio=0.806 | G2 médio=48.60, min=11.22, max=91.71
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 44 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5772.6, G2=69.13, SC=6118.2 | f1=5879.7, G2=53.36, SC=6146.5 | f1=5871.9, G2=79.24, SC=6268.1 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=6265.0, min=5906.3 | f2 médio=0.776, min=0.711
+        └─ Inviáveis: f1 médio=6104.9, min=5772.6 | f2 médio=0.805 | G2 médio=49.05, min=22.00, max=79.24
+[POST_ADVANCE] Iniciando - Gen: 20, Pop: 100, Opt: 4
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581169328, Opt size: 4
+    21 |     4100 |      4 |  0.000000E+00 |  1.226225E+01 |  0.0610091062 |         ideal
+[POST_ADVANCE] Concluído com sucesso
+Gen  21 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=6265.0, min=5906.3 | f2 médio=0.776, min=0.711
+  └─ Inviáveis: f1 médio=6104.9, min=5772.6 | f2 médio=0.805 | G2 médio=49.05, min=22.00, max=79.24
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 40 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5772.6, G2=69.13, SC=6118.2 | f1=5865.7, G2=55.94, SC=6145.4 | f1=5879.7, G2=53.36, SC=6146.5 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=6252.1, min=5906.3 | f2 médio=0.775, min=0.711
+        └─ Inviáveis: f1 médio=6050.9, min=5772.6 | f2 médio=0.797 | G2 médio=54.00, min=22.00, max=80.72
+[POST_ADVANCE] Iniciando - Gen: 21, Pop: 100, Opt: 4
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581169008, Opt size: 4
+    22 |     4300 |      4 |  0.000000E+00 |  1.349888E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  22 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=6252.1, min=5906.3 | f2 médio=0.775, min=0.711
+  └─ Inviáveis: f1 médio=6050.9, min=5772.6 | f2 médio=0.797 | G2 médio=54.00, min=22.00, max=80.72
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 45 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5635.8, G2=91.17, SC=6091.6 | f1=5772.6, G2=69.13, SC=6118.2 | f1=5865.7, G2=55.94, SC=6145.4 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=6230.3, min=5901.9 | f2 médio=0.774, min=0.711
+        └─ Inviáveis: f1 médio=6019.2, min=5635.8 | f2 médio=0.799 | G2 médio=55.88, min=22.00, max=96.58
+[POST_ADVANCE] Iniciando - Gen: 22, Pop: 100, Opt: 5
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581168688, Opt size: 5
+    23 |     4500 |      5 |  0.000000E+00 |  1.396962E+01 |  0.0091277364 |         ideal
+[POST_ADVANCE] Concluído com sucesso
+Gen  23 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=6230.3, min=5901.9 | f2 médio=0.774, min=0.711
+  └─ Inviáveis: f1 médio=6019.2, min=5635.8 | f2 médio=0.799 | G2 médio=55.88, min=22.00, max=96.58
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 47 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5787.6, G2=47.47, SC=6025.0 | f1=5635.8, G2=91.17, SC=6091.6 | f1=5772.6, G2=69.13, SC=6118.2 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=6219.9, min=5901.9 | f2 médio=0.768, min=0.711
+        └─ Inviáveis: f1 médio=5968.0, min=5635.8 | f2 médio=0.804 | G2 médio=57.67, min=22.00, max=96.58
+[POST_ADVANCE] Iniciando - Gen: 23, Pop: 100, Opt: 6
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581168368, Opt size: 6
+    24 |     4700 |      6 |  0.000000E+00 |  1.441654E+01 |  0.0257493219 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  24 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=6219.9, min=5901.9 | f2 médio=0.768, min=0.711
+  └─ Inviáveis: f1 médio=5968.0, min=5635.8 | f2 médio=0.804 | G2 médio=57.67, min=22.00, max=96.58
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 47 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5538.5, G2=93.64, SC=6006.7 | f1=5787.6, G2=47.47, SC=6025.0 | f1=5635.8, G2=91.17, SC=6091.6 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=6199.4, min=5901.9 | f2 médio=0.767, min=0.711
+        └─ Inviáveis: f1 médio=5929.6, min=5538.5 | f2 médio=0.801 | G2 médio=58.23, min=31.40, max=93.64
+[POST_ADVANCE] Iniciando - Gen: 24, Pop: 100, Opt: 4
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581168048, Opt size: 4
+    25 |     4900 |      4 |  0.000000E+00 |  1.455746E+01 |  0.1166884121 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  25 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=6199.4, min=5901.9 | f2 médio=0.767, min=0.711
+  └─ Inviáveis: f1 médio=5929.6, min=5538.5 | f2 médio=0.801 | G2 médio=58.23, min=31.40, max=93.64
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 45 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5538.5, G2=93.64, SC=6006.7 | f1=5787.6, G2=47.47, SC=6025.0 | f1=5635.8, G2=91.17, SC=6091.6 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=6187.7, min=5901.9 | f2 médio=0.764, min=0.711
+        └─ Inviáveis: f1 médio=5873.9, min=5538.5 | f2 médio=0.799 | G2 médio=64.81, min=31.60, max=117.02
+[POST_ADVANCE] Iniciando - Gen: 25, Pop: 100, Opt: 4
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581167728, Opt size: 4
+    26 |     5100 |      4 |  0.000000E+00 |  1.620221E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  26 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=6187.7, min=5901.9 | f2 médio=0.764, min=0.711
+  └─ Inviáveis: f1 médio=5873.9, min=5538.5 | f2 médio=0.799 | G2 médio=64.81, min=31.60, max=117.02
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 44 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5590.4, G2=66.71, SC=5924.0 | f1=5538.5, G2=93.64, SC=6006.7 | f1=5787.6, G2=47.47, SC=6025.0 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=6167.1, min=5801.4 | f2 médio=0.762, min=0.711
+        └─ Inviáveis: f1 médio=5863.2, min=5538.5 | f2 médio=0.799 | G2 médio=60.81, min=20.35, max=117.02
+[POST_ADVANCE] Iniciando - Gen: 26, Pop: 100, Opt: 5
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581167408, Opt size: 5
+    27 |     5300 |      5 |  0.000000E+00 |  1.520214E+01 |  0.1711713988 |         ideal
+[POST_ADVANCE] Concluído com sucesso
+Gen  27 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=6167.1, min=5801.4 | f2 médio=0.762, min=0.711
+  └─ Inviáveis: f1 médio=5863.2, min=5538.5 | f2 médio=0.799 | G2 médio=60.81, min=20.35, max=117.02
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 41 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5681.1, G2=46.05, SC=5911.3 | f1=5590.4, G2=66.71, SC=5924.0 | f1=5538.5, G2=93.64, SC=6006.7 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=6112.6, min=5687.3 | f2 médio=0.765, min=0.711
+        └─ Inviáveis: f1 médio=5827.1, min=5538.5 | f2 médio=0.798 | G2 médio=61.60, min=31.60, max=117.02
+[POST_ADVANCE] Iniciando - Gen: 27, Pop: 100, Opt: 6
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581167088, Opt size: 6
+    28 |     5500 |      6 |  0.000000E+00 |  1.540064E+01 |  0.1628884344 |         ideal
+[POST_ADVANCE] Concluído com sucesso
+Gen  28 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=6112.6, min=5687.3 | f2 médio=0.765, min=0.711
+  └─ Inviáveis: f1 médio=5827.1, min=5538.5 | f2 médio=0.798 | G2 médio=61.60, min=31.60, max=117.02
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 41 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5543.6, G2=56.15, SC=5824.3 | f1=5681.1, G2=46.05, SC=5911.3 | f1=5590.4, G2=66.71, SC=5924.0 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=6090.0, min=5687.3 | f2 médio=0.767, min=0.711
+        └─ Inviáveis: f1 médio=5775.8, min=5538.5 | f2 médio=0.800 | G2 médio=61.11, min=31.60, max=117.02
+[POST_ADVANCE] Iniciando - Gen: 28, Pop: 100, Opt: 6
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581165968, Opt size: 6
+    29 |     5700 |      6 |  0.000000E+00 |  1.527855E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  29 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=6090.0, min=5687.3 | f2 médio=0.767, min=0.711
+  └─ Inviáveis: f1 médio=5775.8, min=5538.5 | f2 médio=0.800 | G2 médio=61.11, min=31.60, max=117.02
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 44 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5508.1, G2=57.81, SC=5797.1 | f1=5543.6, G2=56.15, SC=5824.3 | f1=5681.1, G2=46.05, SC=5911.3 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=6060.5, min=5687.3 | f2 médio=0.767, min=0.711
+        └─ Inviáveis: f1 médio=5701.4, min=5508.1 | f2 médio=0.803 | G2 médio=67.84, min=39.55, max=117.02
+[POST_ADVANCE] Iniciando - Gen: 29, Pop: 100, Opt: 6
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581166768, Opt size: 6
+    30 |     5900 |      6 |  0.000000E+00 |  1.696114E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  30 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=6060.5, min=5687.3 | f2 médio=0.767, min=0.711
+  └─ Inviáveis: f1 médio=5701.4, min=5508.1 | f2 médio=0.803 | G2 médio=67.84, min=39.55, max=117.02
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 43 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5508.1, G2=57.81, SC=5797.1 | f1=5543.6, G2=56.15, SC=5824.3 | f1=5681.1, G2=46.05, SC=5911.3 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=6012.0, min=5687.3 | f2 médio=0.767, min=0.711
+        └─ Inviáveis: f1 médio=5682.9, min=5508.1 | f2 médio=0.806 | G2 médio=68.39, min=39.55, max=117.02
+[POST_ADVANCE] Iniciando - Gen: 30, Pop: 100, Opt: 7
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581166608, Opt size: 7
+    31 |     6100 |      7 |  0.000000E+00 |  1.709853E+01 |  0.0275417258 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  31 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=6012.0, min=5687.3 | f2 médio=0.767, min=0.711
+  └─ Inviáveis: f1 médio=5682.9, min=5508.1 | f2 médio=0.806 | G2 médio=68.39, min=39.55, max=117.02
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 46 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5508.1, G2=57.81, SC=5797.1 | f1=5543.6, G2=56.15, SC=5824.3 | f1=5557.9, G2=59.85, SC=5857.1 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5975.8, min=5640.6 | f2 médio=0.770, min=0.711
+        └─ Inviáveis: f1 médio=5677.5, min=5508.1 | f2 médio=0.814 | G2 médio=60.27, min=39.96, max=93.64
+[POST_ADVANCE] Iniciando - Gen: 31, Pop: 100, Opt: 10
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581174768, Opt size: 10
+    32 |     6300 |     10 |  0.000000E+00 |  1.506761E+01 |  0.0624444866 |         ideal
+[POST_ADVANCE] Concluído com sucesso
+Gen  32 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5975.8, min=5640.6 | f2 médio=0.770, min=0.711
+  └─ Inviáveis: f1 médio=5677.5, min=5508.1 | f2 médio=0.814 | G2 médio=60.27, min=39.96, max=93.64
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 43 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5508.1, G2=57.81, SC=5797.1 | f1=5543.6, G2=56.15, SC=5824.3 | f1=5578.7, G2=53.07, SC=5844.1 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5962.5, min=5640.6 | f2 médio=0.768, min=0.711
+        └─ Inviáveis: f1 médio=5674.3, min=5508.1 | f2 médio=0.812 | G2 médio=56.46, min=30.79, max=93.64
+[POST_ADVANCE] Iniciando - Gen: 32, Pop: 100, Opt: 6
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581165808, Opt size: 6
+    33 |     6500 |      6 |  0.000000E+00 |  1.411587E+01 |  0.0594574056 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  33 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5962.5, min=5640.6 | f2 médio=0.768, min=0.711
+  └─ Inviáveis: f1 médio=5674.3, min=5508.1 | f2 médio=0.812 | G2 médio=56.46, min=30.79, max=93.64
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 46 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5508.1, G2=57.81, SC=5797.1 | f1=5543.6, G2=56.15, SC=5824.3 | f1=5578.7, G2=53.07, SC=5844.1 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5944.5, min=5640.6 | f2 médio=0.768, min=0.711
+        └─ Inviáveis: f1 médio=5667.7, min=5508.1 | f2 médio=0.811 | G2 médio=55.29, min=30.79, max=93.64
+[POST_ADVANCE] Iniciando - Gen: 33, Pop: 100, Opt: 7
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581173968, Opt size: 7
+    34 |     6700 |      7 |  0.000000E+00 |  1.382231E+01 |  0.0057954964 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  34 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5944.5, min=5640.6 | f2 médio=0.768, min=0.711
+  └─ Inviáveis: f1 médio=5667.7, min=5508.1 | f2 médio=0.811 | G2 médio=55.29, min=30.79, max=93.64
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 46 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5508.1, G2=57.81, SC=5797.1 | f1=5543.6, G2=56.15, SC=5824.3 | f1=5578.7, G2=53.07, SC=5844.1 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5923.4, min=5610.8 | f2 médio=0.767, min=0.711
+        └─ Inviáveis: f1 médio=5662.8, min=5508.1 | f2 médio=0.813 | G2 médio=54.75, min=30.79, max=93.64
+[POST_ADVANCE] Iniciando - Gen: 34, Pop: 100, Opt: 9
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581173808, Opt size: 9
+    35 |     6900 |      9 |  0.000000E+00 |  1.368763E+01 |  0.0383295181 |         ideal
+[POST_ADVANCE] Concluído com sucesso
+Gen  35 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5923.4, min=5610.8 | f2 médio=0.767, min=0.711
+  └─ Inviáveis: f1 médio=5662.8, min=5508.1 | f2 médio=0.813 | G2 médio=54.75, min=30.79, max=93.64
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 44 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5508.1, G2=57.81, SC=5797.1 | f1=5543.6, G2=56.15, SC=5824.3 | f1=5578.7, G2=53.07, SC=5844.1 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5894.0, min=5594.7 | f2 médio=0.767, min=0.711
+        └─ Inviáveis: f1 médio=5666.7, min=5508.1 | f2 médio=0.812 | G2 médio=53.44, min=30.79, max=80.50
+[POST_ADVANCE] Iniciando - Gen: 35, Pop: 100, Opt: 9
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581173328, Opt size: 9
+    36 |     7100 |      9 |  0.000000E+00 |  1.336103E+01 |  0.0202616218 |         ideal
+[POST_ADVANCE] Concluído com sucesso
+Gen  36 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5894.0, min=5594.7 | f2 médio=0.767, min=0.711
+  └─ Inviáveis: f1 médio=5666.7, min=5508.1 | f2 médio=0.812 | G2 médio=53.44, min=30.79, max=80.50
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 46 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5508.1, G2=57.81, SC=5797.1 | f1=5543.6, G2=56.15, SC=5824.3 | f1=5578.7, G2=53.07, SC=5844.1 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5890.4, min=5594.7 | f2 médio=0.766, min=0.711
+        └─ Inviáveis: f1 médio=5658.8, min=5508.1 | f2 médio=0.808 | G2 médio=54.84, min=30.79, max=82.92
+[POST_ADVANCE] Iniciando - Gen: 36, Pop: 100, Opt: 10
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581173008, Opt size: 10
+    37 |     7300 |     10 |  0.000000E+00 |  1.371089E+01 |  0.0071929832 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  37 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5890.4, min=5594.7 | f2 médio=0.766, min=0.711
+  └─ Inviáveis: f1 médio=5658.8, min=5508.1 | f2 médio=0.808 | G2 médio=54.84, min=30.79, max=82.92
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 46 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5508.1, G2=57.81, SC=5797.1 | f1=5543.6, G2=56.15, SC=5824.3 | f1=5578.7, G2=53.07, SC=5844.1 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5889.5, min=5594.7 | f2 médio=0.765, min=0.711
+        └─ Inviáveis: f1 médio=5638.8, min=5508.1 | f2 médio=0.810 | G2 médio=56.55, min=35.83, max=85.27
+[POST_ADVANCE] Iniciando - Gen: 37, Pop: 100, Opt: 10
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581174288, Opt size: 10
+    38 |     7500 |     10 |  0.000000E+00 |  1.413746E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  38 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5889.5, min=5594.7 | f2 médio=0.765, min=0.711
+  └─ Inviáveis: f1 médio=5638.8, min=5508.1 | f2 médio=0.810 | G2 médio=56.55, min=35.83, max=85.27
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 46 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5526.6, G2=51.62, SC=5784.7 | f1=5508.1, G2=57.81, SC=5797.1 | f1=5543.6, G2=56.15, SC=5824.3 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5884.5, min=5594.7 | f2 médio=0.762, min=0.711
+        └─ Inviáveis: f1 médio=5623.0, min=5458.6 | f2 médio=0.807 | G2 médio=55.37, min=35.83, max=77.67
+[POST_ADVANCE] Iniciando - Gen: 38, Pop: 100, Opt: 9
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581172688, Opt size: 9
+    39 |     7700 |      9 |  0.000000E+00 |  1.384342E+01 |  0.0176224296 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  39 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5884.5, min=5594.7 | f2 médio=0.762, min=0.711
+  └─ Inviáveis: f1 médio=5623.0, min=5458.6 | f2 médio=0.807 | G2 médio=55.37, min=35.83, max=77.67
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 44 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5526.6, G2=51.62, SC=5784.7 | f1=5508.1, G2=57.81, SC=5797.1 | f1=5543.6, G2=56.15, SC=5824.3 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5868.3, min=5594.7 | f2 médio=0.764, min=0.711
+        └─ Inviáveis: f1 médio=5616.2, min=5458.6 | f2 médio=0.807 | G2 médio=55.54, min=29.89, max=77.67
+[POST_ADVANCE] Iniciando - Gen: 39, Pop: 100, Opt: 9
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581173168, Opt size: 9
+    40 |     7900 |      9 |  0.000000E+00 |  1.388389E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  40 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5868.3, min=5594.7 | f2 médio=0.764, min=0.711
+  └─ Inviáveis: f1 médio=5616.2, min=5458.6 | f2 médio=0.807 | G2 médio=55.54, min=29.89, max=77.67
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 43 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5526.6, G2=51.62, SC=5784.7 | f1=5508.1, G2=57.81, SC=5797.1 | f1=5615.7, G2=39.47, SC=5813.0 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5865.1, min=5575.9 | f2 médio=0.763, min=0.711
+        └─ Inviáveis: f1 médio=5594.7, min=5458.6 | f2 médio=0.808 | G2 médio=54.98, min=29.89, max=77.67
+[POST_ADVANCE] Iniciando - Gen: 40, Pop: 100, Opt: 8
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581171888, Opt size: 8
+    41 |     8100 |      8 |  0.000000E+00 |  1.374593E+01 |  0.0232146972 |         ideal
+[POST_ADVANCE] Concluído com sucesso
+Gen  41 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5865.1, min=5575.9 | f2 médio=0.763, min=0.711
+  └─ Inviáveis: f1 médio=5594.7, min=5458.6 | f2 médio=0.808 | G2 médio=54.98, min=29.89, max=77.67
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 45 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5526.6, G2=51.62, SC=5784.7 | f1=5508.1, G2=57.81, SC=5797.1 | f1=5585.7, G2=43.20, SC=5801.7 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5851.2, min=5568.0 | f2 médio=0.763, min=0.709
+        └─ Inviáveis: f1 médio=5592.1, min=5458.6 | f2 médio=0.804 | G2 médio=53.83, min=30.24, max=77.67
+[POST_ADVANCE] Iniciando - Gen: 41, Pop: 100, Opt: 5
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581171408, Opt size: 5
+    42 |     8300 |      5 |  0.000000E+00 |  1.345840E+01 |  0.0503531960 |         ideal
+[POST_ADVANCE] Concluído com sucesso
+Gen  42 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5851.2, min=5568.0 | f2 médio=0.763, min=0.709
+  └─ Inviáveis: f1 médio=5592.1, min=5458.6 | f2 médio=0.804 | G2 médio=53.83, min=30.24, max=77.67
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 45 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5526.6, G2=51.62, SC=5784.7 | f1=5508.1, G2=57.81, SC=5797.1 | f1=5585.7, G2=43.20, SC=5801.7 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5840.8, min=5568.0 | f2 médio=0.762, min=0.709
+        └─ Inviáveis: f1 médio=5580.2, min=5458.6 | f2 médio=0.801 | G2 médio=54.20, min=30.24, max=77.67
+[POST_ADVANCE] Iniciando - Gen: 42, Pop: 100, Opt: 5
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581170768, Opt size: 5
+    43 |     8500 |      5 |  0.000000E+00 |  1.354912E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  43 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5840.8, min=5568.0 | f2 médio=0.762, min=0.709
+  └─ Inviáveis: f1 médio=5580.2, min=5458.6 | f2 médio=0.801 | G2 médio=54.20, min=30.24, max=77.67
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 48 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5470.0, G2=43.53, SC=5687.6 | f1=5550.1, G2=36.98, SC=5735.0 | f1=5526.6, G2=51.62, SC=5784.7 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5853.9, min=5568.0 | f2 médio=0.758, min=0.709
+        └─ Inviáveis: f1 médio=5569.5, min=5458.6 | f2 médio=0.794 | G2 médio=52.48, min=30.24, max=77.67
+[POST_ADVANCE] Iniciando - Gen: 43, Pop: 100, Opt: 5
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581170448, Opt size: 5
+    44 |     8700 |      5 |  0.000000E+00 |  1.312071E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  44 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5853.9, min=5568.0 | f2 médio=0.758, min=0.709
+  └─ Inviáveis: f1 médio=5569.5, min=5458.6 | f2 médio=0.794 | G2 médio=52.48, min=30.24, max=77.67
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 45 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5470.0, G2=43.53, SC=5687.6 | f1=5550.1, G2=36.98, SC=5735.0 | f1=5526.6, G2=51.62, SC=5784.7 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5840.7, min=5568.0 | f2 médio=0.758, min=0.709
+        └─ Inviáveis: f1 médio=5563.6, min=5395.9 | f2 médio=0.793 | G2 médio=52.33, min=30.24, max=85.84
+[POST_ADVANCE] Iniciando - Gen: 44, Pop: 100, Opt: 6
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581171568, Opt size: 6
+    45 |     8900 |      6 |  0.000000E+00 |  1.308299E+01 |  0.0173442250 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  45 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5840.7, min=5568.0 | f2 médio=0.758, min=0.709
+  └─ Inviáveis: f1 médio=5563.6, min=5395.9 | f2 médio=0.793 | G2 médio=52.33, min=30.24, max=85.84
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 46 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5470.0, G2=43.53, SC=5687.6 | f1=5430.9, G2=58.05, SC=5721.1 | f1=5550.1, G2=36.98, SC=5735.0 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5840.0, min=5568.0 | f2 médio=0.755, min=0.709
+        └─ Inviáveis: f1 médio=5546.3, min=5395.9 | f2 médio=0.794 | G2 médio=54.21, min=36.15, max=85.84
+[POST_ADVANCE] Iniciando - Gen: 45, Pop: 100, Opt: 6
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581170128, Opt size: 6
+    46 |     9100 |      6 |  0.000000E+00 |  1.355276E+01 |  0.1055186319 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  46 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5840.0, min=5568.0 | f2 médio=0.755, min=0.709
+  └─ Inviáveis: f1 médio=5546.3, min=5395.9 | f2 médio=0.794 | G2 médio=54.21, min=36.15, max=85.84
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 47 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5470.0, G2=43.53, SC=5687.6 | f1=5430.9, G2=58.05, SC=5721.1 | f1=5550.1, G2=36.98, SC=5735.0 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5835.7, min=5543.5 | f2 médio=0.754, min=0.689
+        └─ Inviáveis: f1 médio=5541.0, min=5395.9 | f2 médio=0.792 | G2 médio=55.10, min=36.15, max=85.84
+[POST_ADVANCE] Iniciando - Gen: 46, Pop: 100, Opt: 8
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581169808, Opt size: 8
+    47 |     9300 |      8 |  0.000000E+00 |  1.377610E+01 |  0.1303641117 |         ideal
+[POST_ADVANCE] Concluído com sucesso
+Gen  47 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5835.7, min=5543.5 | f2 médio=0.754, min=0.689
+  └─ Inviáveis: f1 médio=5541.0, min=5395.9 | f2 médio=0.792 | G2 médio=55.10, min=36.15, max=85.84
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 48 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5470.0, G2=43.53, SC=5687.6 | f1=5429.4, G2=55.31, SC=5706.0 | f1=5430.9, G2=58.05, SC=5721.1 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5831.6, min=5543.5 | f2 médio=0.752, min=0.689
+        └─ Inviáveis: f1 médio=5526.4, min=5395.9 | f2 médio=0.795 | G2 médio=54.77, min=36.98, max=85.84
+[POST_ADVANCE] Iniciando - Gen: 47, Pop: 100, Opt: 8
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581169168, Opt size: 8
+    48 |     9500 |      8 |  0.000000E+00 |  1.369204E+01 |  0.0198485041 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  48 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5831.6, min=5543.5 | f2 médio=0.752, min=0.689
+  └─ Inviáveis: f1 médio=5526.4, min=5395.9 | f2 médio=0.795 | G2 médio=54.77, min=36.98, max=85.84
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 44 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5470.0, G2=43.53, SC=5687.6 | f1=5429.4, G2=55.31, SC=5706.0 | f1=5430.9, G2=58.05, SC=5721.1 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5813.7, min=5442.7 | f2 médio=0.751, min=0.688
+        └─ Inviáveis: f1 médio=5536.8, min=5395.9 | f2 médio=0.794 | G2 médio=52.09, min=31.47, max=85.84
+[POST_ADVANCE] Iniciando - Gen: 48, Pop: 100, Opt: 1
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581169968, Opt size: 1
+    49 |     9700 |      1 |  0.000000E+00 |  1.302163E+01 |  1.007787E+02 |         ideal
+[POST_ADVANCE] Concluído com sucesso
+Gen  49 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5813.7, min=5442.7 | f2 médio=0.751, min=0.688
+  └─ Inviáveis: f1 médio=5536.8, min=5395.9 | f2 médio=0.794 | G2 médio=52.09, min=31.47, max=85.84
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 46 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5470.0, G2=43.53, SC=5687.6 | f1=5429.4, G2=55.31, SC=5706.0 | f1=5430.9, G2=58.05, SC=5721.1 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5797.0, min=5421.4 | f2 médio=0.752, min=0.688
+        └─ Inviáveis: f1 médio=5536.8, min=5395.9 | f2 médio=0.794 | G2 médio=52.09, min=31.47, max=85.84
+[POST_ADVANCE] Iniciando - Gen: 49, Pop: 100, Opt: 2
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581168528, Opt size: 2
+    50 |     9900 |      2 |  0.000000E+00 |  1.302163E+01 |  1.0000000000 |         ideal
+[POST_ADVANCE] Concluído com sucesso
+Gen  50 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5797.0, min=5421.4 | f2 médio=0.752, min=0.688
+  └─ Inviáveis: f1 médio=5536.8, min=5395.9 | f2 médio=0.794 | G2 médio=52.09, min=31.47, max=85.84
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 45 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5540.2, G2=23.69, SC=5658.7 | f1=5470.0, G2=43.53, SC=5687.6 | f1=5429.4, G2=55.31, SC=5706.0 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5772.3, min=5421.4 | f2 médio=0.756, min=0.688
+        └─ Inviáveis: f1 médio=5536.1, min=5395.9 | f2 médio=0.793 | G2 médio=50.79, min=23.69, max=85.84
+[POST_ADVANCE] Iniciando - Gen: 50, Pop: 100, Opt: 2
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581168848, Opt size: 2
+    51 |    10100 |      2 |  0.000000E+00 |  1.269698E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  51 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5772.3, min=5421.4 | f2 médio=0.756, min=0.688
+  └─ Inviáveis: f1 médio=5536.1, min=5395.9 | f2 médio=0.793 | G2 médio=50.79, min=23.69, max=85.84
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 46 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5540.2, G2=23.69, SC=5658.7 | f1=5470.0, G2=43.53, SC=5687.6 | f1=5429.4, G2=55.31, SC=5706.0 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5762.5, min=5421.4 | f2 médio=0.755, min=0.688
+        └─ Inviáveis: f1 médio=5531.0, min=5395.9 | f2 médio=0.788 | G2 médio=50.73, min=23.69, max=85.84
+[POST_ADVANCE] Iniciando - Gen: 51, Pop: 100, Opt: 2
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581168688, Opt size: 2
+    52 |    10300 |      2 |  0.000000E+00 |  1.268233E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  52 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5762.5, min=5421.4 | f2 médio=0.755, min=0.688
+  └─ Inviáveis: f1 médio=5531.0, min=5395.9 | f2 médio=0.788 | G2 médio=50.73, min=23.69, max=85.84
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 46 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5540.2, G2=23.69, SC=5658.7 | f1=5470.0, G2=43.53, SC=5687.6 | f1=5429.4, G2=55.31, SC=5706.0 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5742.5, min=5421.4 | f2 médio=0.753, min=0.688
+        └─ Inviáveis: f1 médio=5545.6, min=5418.7 | f2 médio=0.785 | G2 médio=46.84, min=23.69, max=71.26
+[POST_ADVANCE] Iniciando - Gen: 52, Pop: 100, Opt: 2
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581168048, Opt size: 2
+    53 |    10500 |      2 |  0.000000E+00 |  1.170974E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  53 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5742.5, min=5421.4 | f2 médio=0.753, min=0.688
+  └─ Inviáveis: f1 médio=5545.6, min=5418.7 | f2 médio=0.785 | G2 médio=46.84, min=23.69, max=71.26
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 44 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5540.2, G2=23.69, SC=5658.7 | f1=5470.0, G2=43.53, SC=5687.6 | f1=5429.4, G2=55.31, SC=5706.0 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5737.1, min=5421.4 | f2 médio=0.752, min=0.688
+        └─ Inviáveis: f1 médio=5543.0, min=5418.7 | f2 médio=0.785 | G2 médio=45.98, min=23.69, max=71.26
+[POST_ADVANCE] Iniciando - Gen: 53, Pop: 100, Opt: 2
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581167728, Opt size: 2
+    54 |    10700 |      2 |  0.000000E+00 |  1.149409E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  54 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5737.1, min=5421.4 | f2 médio=0.752, min=0.688
+  └─ Inviáveis: f1 médio=5543.0, min=5418.7 | f2 médio=0.785 | G2 médio=45.98, min=23.69, max=71.26
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 43 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5540.2, G2=23.69, SC=5658.7 | f1=5470.0, G2=43.53, SC=5687.6 | f1=5429.4, G2=55.31, SC=5706.0 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5728.2, min=5421.4 | f2 médio=0.751, min=0.688
+        └─ Inviáveis: f1 médio=5552.6, min=5418.7 | f2 médio=0.785 | G2 médio=43.70, min=23.69, max=71.26
+[POST_ADVANCE] Iniciando - Gen: 54, Pop: 100, Opt: 2
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581168368, Opt size: 2
+    55 |    10900 |      2 |  0.000000E+00 |  1.092437E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  55 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5728.2, min=5421.4 | f2 médio=0.751, min=0.688
+  └─ Inviáveis: f1 médio=5552.6, min=5418.7 | f2 médio=0.785 | G2 médio=43.70, min=23.69, max=71.26
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 48 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5540.2, G2=23.69, SC=5658.7 | f1=5470.0, G2=43.53, SC=5687.6 | f1=5429.4, G2=55.31, SC=5706.0 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5722.5, min=5421.4 | f2 médio=0.752, min=0.688
+        └─ Inviáveis: f1 médio=5539.0, min=5418.7 | f2 médio=0.782 | G2 médio=46.17, min=23.69, max=71.26
+[POST_ADVANCE] Iniciando - Gen: 55, Pop: 100, Opt: 2
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581166928, Opt size: 2
+    56 |    11100 |      2 |  0.000000E+00 |  1.154212E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  56 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5722.5, min=5421.4 | f2 médio=0.752, min=0.688
+  └─ Inviáveis: f1 médio=5539.0, min=5418.7 | f2 médio=0.782 | G2 médio=46.17, min=23.69, max=71.26
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 49 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5540.2, G2=23.69, SC=5658.7 | f1=5382.7, G2=57.55, SC=5670.4 | f1=5470.0, G2=43.53, SC=5687.6 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5704.9, min=5421.4 | f2 médio=0.754, min=0.688
+        └─ Inviáveis: f1 médio=5535.1, min=5382.7 | f2 médio=0.777 | G2 médio=43.90, min=20.09, max=71.26
+[POST_ADVANCE] Iniciando - Gen: 56, Pop: 100, Opt: 2
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581171728, Opt size: 2
+    57 |    11300 |      2 |  0.000000E+00 |  1.097407E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  57 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5704.9, min=5421.4 | f2 médio=0.754, min=0.688
+  └─ Inviáveis: f1 médio=5535.1, min=5382.7 | f2 médio=0.777 | G2 médio=43.90, min=20.09, max=71.26
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 44 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5540.2, G2=23.69, SC=5658.7 | f1=5382.7, G2=57.55, SC=5670.4 | f1=5470.0, G2=43.53, SC=5687.6 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5701.3, min=5421.4 | f2 médio=0.751, min=0.688
+        └─ Inviáveis: f1 médio=5533.2, min=5382.7 | f2 médio=0.776 | G2 médio=43.87, min=20.09, max=71.26
+[POST_ADVANCE] Iniciando - Gen: 57, Pop: 100, Opt: 2
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581166448, Opt size: 2
+    58 |    11500 |      2 |  0.000000E+00 |  1.096862E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  58 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5701.3, min=5421.4 | f2 médio=0.751, min=0.688
+  └─ Inviáveis: f1 médio=5533.2, min=5382.7 | f2 médio=0.776 | G2 médio=43.87, min=20.09, max=71.26
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 45 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5540.2, G2=23.69, SC=5658.7 | f1=5382.7, G2=57.55, SC=5670.4 | f1=5470.0, G2=43.53, SC=5687.6 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5668.3, min=5421.4 | f2 médio=0.753, min=0.688
+        └─ Inviáveis: f1 médio=5505.3, min=5382.7 | f2 médio=0.777 | G2 médio=47.18, min=20.09, max=71.26
+[POST_ADVANCE] Iniciando - Gen: 58, Pop: 100, Opt: 2
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581174448, Opt size: 2
+    59 |    11700 |      2 |  0.000000E+00 |  1.179425E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  59 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5668.3, min=5421.4 | f2 médio=0.753, min=0.688
+  └─ Inviáveis: f1 médio=5505.3, min=5382.7 | f2 médio=0.777 | G2 médio=47.18, min=20.09, max=71.26
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 47 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5540.2, G2=23.69, SC=5658.7 | f1=5382.7, G2=57.55, SC=5670.4 | f1=5479.2, G2=38.47, SC=5671.5 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5664.2, min=5421.4 | f2 médio=0.751, min=0.688
+        └─ Inviáveis: f1 médio=5502.0, min=5382.7 | f2 médio=0.778 | G2 médio=46.04, min=20.09, max=71.26
+[POST_ADVANCE] Iniciando - Gen: 59, Pop: 100, Opt: 2
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581174608, Opt size: 2
+    60 |    11900 |      2 |  0.000000E+00 |  1.150963E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  60 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5664.2, min=5421.4 | f2 médio=0.751, min=0.688
+  └─ Inviáveis: f1 médio=5502.0, min=5382.7 | f2 médio=0.778 | G2 médio=46.04, min=20.09, max=71.26
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 43 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5540.2, G2=23.69, SC=5658.7 | f1=5382.7, G2=57.55, SC=5670.4 | f1=5479.2, G2=38.47, SC=5671.5 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5661.4, min=5421.4 | f2 médio=0.753, min=0.688
+        └─ Inviáveis: f1 médio=5500.5, min=5382.7 | f2 médio=0.773 | G2 médio=45.37, min=20.09, max=71.26
+[POST_ADVANCE] Iniciando - Gen: 60, Pop: 100, Opt: 2
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581165808, Opt size: 2
+    61 |    12100 |      2 |  0.000000E+00 |  1.134370E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  61 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5661.4, min=5421.4 | f2 médio=0.753, min=0.688
+  └─ Inviáveis: f1 médio=5500.5, min=5382.7 | f2 médio=0.773 | G2 médio=45.37, min=20.09, max=71.26
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 47 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5540.2, G2=23.69, SC=5658.7 | f1=5382.7, G2=57.55, SC=5670.4 | f1=5479.2, G2=38.47, SC=5671.5 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5656.1, min=5421.4 | f2 médio=0.751, min=0.688
+        └─ Inviáveis: f1 médio=5502.4, min=5382.7 | f2 médio=0.775 | G2 médio=44.54, min=20.09, max=71.26
+[POST_ADVANCE] Iniciando - Gen: 61, Pop: 100, Opt: 2
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581174128, Opt size: 2
+    62 |    12300 |      2 |  0.000000E+00 |  1.113468E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  62 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5656.1, min=5421.4 | f2 médio=0.751, min=0.688
+  └─ Inviáveis: f1 médio=5502.4, min=5382.7 | f2 médio=0.775 | G2 médio=44.54, min=20.09, max=71.26
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 48 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5327.7, G2=58.05, SC=5618.0 | f1=5540.2, G2=23.69, SC=5658.7 | f1=5382.7, G2=57.55, SC=5670.4 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5665.7, min=5421.4 | f2 médio=0.749, min=0.688
+        └─ Inviáveis: f1 médio=5494.0, min=5327.7 | f2 médio=0.775 | G2 médio=44.27, min=20.09, max=65.32
+[POST_ADVANCE] Iniciando - Gen: 62, Pop: 100, Opt: 2
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581172848, Opt size: 2
+    63 |    12500 |      2 |  0.000000E+00 |  1.106792E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  63 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5665.7, min=5421.4 | f2 médio=0.749, min=0.688
+  └─ Inviáveis: f1 médio=5494.0, min=5327.7 | f2 médio=0.775 | G2 médio=44.27, min=20.09, max=65.32
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 39 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5327.7, G2=58.05, SC=5618.0 | f1=5480.2, G2=35.50, SC=5657.7 | f1=5367.6, G2=58.05, SC=5657.8 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5662.5, min=5421.4 | f2 médio=0.748, min=0.688
+        └─ Inviáveis: f1 médio=5473.9, min=5327.7 | f2 médio=0.777 | G2 médio=45.90, min=20.09, max=65.32
+[POST_ADVANCE] Iniciando - Gen: 63, Pop: 100, Opt: 2
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581173648, Opt size: 2
+    64 |    12700 |      2 |  0.000000E+00 |  1.147586E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  64 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5662.5, min=5421.4 | f2 médio=0.748, min=0.688
+  └─ Inviáveis: f1 médio=5473.9, min=5327.7 | f2 médio=0.777 | G2 médio=45.90, min=20.09, max=65.32
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 47 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5327.7, G2=58.05, SC=5618.0 | f1=5480.2, G2=35.50, SC=5657.7 | f1=5367.6, G2=58.05, SC=5657.8 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5638.9, min=5421.4 | f2 médio=0.751, min=0.688
+        └─ Inviáveis: f1 médio=5482.5, min=5327.7 | f2 médio=0.775 | G2 médio=43.23, min=20.09, max=58.05
+[POST_ADVANCE] Iniciando - Gen: 64, Pop: 100, Opt: 2
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581172208, Opt size: 2
+    65 |    12900 |      2 |  0.000000E+00 |  1.080864E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  65 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5638.9, min=5421.4 | f2 médio=0.751, min=0.688
+  └─ Inviáveis: f1 médio=5482.5, min=5327.7 | f2 médio=0.775 | G2 médio=43.23, min=20.09, max=58.05
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 46 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5327.7, G2=58.05, SC=5618.0 | f1=5480.2, G2=35.50, SC=5657.7 | f1=5367.6, G2=58.05, SC=5657.8 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5634.0, min=5421.4 | f2 médio=0.749, min=0.688
+        └─ Inviáveis: f1 médio=5472.7, min=5302.6 | f2 médio=0.770 | G2 médio=44.54, min=20.09, max=80.01
+[POST_ADVANCE] Iniciando - Gen: 65, Pop: 100, Opt: 2
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581172528, Opt size: 2
+    66 |    13100 |      2 |  0.000000E+00 |  1.113547E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  66 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5634.0, min=5421.4 | f2 médio=0.749, min=0.688
+  └─ Inviáveis: f1 médio=5472.7, min=5302.6 | f2 médio=0.770 | G2 médio=44.54, min=20.09, max=80.01
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 43 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5327.7, G2=58.05, SC=5618.0 | f1=5520.8, G2=25.95, SC=5650.6 | f1=5480.2, G2=35.50, SC=5657.7 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5632.6, min=5421.4 | f2 médio=0.749, min=0.688
+        └─ Inviáveis: f1 médio=5460.7, min=5294.2 | f2 médio=0.763 | G2 médio=46.01, min=20.09, max=84.08
+[POST_ADVANCE] Iniciando - Gen: 66, Pop: 100, Opt: 2
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581172048, Opt size: 2
+    67 |    13300 |      2 |  0.000000E+00 |  1.150228E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  67 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5632.6, min=5421.4 | f2 médio=0.749, min=0.688
+  └─ Inviáveis: f1 médio=5460.7, min=5294.2 | f2 médio=0.763 | G2 médio=46.01, min=20.09, max=84.08
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 44 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5461.1, G2=30.18, SC=5612.0 | f1=5327.7, G2=58.05, SC=5618.0 | f1=5520.8, G2=25.95, SC=5650.6 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5622.0, min=5421.4 | f2 médio=0.747, min=0.688
+        └─ Inviáveis: f1 médio=5456.2, min=5294.2 | f2 médio=0.760 | G2 médio=45.29, min=20.09, max=84.08
+[POST_ADVANCE] Iniciando - Gen: 67, Pop: 100, Opt: 3
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581172368, Opt size: 3
+    68 |    13500 |      3 |  0.000000E+00 |  1.132302E+01 |  0.2086606001 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  68 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5622.0, min=5421.4 | f2 médio=0.747, min=0.688
+  └─ Inviáveis: f1 médio=5456.2, min=5294.2 | f2 médio=0.760 | G2 médio=45.29, min=20.09, max=84.08
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 46 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5294.2, G2=45.50, SC=5521.8 | f1=5461.1, G2=30.18, SC=5612.0 | f1=5310.3, G2=61.23, SC=5616.5 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5611.3, min=5421.4 | f2 médio=0.743, min=0.688
+        └─ Inviáveis: f1 médio=5433.9, min=5290.4 | f2 médio=0.766 | G2 médio=46.46, min=20.09, max=80.01
+[POST_ADVANCE] Iniciando - Gen: 68, Pop: 100, Opt: 3
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581171888, Opt size: 3
+    69 |    13700 |      3 |  0.000000E+00 |  1.161549E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  69 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5611.3, min=5421.4 | f2 médio=0.743, min=0.688
+  └─ Inviáveis: f1 médio=5433.9, min=5290.4 | f2 médio=0.766 | G2 médio=46.46, min=20.09, max=80.01
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 42 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5294.2, G2=45.50, SC=5521.8 | f1=5401.2, G2=35.16, SC=5577.0 | f1=5392.2, G2=40.90, SC=5596.8 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5609.7, min=5421.4 | f2 médio=0.741, min=0.688
+        └─ Inviáveis: f1 médio=5425.5, min=5290.4 | f2 médio=0.769 | G2 médio=46.20, min=20.09, max=80.01
+[POST_ADVANCE] Iniciando - Gen: 69, Pop: 100, Opt: 3
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581170928, Opt size: 3
+    70 |    13900 |      3 |  0.000000E+00 |  1.154907E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  70 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5609.7, min=5421.4 | f2 médio=0.741, min=0.688
+  └─ Inviáveis: f1 médio=5425.5, min=5290.4 | f2 médio=0.769 | G2 médio=46.20, min=20.09, max=80.01
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 50 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5294.2, G2=45.50, SC=5521.8 | f1=5401.2, G2=35.16, SC=5577.0 | f1=5392.2, G2=40.90, SC=5596.8 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5606.9, min=5403.7 | f2 médio=0.739, min=0.688
+        └─ Inviáveis: f1 médio=5418.2, min=5269.7 | f2 médio=0.766 | G2 médio=45.60, min=23.69, max=80.60
+[POST_ADVANCE] Iniciando - Gen: 70, Pop: 100, Opt: 4
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581170608, Opt size: 4
+    71 |    14100 |      4 |  0.000000E+00 |  1.140093E+01 |  0.4553317702 |         ideal
+[POST_ADVANCE] Concluído com sucesso
+Gen  71 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5606.9, min=5403.7 | f2 médio=0.739, min=0.688
+  └─ Inviáveis: f1 médio=5418.2, min=5269.7 | f2 médio=0.766 | G2 médio=45.60, min=23.69, max=80.60
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 43 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5403.4, G2=22.08, SC=5513.8 | f1=5294.2, G2=45.50, SC=5521.8 | f1=5399.4, G2=35.21, SC=5575.5 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5597.3, min=5403.7 | f2 médio=0.740, min=0.688
+        └─ Inviáveis: f1 médio=5411.6, min=5269.7 | f2 médio=0.767 | G2 médio=44.07, min=22.08, max=80.60
+[POST_ADVANCE] Iniciando - Gen: 71, Pop: 100, Opt: 4
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581170288, Opt size: 4
+    72 |    14300 |      4 |  0.000000E+00 |  1.101816E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  72 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5597.3, min=5403.7 | f2 médio=0.740, min=0.688
+  └─ Inviáveis: f1 médio=5411.6, min=5269.7 | f2 médio=0.767 | G2 médio=44.07, min=22.08, max=80.60
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 44 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5284.1, G2=36.15, SC=5464.9 | f1=5313.8, G2=38.90, SC=5508.3 | f1=5403.4, G2=22.08, SC=5513.8 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5579.9, min=5397.6 | f2 médio=0.743, min=0.688
+        └─ Inviáveis: f1 médio=5407.5, min=5284.1 | f2 médio=0.778 | G2 médio=41.24, min=22.08, max=61.23
+[POST_ADVANCE] Iniciando - Gen: 72, Pop: 100, Opt: 7
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581169488, Opt size: 7
+    73 |    14500 |      7 |  0.000000E+00 |  1.031076E+01 |  0.1346645229 |         ideal
+[POST_ADVANCE] Concluído com sucesso
+Gen  73 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5579.9, min=5397.6 | f2 médio=0.743, min=0.688
+  └─ Inviáveis: f1 médio=5407.5, min=5284.1 | f2 médio=0.778 | G2 médio=41.24, min=22.08, max=61.23
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 49 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5284.1, G2=36.15, SC=5464.9 | f1=5313.8, G2=38.90, SC=5508.3 | f1=5403.4, G2=22.08, SC=5513.8 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5568.0, min=5397.6 | f2 médio=0.742, min=0.688
+        └─ Inviáveis: f1 médio=5407.5, min=5284.1 | f2 médio=0.778 | G2 médio=41.24, min=22.08, max=61.23
+[POST_ADVANCE] Iniciando - Gen: 73, Pop: 100, Opt: 7
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581169648, Opt size: 7
+    74 |    14700 |      7 |  0.000000E+00 |  1.031076E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  74 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5568.0, min=5397.6 | f2 médio=0.742, min=0.688
+  └─ Inviáveis: f1 médio=5407.5, min=5284.1 | f2 médio=0.778 | G2 médio=41.24, min=22.08, max=61.23
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 45 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5284.1, G2=36.15, SC=5464.9 | f1=5313.8, G2=38.90, SC=5508.3 | f1=5403.4, G2=22.08, SC=5513.8 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5560.0, min=5397.6 | f2 médio=0.744, min=0.688
+        └─ Inviáveis: f1 médio=5400.7, min=5284.1 | f2 médio=0.780 | G2 médio=41.66, min=22.08, max=61.23
+[POST_ADVANCE] Iniciando - Gen: 74, Pop: 100, Opt: 7
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581170128, Opt size: 7
+    75 |    14900 |      7 |  0.000000E+00 |  1.041535E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  75 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5560.0, min=5397.6 | f2 médio=0.744, min=0.688
+  └─ Inviáveis: f1 médio=5400.7, min=5284.1 | f2 médio=0.780 | G2 médio=41.66, min=22.08, max=61.23
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 48 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5284.1, G2=36.15, SC=5464.9 | f1=5313.8, G2=38.90, SC=5508.3 | f1=5403.4, G2=22.08, SC=5513.8 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5549.7, min=5397.6 | f2 médio=0.744, min=0.688
+        └─ Inviáveis: f1 médio=5382.7, min=5284.1 | f2 médio=0.790 | G2 médio=42.78, min=22.08, max=61.23
+[POST_ADVANCE] Iniciando - Gen: 75, Pop: 100, Opt: 5
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581169008, Opt size: 5
+    76 |    15100 |      5 |  0.000000E+00 |  1.069510E+01 |  0.1040173821 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  76 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5549.7, min=5397.6 | f2 médio=0.744, min=0.688
+  └─ Inviáveis: f1 médio=5382.7, min=5284.1 | f2 médio=0.790 | G2 médio=42.78, min=22.08, max=61.23
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 44 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5284.1, G2=36.15, SC=5464.9 | f1=5313.8, G2=38.90, SC=5508.3 | f1=5403.4, G2=22.08, SC=5513.8 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5539.7, min=5397.6 | f2 médio=0.745, min=0.688
+        └─ Inviáveis: f1 médio=5377.7, min=5284.1 | f2 médio=0.795 | G2 médio=43.27, min=22.08, max=61.23
+[POST_ADVANCE] Iniciando - Gen: 76, Pop: 100, Opt: 5
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581169328, Opt size: 5
+    77 |    15300 |      5 |  0.000000E+00 |  1.081748E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  77 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5539.7, min=5397.6 | f2 médio=0.745, min=0.688
+  └─ Inviáveis: f1 médio=5377.7, min=5284.1 | f2 médio=0.795 | G2 médio=43.27, min=22.08, max=61.23
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 39 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5284.1, G2=36.15, SC=5464.9 | f1=5313.8, G2=38.90, SC=5508.3 | f1=5403.4, G2=22.08, SC=5513.8 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5535.0, min=5387.9 | f2 médio=0.745, min=0.688
+        └─ Inviáveis: f1 médio=5378.0, min=5284.1 | f2 médio=0.791 | G2 médio=43.06, min=22.08, max=61.23
+[POST_ADVANCE] Iniciando - Gen: 77, Pop: 100, Opt: 6
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581168208, Opt size: 6
+    78 |    15500 |      6 |  0.000000E+00 |  1.076417E+01 |  0.1768537542 |         ideal
+[POST_ADVANCE] Concluído com sucesso
+Gen  78 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5535.0, min=5387.9 | f2 médio=0.745, min=0.688
+  └─ Inviáveis: f1 médio=5378.0, min=5284.1 | f2 médio=0.791 | G2 médio=43.06, min=22.08, max=61.23
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 41 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5284.1, G2=36.15, SC=5464.9 | f1=5224.5, G2=51.54, SC=5482.2 | f1=5313.8, G2=38.90, SC=5508.3 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5521.8, min=5387.9 | f2 médio=0.745, min=0.688
+        └─ Inviáveis: f1 médio=5360.8, min=5224.5 | f2 médio=0.796 | G2 médio=44.11, min=22.08, max=66.44
+[POST_ADVANCE] Iniciando - Gen: 78, Pop: 100, Opt: 6
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581167568, Opt size: 6
+    79 |    15700 |      6 |  0.000000E+00 |  1.102856E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  79 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5521.8, min=5387.9 | f2 médio=0.745, min=0.688
+  └─ Inviáveis: f1 médio=5360.8, min=5224.5 | f2 médio=0.796 | G2 médio=44.11, min=22.08, max=66.44
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 47 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5284.1, G2=36.15, SC=5464.9 | f1=5224.5, G2=51.54, SC=5482.2 | f1=5313.8, G2=38.90, SC=5508.3 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5514.3, min=5336.4 | f2 médio=0.747, min=0.688
+        └─ Inviáveis: f1 médio=5361.2, min=5224.5 | f2 médio=0.797 | G2 médio=43.65, min=22.08, max=61.23
+[POST_ADVANCE] Iniciando - Gen: 79, Pop: 100, Opt: 5
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581167248, Opt size: 5
+    80 |    15900 |      5 |  0.000000E+00 |  1.091329E+01 |  0.4845022936 |         ideal
+[POST_ADVANCE] Concluído com sucesso
+Gen  80 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5514.3, min=5336.4 | f2 médio=0.747, min=0.688
+  └─ Inviáveis: f1 médio=5361.2, min=5224.5 | f2 médio=0.797 | G2 médio=43.65, min=22.08, max=61.23
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 45 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5361.1, G2=12.88, SC=5425.5 | f1=5284.1, G2=36.15, SC=5464.9 | f1=5224.5, G2=51.54, SC=5482.2 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5514.3, min=5336.4 | f2 médio=0.747, min=0.688
+        └─ Inviáveis: f1 médio=5350.3, min=5207.0 | f2 médio=0.800 | G2 médio=42.78, min=12.88, max=72.01
+[POST_ADVANCE] Iniciando - Gen: 80, Pop: 100, Opt: 5
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581167888, Opt size: 5
+    81 |    16100 |      5 |  0.000000E+00 |  1.069502E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  81 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5514.3, min=5336.4 | f2 médio=0.747, min=0.688
+  └─ Inviáveis: f1 médio=5350.3, min=5207.0 | f2 médio=0.800 | G2 médio=42.78, min=12.88, max=72.01
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 47 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5361.1, G2=12.88, SC=5425.5 | f1=5284.1, G2=36.15, SC=5464.9 | f1=5224.5, G2=51.54, SC=5482.2 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5510.0, min=5336.4 | f2 médio=0.748, min=0.688
+        └─ Inviáveis: f1 médio=5353.9, min=5207.0 | f2 médio=0.800 | G2 médio=40.62, min=12.88, max=72.01
+[POST_ADVANCE] Iniciando - Gen: 81, Pop: 100, Opt: 5
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581167088, Opt size: 5
+    82 |    16300 |      5 |  0.000000E+00 |  1.015535E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  82 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5510.0, min=5336.4 | f2 médio=0.748, min=0.688
+  └─ Inviáveis: f1 médio=5353.9, min=5207.0 | f2 médio=0.800 | G2 médio=40.62, min=12.88, max=72.01
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 45 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5361.1, G2=12.88, SC=5425.5 | f1=5284.1, G2=36.15, SC=5464.9 | f1=5239.1, G2=48.46, SC=5481.4 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5499.7, min=5302.5 | f2 médio=0.751, min=0.688
+        └─ Inviáveis: f1 médio=5345.7, min=5207.0 | f2 médio=0.798 | G2 médio=40.28, min=12.88, max=72.01
+[POST_ADVANCE] Iniciando - Gen: 82, Pop: 100, Opt: 7
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581165968, Opt size: 7
+    83 |    16500 |      7 |  0.000000E+00 |  1.006884E+01 |  0.2420413629 |         ideal
+[POST_ADVANCE] Concluído com sucesso
+Gen  83 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5499.7, min=5302.5 | f2 médio=0.751, min=0.688
+  └─ Inviáveis: f1 médio=5345.7, min=5207.0 | f2 médio=0.798 | G2 médio=40.28, min=12.88, max=72.01
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 43 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5361.1, G2=12.88, SC=5425.5 | f1=5284.1, G2=36.15, SC=5464.9 | f1=5239.1, G2=48.46, SC=5481.4 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5504.4, min=5302.5 | f2 médio=0.750, min=0.688
+        └─ Inviáveis: f1 médio=5332.5, min=5173.6 | f2 médio=0.795 | G2 médio=42.34, min=12.88, max=74.21
+[POST_ADVANCE] Iniciando - Gen: 83, Pop: 100, Opt: 7
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581167408, Opt size: 7
+    84 |    16700 |      7 |  0.000000E+00 |  1.058560E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  84 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5504.4, min=5302.5 | f2 médio=0.750, min=0.688
+  └─ Inviáveis: f1 médio=5332.5, min=5173.6 | f2 médio=0.795 | G2 médio=42.34, min=12.88, max=74.21
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 42 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5361.1, G2=12.88, SC=5425.5 | f1=5284.1, G2=36.15, SC=5464.9 | f1=5239.1, G2=48.46, SC=5481.4 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5494.4, min=5302.5 | f2 médio=0.750, min=0.688
+        └─ Inviáveis: f1 médio=5330.5, min=5173.6 | f2 médio=0.799 | G2 médio=42.09, min=12.88, max=74.21
+[POST_ADVANCE] Iniciando - Gen: 84, Pop: 100, Opt: 7
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581166768, Opt size: 7
+    85 |    16900 |      7 |  0.000000E+00 |  1.052158E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  85 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5494.4, min=5302.5 | f2 médio=0.750, min=0.688
+  └─ Inviáveis: f1 médio=5330.5, min=5173.6 | f2 médio=0.799 | G2 médio=42.09, min=12.88, max=74.21
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 46 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5361.1, G2=12.88, SC=5425.5 | f1=5284.1, G2=36.15, SC=5464.9 | f1=5239.1, G2=48.46, SC=5481.4 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5492.4, min=5302.5 | f2 médio=0.750, min=0.688
+        └─ Inviáveis: f1 médio=5322.4, min=5173.6 | f2 médio=0.806 | G2 médio=42.89, min=12.88, max=74.21
+[POST_ADVANCE] Iniciando - Gen: 85, Pop: 100, Opt: 7
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581166608, Opt size: 7
+    86 |    17100 |      7 |  0.000000E+00 |  1.072208E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  86 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5492.4, min=5302.5 | f2 médio=0.750, min=0.688
+  └─ Inviáveis: f1 médio=5322.4, min=5173.6 | f2 médio=0.806 | G2 médio=42.89, min=12.88, max=74.21
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 43 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5361.1, G2=12.88, SC=5425.5 | f1=5284.1, G2=36.15, SC=5464.9 | f1=5239.1, G2=48.46, SC=5481.4 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5486.2, min=5302.5 | f2 médio=0.748, min=0.688
+        └─ Inviáveis: f1 médio=5319.4, min=5173.6 | f2 médio=0.806 | G2 médio=43.26, min=12.88, max=74.21
+[POST_ADVANCE] Iniciando - Gen: 86, Pop: 100, Opt: 8
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581174768, Opt size: 8
+    87 |    17300 |      8 |  0.000000E+00 |  1.081469E+01 |  0.0485958831 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  87 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5486.2, min=5302.5 | f2 médio=0.748, min=0.688
+  └─ Inviáveis: f1 médio=5319.4, min=5173.6 | f2 médio=0.806 | G2 médio=43.26, min=12.88, max=74.21
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 44 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5361.1, G2=12.88, SC=5425.5 | f1=5284.1, G2=36.15, SC=5464.9 | f1=5239.1, G2=48.46, SC=5481.4 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5481.5, min=5302.5 | f2 médio=0.748, min=0.688
+        └─ Inviáveis: f1 médio=5315.2, min=5173.6 | f2 médio=0.805 | G2 médio=43.50, min=12.88, max=74.21
+[POST_ADVANCE] Iniciando - Gen: 87, Pop: 100, Opt: 8
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581173968, Opt size: 8
+    88 |    17500 |      8 |  0.000000E+00 |  1.087503E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  88 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5481.5, min=5302.5 | f2 médio=0.748, min=0.688
+  └─ Inviáveis: f1 médio=5315.2, min=5173.6 | f2 médio=0.805 | G2 médio=43.50, min=12.88, max=74.21
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 48 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5361.1, G2=12.88, SC=5425.5 | f1=5284.1, G2=36.15, SC=5464.9 | f1=5239.1, G2=48.46, SC=5481.4 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5473.4, min=5302.5 | f2 médio=0.751, min=0.688
+        └─ Inviáveis: f1 médio=5319.1, min=5173.6 | f2 médio=0.802 | G2 médio=42.14, min=12.88, max=74.21
+[POST_ADVANCE] Iniciando - Gen: 88, Pop: 100, Opt: 8
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581165648, Opt size: 8
+    89 |    17700 |      8 |  0.000000E+00 |  1.053554E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  89 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5473.4, min=5302.5 | f2 médio=0.751, min=0.688
+  └─ Inviáveis: f1 médio=5319.1, min=5173.6 | f2 médio=0.802 | G2 médio=42.14, min=12.88, max=74.21
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 40 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5361.1, G2=12.88, SC=5425.5 | f1=5284.1, G2=36.15, SC=5464.9 | f1=5239.1, G2=48.46, SC=5481.4 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5470.4, min=5302.5 | f2 médio=0.751, min=0.688
+        └─ Inviáveis: f1 médio=5309.6, min=5173.6 | f2 médio=0.807 | G2 médio=43.51, min=12.88, max=74.21
+[POST_ADVANCE] Iniciando - Gen: 89, Pop: 100, Opt: 8
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581173328, Opt size: 8
+    90 |    17900 |      8 |  0.000000E+00 |  1.087675E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  90 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5470.4, min=5302.5 | f2 médio=0.751, min=0.688
+  └─ Inviáveis: f1 médio=5309.6, min=5173.6 | f2 médio=0.807 | G2 médio=43.51, min=12.88, max=74.21
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 43 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5361.1, G2=12.88, SC=5425.5 | f1=5284.1, G2=36.15, SC=5464.9 | f1=5281.8, G2=38.96, SC=5476.6 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5466.0, min=5302.5 | f2 médio=0.752, min=0.688
+        └─ Inviáveis: f1 médio=5295.3, min=5173.6 | f2 médio=0.801 | G2 médio=42.95, min=12.88, max=74.21
+[POST_ADVANCE] Iniciando - Gen: 90, Pop: 100, Opt: 8
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581173808, Opt size: 8
+    91 |    18100 |      8 |  0.000000E+00 |  1.073868E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  91 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5466.0, min=5302.5 | f2 médio=0.752, min=0.688
+  └─ Inviáveis: f1 médio=5295.3, min=5173.6 | f2 médio=0.801 | G2 médio=42.95, min=12.88, max=74.21
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 43 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5361.1, G2=12.88, SC=5425.5 | f1=5186.8, G2=48.96, SC=5431.6 | f1=5284.1, G2=36.15, SC=5464.9 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5463.8, min=5302.5 | f2 médio=0.753, min=0.688
+        └─ Inviáveis: f1 médio=5289.1, min=5173.6 | f2 médio=0.804 | G2 médio=43.18, min=12.88, max=74.21
+[POST_ADVANCE] Iniciando - Gen: 91, Pop: 100, Opt: 8
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581174288, Opt size: 8
+    92 |    18300 |      8 |  0.000000E+00 |  1.079597E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  92 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5463.8, min=5302.5 | f2 médio=0.753, min=0.688
+  └─ Inviáveis: f1 médio=5289.1, min=5173.6 | f2 médio=0.804 | G2 médio=43.18, min=12.88, max=74.21
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 41 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5361.1, G2=12.88, SC=5425.5 | f1=5186.8, G2=48.96, SC=5431.6 | f1=5284.1, G2=36.15, SC=5464.9 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5460.3, min=5267.6 | f2 médio=0.752, min=0.688
+        └─ Inviáveis: f1 médio=5282.1, min=5173.6 | f2 médio=0.805 | G2 médio=44.09, min=12.88, max=74.21
+[POST_ADVANCE] Iniciando - Gen: 92, Pop: 100, Opt: 8
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581173008, Opt size: 8
+    93 |    18500 |      8 |  0.000000E+00 |  1.102204E+01 |  0.1994863601 |         ideal
+[POST_ADVANCE] Concluído com sucesso
+Gen  93 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5460.3, min=5267.6 | f2 médio=0.752, min=0.688
+  └─ Inviáveis: f1 médio=5282.1, min=5173.6 | f2 médio=0.805 | G2 médio=44.09, min=12.88, max=74.21
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 48 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5220.6, G2=35.49, SC=5398.1 | f1=5361.1, G2=12.88, SC=5425.5 | f1=5186.8, G2=48.96, SC=5431.6 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5460.6, min=5267.6 | f2 médio=0.749, min=0.688
+        └─ Inviáveis: f1 médio=5286.5, min=5186.8 | f2 médio=0.804 | G2 médio=41.64, min=12.88, max=58.89
+[POST_ADVANCE] Iniciando - Gen: 93, Pop: 100, Opt: 6
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581173168, Opt size: 6
+    94 |    18700 |      6 |  0.000000E+00 |  1.040968E+01 |  0.0506594509 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  94 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5460.6, min=5267.6 | f2 médio=0.749, min=0.688
+  └─ Inviáveis: f1 médio=5286.5, min=5186.8 | f2 médio=0.804 | G2 médio=41.64, min=12.88, max=58.89
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 42 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5220.6, G2=35.49, SC=5398.1 | f1=5361.1, G2=12.88, SC=5425.5 | f1=5186.8, G2=48.96, SC=5431.6 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5460.4, min=5267.6 | f2 médio=0.747, min=0.688
+        └─ Inviáveis: f1 médio=5283.7, min=5186.8 | f2 médio=0.805 | G2 médio=41.95, min=12.88, max=58.89
+[POST_ADVANCE] Iniciando - Gen: 94, Pop: 100, Opt: 6
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581172048, Opt size: 6
+    95 |    18900 |      6 |  0.000000E+00 |  1.048644E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  95 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5460.4, min=5267.6 | f2 médio=0.747, min=0.688
+  └─ Inviáveis: f1 médio=5283.7, min=5186.8 | f2 médio=0.805 | G2 médio=41.95, min=12.88, max=58.89
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 43 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5220.6, G2=35.49, SC=5398.1 | f1=5361.1, G2=12.88, SC=5425.5 | f1=5186.8, G2=48.96, SC=5431.6 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5456.8, min=5267.6 | f2 médio=0.747, min=0.688
+        └─ Inviáveis: f1 médio=5276.8, min=5180.9 | f2 médio=0.807 | G2 médio=42.34, min=12.88, max=58.89
+[POST_ADVANCE] Iniciando - Gen: 95, Pop: 100, Opt: 7
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581172368, Opt size: 7
+    96 |    19100 |      7 |  0.000000E+00 |  1.058611E+01 |  0.0289172414 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  96 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5456.8, min=5267.6 | f2 médio=0.747, min=0.688
+  └─ Inviáveis: f1 médio=5276.8, min=5180.9 | f2 médio=0.807 | G2 médio=42.34, min=12.88, max=58.89
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 35 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5220.6, G2=35.49, SC=5398.1 | f1=5361.1, G2=12.88, SC=5425.5 | f1=5186.8, G2=48.96, SC=5431.6 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5452.8, min=5267.6 | f2 médio=0.748, min=0.688
+        └─ Inviáveis: f1 médio=5276.8, min=5180.9 | f2 médio=0.807 | G2 médio=42.34, min=12.88, max=58.89
+[POST_ADVANCE] Iniciando - Gen: 96, Pop: 100, Opt: 7
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581171248, Opt size: 7
+    97 |    19300 |      7 |  0.000000E+00 |  1.058611E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  97 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5452.8, min=5267.6 | f2 médio=0.748, min=0.688
+  └─ Inviáveis: f1 médio=5276.8, min=5180.9 | f2 médio=0.807 | G2 médio=42.34, min=12.88, max=58.89
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 38 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5220.6, G2=35.49, SC=5398.1 | f1=5361.1, G2=12.88, SC=5425.5 | f1=5186.8, G2=48.96, SC=5431.6 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5449.0, min=5267.6 | f2 médio=0.749, min=0.688
+        └─ Inviáveis: f1 médio=5272.3, min=5180.9 | f2 médio=0.806 | G2 médio=43.03, min=12.88, max=59.17
+[POST_ADVANCE] Iniciando - Gen: 97, Pop: 100, Opt: 7
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581171888, Opt size: 7
+    98 |    19500 |      7 |  0.000000E+00 |  1.075633E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  98 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5449.0, min=5267.6 | f2 médio=0.749, min=0.688
+  └─ Inviáveis: f1 médio=5272.3, min=5180.9 | f2 médio=0.806 | G2 médio=43.03, min=12.88, max=59.17
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 43 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5220.6, G2=35.49, SC=5398.1 | f1=5361.1, G2=12.88, SC=5425.5 | f1=5186.8, G2=48.96, SC=5431.6 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5454.6, min=5267.6 | f2 médio=0.746, min=0.688
+        └─ Inviáveis: f1 médio=5272.3, min=5180.9 | f2 médio=0.806 | G2 médio=43.03, min=12.88, max=59.17
+[POST_ADVANCE] Iniciando - Gen: 98, Pop: 100, Opt: 7
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581170448, Opt size: 7
+    99 |    19700 |      7 |  0.000000E+00 |  1.075633E+01 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  99 | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25
+  └─ Viáveis: f1 médio=5454.6, min=5267.6 | f2 médio=0.746, min=0.688
+  └─ Inviáveis: f1 médio=5272.3, min=5180.9 | f2 médio=0.806 | G2 médio=43.03, min=12.88, max=59.17
+  [REPARO] 50 filhos avaliados com force_battery_feasible=True → 43 viáveis
+  [EXPLORAÇÃO] 50 filhos avaliados com force_battery_feasible=False
+  [SHADOW_COST] Gamma calculado: 5.00 (base=1.00, severity=5.0)
+  [SHADOW_COST] Top 3 inviáveis: f1=5220.6, G2=35.49, SC=5398.1 | f1=5361.1, G2=12.88, SC=5425.5 | f1=5186.8, G2=48.96, SC=5431.6 | 
+      | Pop: 100 | Viáveis:  75 ( 75.0%) | Inviáveis:  25 [Após Seleção]
+        └─ Viáveis: f1 médio=5444.9, min=5249.3 | f2 médio=0.749, min=0.688
+        └─ Inviáveis: f1 médio=5267.0, min=5180.9 | f2 médio=0.804 | G2 médio=43.85, min=12.88, max=59.17
+[POST_ADVANCE] Iniciando - Gen: 99, Pop: 100, Opt: 8
+[POST_ADVANCE] Self ID: 4581294800, Opt ID: 4581171568, Opt size: 8
+   100 |    19900 |      8 |  0.000000E+00 |  1.096331E+01 |  0.0946939436 |         ideal
+[POST_ADVANCE] Concluído com sucesso
+
+================================================================================
+NSGA-II COM DIRECTED MATING FINALIZADO
+================================================================================
+Tempo de execução: 59.01 segundos
+Tamanho da população final: 100
+Soluções viáveis: 75 (75.0%)
+Soluções inviáveis: 25 (25.0%)
+Soluções na frente de Pareto: 8
+
+Estatísticas dos Objetivos:
+  f1 (custo): min=5249.25, max=5442.69, média=5362.31
+  f2 (insatisfação): min=0.6876, max=0.8263, média=0.7440
+
+Todas as soluções da frente de Pareto:
+  Solução 1: Custo=5442.69, Insatisfação=0.6876
+  Solução 2: Custo=5249.25, Insatisfação=0.8263
+  Solução 3: Custo=5282.05, Insatisfação=0.7398
+  Solução 4: Custo=5267.57, Insatisfação=0.7903
+  Solução 5: Custo=5385.68, Insatisfação=0.7372
+  Solução 6: Custo=5432.29, Insatisfação=0.7163
+  Solução 7: Custo=5417.83, Insatisfação=0.7284
+  Solução 8: Custo=5421.09, Insatisfação=0.7257
+
+================================================================================
+Logs salvos em: logs/battery_focused_nsga2_rc208_21_20260217_203106.txt
+================================================================================
+

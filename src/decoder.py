@@ -64,6 +64,107 @@ def _calculate_total_energy_for_customer(
     return energy_to_customer, total_energy
 
 
+def _get_best_station(
+    current_position: Node,
+    destination: Node,
+    current_battery: float,
+    context: Context,
+    force_battery_feasible: bool = True,
+    debug: bool = False
+) -> Tuple[Node, bool]:
+    """
+    Encontra a melhor estação usando Smart Detour (menor desvio triangular).
+    
+    Conforme especificação: minimiza desvio triangular (Origem -> Estação -> Destino).
+    Respeita autonomia atual: no modo conservador, só considera estações alcançáveis.
+    
+    Args:
+        current_position: Posição atual (origem)
+        destination: Destino final (cliente)
+        current_battery: Bateria atual
+        context: Contexto com parâmetros
+        force_battery_feasible: Se True, só considera estações alcançáveis
+        debug: Se True, imprime informações de debug
+    
+    Returns:
+        Tupla (melhor_estação, foi_fallback)
+        - melhor_estação: Estação escolhida
+        - foi_fallback: True se usou fallback (mais próxima), False se usou Smart Detour
+    """
+    # Distância direta (sem desvio)
+    direct_distance = current_position.distance_to(destination)
+    
+    # Lista de estações candidatas (incluindo depósito)
+    candidates = list(context.stations) + [context.depot]
+    
+    if not candidates:
+        # Sem estações, retorna depósito
+        return context.depot, True
+    
+    best_station = None
+    best_detour = float('inf')
+    best_reachable = None
+    min_distance_to_reachable = float('inf')
+    
+    if debug:
+        print(f"      [SMART_DETOUR] Buscando melhor estação:")
+        print(f"        Origem: {current_position.id}, Destino: {destination.id}")
+        print(f"        Distância direta: {direct_distance:.2f}")
+        print(f"        Bateria atual: {current_battery:.2f}")
+    
+    for station in candidates:
+        # Calcula desvio triangular: (origem -> estação -> destino) - (origem -> destino)
+        distance_to_station = current_position.distance_to(station)
+        distance_station_to_dest = station.distance_to(destination)
+        detour_distance = distance_to_station + distance_station_to_dest - direct_distance
+        
+        # Energia necessária para chegar à estação
+        energy_to_station = distance_to_station * context.consumption_rate
+        
+        # Verifica se é alcançável
+        is_reachable = current_battery >= energy_to_station
+        
+        if debug:
+            print(f"        Estação {station.id}: detour={detour_distance:.2f}, "
+                  f"alcançável={is_reachable}, energia={energy_to_station:.2f}")
+        
+        if force_battery_feasible:
+            # Modo conservador: só considera estações alcançáveis
+            if is_reachable:
+                if detour_distance < best_detour:
+                    best_detour = detour_distance
+                    best_station = station
+        else:
+            # Modo otimista: considera todas, mas prioriza alcançáveis
+            if is_reachable:
+                if detour_distance < best_detour:
+                    best_detour = detour_distance
+                    best_station = station
+            else:
+                # Guarda a mais próxima não alcançável como fallback
+                if distance_to_station < min_distance_to_reachable:
+                    min_distance_to_reachable = distance_to_station
+                    best_reachable = station
+    
+    # Se encontrou estação com Smart Detour, retorna ela
+    if best_station is not None:
+        if debug:
+            print(f"      [SMART_DETOUR] Melhor estação: {best_station.id} (detour={best_detour:.2f})")
+        return best_station, False
+    
+    # Fallback: se não encontrou estação alcançável, usa a mais próxima
+    if best_reachable is not None:
+        if debug:
+            print(f"      [SMART_DETOUR] Fallback: usando estação mais próxima {best_reachable.id}")
+        return best_reachable, True
+    
+    # Último fallback: estação mais próxima absoluta (pode não ser alcançável)
+    nearest_station = context.get_nearest_station(current_position)
+    if debug:
+        print(f"      [SMART_DETOUR] Fallback final: estação mais próxima absoluta {nearest_station.id}")
+    return nearest_station, True
+
+
 def _should_recharge_preventively(
     current_battery: float,
     battery_capacity: float,
@@ -240,10 +341,14 @@ def _recharge_at_station(
     context: Context,
     solution: 'Solution' = None,
     allow_debt: bool = False,
+    force_battery_feasible: bool = True,
     debug: bool = False
 ) -> Tuple[Node, float, float]:
     """
-    Recarrega na estação mais próxima.
+    Recarrega na melhor estação usando Smart Detour.
+    
+    Conforme especificação: escolhe estação que minimiza desvio triangular
+    (Origem -> Estação -> Destino), respeitando autonomia atual.
     
     Args:
         route: Rota atual
@@ -255,17 +360,28 @@ def _recharge_at_station(
         context: Contexto com parâmetros
         solution: Solução para acumular violação (opcional)
         allow_debt: Se True, permite viagem com dívida se não conseguir chegar à estação
+        force_battery_feasible: Se True, só considera estações alcançáveis (modo conservador)
+        debug: Se True, imprime informações de debug
     
     Returns:
         Tupla (nova_posição, nova_bateria, novo_tempo)
     """
-    # Encontra estação mais próxima
-    nearest_station = context.get_nearest_station(current_position)
-    distance_to_station = current_position.distance_to(nearest_station)
+    # Encontra melhor estação usando Smart Detour
+    best_station, used_fallback = _get_best_station(
+        current_position,
+        customer,
+        current_battery,
+        context,
+        force_battery_feasible=force_battery_feasible,
+        debug=debug
+    )
+    
+    distance_to_station = current_position.distance_to(best_station)
     energy_to_station = distance_to_station * context.consumption_rate
     
     if debug:
-        print(f"    [ESTAÇÃO] Estação mais próxima: {nearest_station.id}")
+        method = "Fallback" if used_fallback else "Smart Detour"
+        print(f"    [ESTAÇÃO] Melhor estação ({method}): {best_station.id}")
         print(f"      Distância: {distance_to_station:.2f}")
         print(f"      Energia necessária: {energy_to_station:.2f}")
         print(f"      Bateria atual: {current_battery:.2f}")
@@ -282,7 +398,7 @@ def _recharge_at_station(
             # Modo inviável: permite viagem com dívida
             return _travel_with_debt(
                 route, current_position, current_battery, current_load,
-                current_time, nearest_station, context, solution, debug
+                current_time, best_station, context, solution, debug
             )
         else:
             if debug:
@@ -297,12 +413,12 @@ def _recharge_at_station(
     arrival_time = current_time + travel_time
     
     # Calcula recarga necessária
-    total_energy_needed = _calculate_total_energy_for_customer(nearest_station, customer, context)[1]
+    total_energy_needed = _calculate_total_energy_for_customer(best_station, customer, context)[1]
     recharge_needed = _calculate_recharge_amount(
         battery_after_travel,
         total_energy_needed,
         context.battery_capacity,
-        nearest_station,
+        best_station,
         customer,
         context
     )
@@ -328,7 +444,7 @@ def _recharge_at_station(
     
     # Cria passo da estação
     station_step = RouteStep(
-        node=nearest_station,
+        node=best_station,
         arrival_time=arrival_time,
         departure_time=arrival_time + recharge_time,
         battery_arrival=battery_after_travel,
@@ -339,9 +455,9 @@ def _recharge_at_station(
     route.add_step(station_step)
     
     if debug:
-        print(f"      [ESTAÇÃO] Passo adicionado à rota: {nearest_station.id}")
+        print(f"      [ESTAÇÃO] Passo adicionado à rota: {best_station.id}")
     
-    return nearest_station, battery_after_recharge, arrival_time + recharge_time
+    return best_station, battery_after_recharge, arrival_time + recharge_time
 
 
 def decode(individual: List[int], context: Context, force_battery_feasible: bool = True, debug: bool = False) -> Solution:
@@ -473,7 +589,7 @@ def decode(individual: List[int], context: Context, force_battery_feasible: bool
                     print(f"    Vai para estação mais próxima de {current_position.id}")
                 
                 # Não consegue chegar - precisa recarregar AGORA
-                # Vai para estação mais próxima
+                # Usa Smart Detour para escolher melhor estação
                 new_position, new_battery, new_time = _recharge_at_station(
                     current_route,
                     current_position,
@@ -484,6 +600,7 @@ def decode(individual: List[int], context: Context, force_battery_feasible: bool
                     context,
                     solution,
                     allow_debt=False,  # Modo conservador não permite dívida
+                    force_battery_feasible=True,  # Modo conservador
                     debug=debug
                 )
                 
@@ -601,7 +718,8 @@ def decode(individual: List[int], context: Context, force_battery_feasible: bool
                     customer,
                     context,
                     solution,
-                    allow_debt=False,
+                    allow_debt=False,  # Modo conservador não permite dívida
+                    force_battery_feasible=True,  # Modo conservador
                     debug=debug
                 )
                 
@@ -634,7 +752,8 @@ def decode(individual: List[int], context: Context, force_battery_feasible: bool
                     customer,
                     context,
                     solution,
-                    allow_debt=True,  # Permite viagem com dívida
+                    allow_debt=True,  # Modo inviável permite dívida
+                    force_battery_feasible=False,  # Modo otimista
                     debug=debug
                 )
                 
@@ -799,19 +918,32 @@ def decode(individual: List[int], context: Context, force_battery_feasible: bool
             energy_customer_to_safety = _calculate_energy_needed(customer, nearest_station_from_customer, context)
             
             if current_battery < energy_customer_to_safety:
-                # Ficou ilhado - resgate físico com dívida
+                # Ficou ilhado - resgate físico com dívida usando Smart Detour
                 if debug:
                     print(f"  [RESGATE] Ficou ilhado no cliente {customer.id}!")
                     print(f"    Bateria: {current_battery:.2f}")
                     print(f"    Energia necessária para estação: {energy_customer_to_safety:.2f}")
-                    print(f"    Estação mais próxima: {nearest_station_from_customer.id}")
+                # Usa Smart Detour para escolher melhor estação para resgate
+                # No modo otimista, considera todas as estações (mesmo não alcançáveis)
+                # O destino do resgate é o depósito (ou próximo cliente, mas simplificamos para depósito)
+                best_rescue_station, used_fallback = _get_best_station(
+                    current_position,
+                    context.depot,  # Destino do resgate (depósito)
+                    current_battery,
+                    context,
+                    force_battery_feasible=False,  # Modo otimista - permite estações não alcançáveis
+                    debug=debug
+                )
+                if debug:
+                    method = "Fallback" if used_fallback else "Smart Detour"
+                    print(f"    Melhor estação para resgate ({method}): {best_rescue_station.id}")
                 current_position, current_battery, current_time = _travel_with_debt(
                     current_route,
                     current_position,
                     current_battery,
                     current_load,
                     current_time,
-                    nearest_station_from_customer,
+                    best_rescue_station,
                     context,
                     solution,
                     debug
@@ -893,13 +1025,21 @@ def return_to_depot(
                 print(f"    [RECARGA PREVENTIVA] Bateria insuficiente para retornar diretamente")
                 print(f"      Vai para estação mais próxima para recarregar")
             
-            # Encontra estação mais próxima
-            nearest_station = context.get_nearest_station(current_position)
-            distance_to_station = current_position.distance_to(nearest_station)
+            # Encontra melhor estação usando Smart Detour (destino: depósito)
+            best_station, used_fallback = _get_best_station(
+                current_position,
+                depot,
+                current_battery,
+                context,
+                force_battery_feasible=True,  # Modo conservador
+                debug=debug
+            )
+            distance_to_station = current_position.distance_to(best_station)
             energy_to_station = distance_to_station * context.consumption_rate
             
             if debug:
-                print(f"      Estação mais próxima: {nearest_station.id}")
+                method = "Fallback" if used_fallback else "Smart Detour"
+                print(f"      Melhor estação ({method}): {best_station.id}")
                 print(f"      Distância até estação: {distance_to_station:.2f}")
                 print(f"      Energia necessária até estação: {energy_to_station:.2f}")
             
@@ -930,7 +1070,7 @@ def return_to_depot(
                 arrival_time_at_station = current_time + travel_time_to_station
                 
                 # Calcula energia necessária da estação ao depósito (com margem de segurança)
-                energy_station_to_depot = _calculate_energy_needed(nearest_station, depot, context)
+                energy_station_to_depot = _calculate_energy_needed(best_station, depot, context)
                 safety_margin = context.battery_capacity * BATTERY_SAFETY_MARGIN
                 total_energy_needed_from_station = energy_station_to_depot + safety_margin
                 
@@ -959,7 +1099,7 @@ def return_to_depot(
                 
                 # Adiciona passo da estação
                 station_step = RouteStep(
-                    node=nearest_station,
+                    node=best_station,
                     arrival_time=arrival_time_at_station,
                     departure_time=arrival_time_at_station + recharge_time,
                     battery_arrival=battery_after_travel_to_station,
@@ -970,7 +1110,7 @@ def return_to_depot(
                 route.add_step(station_step)
                 
                 # Atualiza posição e estado para retornar ao depósito
-                current_position = nearest_station
+                current_position = best_station
                 current_battery = battery_after_recharge
                 current_time = arrival_time_at_station + recharge_time
                 

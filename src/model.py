@@ -151,6 +151,7 @@ class Solution:
     is_feasible: bool = True
     violations: List[str] = field(default_factory=list)
     battery_violation: float = 0.0  # G2: Déficit de bateria (positivo se violação, 0 se viável)
+    skipped_customer_ids: List[str] = field(default_factory=list)  # Clientes não visitados (ex.: impossíveis por bateria)
     
     def __post_init__(self):
         """Calcula métricas finais"""
@@ -166,19 +167,18 @@ class Solution:
         # Calcula custo total: (Nveic * CustoVeic) + (Disttotal * CustoDist)
         self.total_cost = (self.total_vehicles * context.vehicle_cost) + (self.total_distance * context.distance_cost)
         
-        # Calcula satisfação média de todos os clientes
+        # Calcula satisfação média: atendidos contribuem com seu score; não atendidos (skipped) = 0
         customer_satisfactions = []
         for route in self.routes:
             for step in route.steps:
                 if step.node.type == NodeType.CUSTOMER:
                     customer_satisfactions.append(step.satisfaction_score)
-        
-        if customer_satisfactions:
-            avg_satisfaction = sum(customer_satisfactions) / len(customer_satisfactions)
-            # Insatisfação = 1.0 - Satisfação média
+        n_total = len(context.customers)
+        if n_total > 0:
+            avg_satisfaction = sum(customer_satisfactions) / n_total  # não atendidos contam como 0
             self.avg_dissatisfaction = 1.0 - avg_satisfaction
         else:
-            self.avg_dissatisfaction = 1.0  # Nenhum cliente atendido = máxima insatisfação
+            self.avg_dissatisfaction = 1.0
     
     def calculate_battery_violation(self, context: 'Context'):
         """

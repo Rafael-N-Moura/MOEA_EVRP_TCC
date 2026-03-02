@@ -124,17 +124,19 @@ class NSGA2LoggingCallback(Callback):
                           f"f2 médio={f2_mean:.3f}, min={f2_min:.3f}, max={f2_max:.3f}")
 
 
-def run_nsga2(problem, n_gen=100, pop_size=100, verbose=True, instance_name=None):
+def run_nsga2(problem, n_gen=100, pop_size=100, verbose=True, instance_name=None, save_front=False, seed=1):
     """
     Executa algoritmo NSGA-II.
-    
+
     Args:
         problem: Instância do problema EVRPTWProblem
         n_gen: Número de gerações
         pop_size: Tamanho da população
         verbose: Se True, exibe progresso
         instance_name: Nome da instância (para nomear o arquivo de log)
-        
+        save_front: Se True, salva res.F em logs/nsga2_<instance>_<timestamp>_front.npz
+        seed: Semente aleatória para reprodutibilidade (permutações iniciais e operadores)
+
     Returns:
         Resultado da otimização
     """
@@ -148,7 +150,9 @@ def run_nsga2(problem, n_gen=100, pop_size=100, verbose=True, instance_name=None
     log_dir = os.path.dirname(log_file)
     if log_dir and not os.path.exists(log_dir):
         os.makedirs(log_dir)
-    
+
+    save_front_path = log_file.replace('.txt', '_front.npz') if save_front else None
+
     # Redireciona output para arquivo e terminal
     original_stdout = sys.stdout
     tee = TeeOutput(log_file)
@@ -182,7 +186,7 @@ def run_nsga2(problem, n_gen=100, pop_size=100, verbose=True, instance_name=None
             algorithm,
             ('n_gen', n_gen),
             verbose=verbose,
-            seed=1,
+            seed=seed,
             callback=callback
         )
         elapsed_time = time.time() - start_time
@@ -235,6 +239,10 @@ def run_nsga2(problem, n_gen=100, pop_size=100, verbose=True, instance_name=None
         print(f"Logs salvos em: {log_file}")
         print(f"{'='*80}\n")
         
+        if save_front_path and len(res.F) > 0:
+            np.savez(save_front_path, F=res.F)
+            print(f"✓ Frente de Pareto salva em: {save_front_path}")
+        
         return res
     finally:
         # Restaura stdout original
@@ -243,7 +251,7 @@ def run_nsga2(problem, n_gen=100, pop_size=100, verbose=True, instance_name=None
         print(f"✓ Logs do NSGA2 salvos em: {log_file}")
 
 
-def run_battery_focused_nsga2(problem, n_gen=100, pop_size=100, infeasible_ratio=0.25, verbose=True, instance_name=None):
+def run_battery_focused_nsga2(problem, n_gen=100, pop_size=100, infeasible_ratio=0.25, feasible_mating_ratio=0.7, test_all_feasible=False, verbose=True, instance_name=None, save_front=False, seed=1):
     """
     Executa algoritmo NSGA-II com Directed Mating focado em bateria.
     
@@ -252,8 +260,11 @@ def run_battery_focused_nsga2(problem, n_gen=100, pop_size=100, infeasible_ratio
         n_gen: Número de gerações
         pop_size: Tamanho da população
         infeasible_ratio: Proporção de soluções inviáveis a preservar (0.2 a 0.3)
+        feasible_mating_ratio: Proporção de cruzamentos viável-viável (ex.: 0.7); resto viável-inviável
+        test_all_feasible: Se True, 100% viável (init e offspring conservador, N_I=0) para teste de integridade
         verbose: Se True, exibe progresso
         instance_name: Nome da instância (para nomear o arquivo de log)
+        save_front: Se True, salva res.F em logs/battery_focused_nsga2_<instance>_<timestamp>_front.npz
     
     Returns:
         Resultado da otimização
@@ -269,6 +280,8 @@ def run_battery_focused_nsga2(problem, n_gen=100, pop_size=100, infeasible_ratio
     if log_dir and not os.path.exists(log_dir):
         os.makedirs(log_dir)
     
+    save_front_path = log_file.replace('.txt', '_front.npz') if save_front else None
+    
     # Redireciona output para arquivo e terminal
     original_stdout = sys.stdout
     tee = TeeOutput(log_file)
@@ -283,11 +296,17 @@ def run_battery_focused_nsga2(problem, n_gen=100, pop_size=100, infeasible_ratio
         print(f"População: {pop_size}")
         print(f"Gerações: {n_gen}")
         print(f"Taxa de inviáveis preservados: {infeasible_ratio*100:.1f}%")
+        print(f"Cruzamentos viável-viável: {feasible_mating_ratio*100:.0f}%")
+        if test_all_feasible:
+            print("Modo: test_all_feasible (100% viável, decoder conservador sempre; pipeline dois arquivos com N_I=0)")
         print(f"{'='*80}\n")
         
         algorithm = BatteryFocusedNSGA2(
             pop_size=pop_size,
             infeasible_ratio=infeasible_ratio,
+            feasible_mating_ratio=feasible_mating_ratio,
+            test_all_feasible=test_all_feasible,
+            all_conservative_init=False,
             crossover=OrderCrossover(),
             mutation=InversionMutation(),
             eliminate_duplicates=True
@@ -299,7 +318,7 @@ def run_battery_focused_nsga2(problem, n_gen=100, pop_size=100, infeasible_ratio
             algorithm,
             ('n_gen', n_gen),
             verbose=verbose,
-            seed=1
+            seed=seed
         )
         elapsed_time = time.time() - start_time
     
@@ -344,6 +363,10 @@ def run_battery_focused_nsga2(problem, n_gen=100, pop_size=100, infeasible_ratio
         print(f"Logs salvos em: {log_file}")
         print(f"{'='*80}\n")
         
+        if save_front_path and len(res.F) > 0:
+            np.savez(save_front_path, F=res.F)
+            print(f"✓ Frente de Pareto salva em: {save_front_path}")
+        
         return res
     finally:
         # Restaura stdout original
@@ -352,7 +375,7 @@ def run_battery_focused_nsga2(problem, n_gen=100, pop_size=100, infeasible_ratio
         print(f"✓ Logs do BatteryFocusedNSGA2 salvos em: {log_file}")
 
 
-def run_moead(problem, n_gen=100, pop_size=100, n_partitions=99, verbose=True):
+def run_moead(problem, n_gen=100, pop_size=100, n_partitions=99, verbose=True, seed=1):
     """
     Executa algoritmo MOEA/D.
     
@@ -418,7 +441,7 @@ def run_moead(problem, n_gen=100, pop_size=100, n_partitions=99, verbose=True):
         algorithm,
         ('n_gen', n_gen),
         verbose=verbose,
-        seed=1
+        seed=seed
     )
     elapsed_time = time.time() - start_time
     
@@ -496,6 +519,22 @@ def main():
         action='store_true',
         help='Gera gráfico de frente de Pareto'
     )
+    parser.add_argument(
+        '--no-radical',
+        action='store_true',
+        help='Decoder não radical (com estações no modo inviável). Para battery-focused e, se rodar nsga2, mesmo decoder. Default: radical no battery-focused'
+    )
+    parser.add_argument(
+        '--save-front',
+        action='store_true',
+        help='Salva a frente de Pareto (res.F) em .npz em logs/ para comparação com compare_pareto_fronts.py'
+    )
+    parser.add_argument(
+        '--seed',
+        type=int,
+        default=1,
+        help='Semente aleatória para reprodutibilidade (default: 1). Use a mesma seed em nsga2 e battery-focused para mesmas permutações iniciais.'
+    )
     
     args = parser.parse_args()
     
@@ -522,8 +561,11 @@ def main():
     results = {}
     
     if args.algorithm in ['nsga2', 'both']:
-        # NSGA-II padrão: sempre viável (force_battery_feasible=True)
-        problem_nsga2 = EVRPTWProblem(context, use_constraints=False, force_battery_feasible=True)
+        # NSGA-II padrão: sempre viável (force_battery_feasible=True). Com --no-radical: mesmo decoder não radical do battery-focused
+        kwargs_nsga2 = dict(context=context, use_constraints=False, force_battery_feasible=True)
+        if getattr(args, 'no_radical', False):
+            kwargs_nsga2['use_radical_infeasible'] = False
+        problem_nsga2 = EVRPTWProblem(**kwargs_nsga2)
         # Extrai nome da instância para o arquivo de log
         instance_name = os.path.splitext(os.path.basename(args.instance))[0]
         results['nsga2'] = run_nsga2(
@@ -531,22 +573,36 @@ def main():
             n_gen=args.n_gen,
             pop_size=args.pop_size,
             verbose=not args.no_verbose,
-            instance_name=instance_name
+            instance_name=instance_name,
+            save_front=getattr(args, 'save_front', False),
+            seed=args.seed
         )
     
     if args.algorithm == 'battery-focused':
-        # BatteryFocusedNSGA2: permite violações durante evolução (force_battery_feasible=False)
-        # mas usa True na inicialização para 50% da população
-        problem_battery = EVRPTWProblem(context, use_constraints=True, force_battery_feasible=False)
+        # BatteryFocusedNSGA2: dinâmica com dois perfis do decoder (DECODER_ALTERNATIVO)
+        # A_F (convergence): decodificação com perfil conservador (force_battery_feasible=True)
+        # A_I (diversity): decodificação com perfil agressivo (--no-radical) ou radical (sem estações)
+        use_radical = not args.no_radical
+        problem_battery = EVRPTWProblem(
+            context, use_constraints=True, force_battery_feasible=False,
+            use_radical_infeasible=use_radical
+        )
+        if not args.no_verbose:
+            decoder_inv = "agressivo (com estações)" if not use_radical else "radical (sem estações)"
+            print(f"Battery Focused: população={args.pop_size}, gerações={args.n_gen}, decoder A_F=conservador, A_I={decoder_inv}")
         # Extrai nome da instância para o arquivo de log
         instance_name = os.path.splitext(os.path.basename(args.instance))[0]
         results['battery-focused'] = run_battery_focused_nsga2(
             problem_battery,
             n_gen=args.n_gen,
             pop_size=args.pop_size,
-            infeasible_ratio=0.25,
+            infeasible_ratio=0.30,
+            feasible_mating_ratio=0.7,
+            test_all_feasible=False,
             verbose=not args.no_verbose,
-            instance_name=instance_name
+            instance_name=instance_name,
+            save_front=getattr(args, 'save_front', False),
+            seed=args.seed
         )
     
     if args.algorithm in ['moead', 'both']:
@@ -557,7 +613,8 @@ def main():
             n_gen=args.n_gen,
             pop_size=args.pop_size,
             n_partitions=args.n_partitions,
-            verbose=not args.no_verbose
+            verbose=not args.no_verbose,
+            seed=args.seed
         )
     
     # Visualização

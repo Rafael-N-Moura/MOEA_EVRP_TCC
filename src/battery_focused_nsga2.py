@@ -62,6 +62,72 @@ def calculate_crowding_distance(F):
     return distance
 
 
+def nsga2_survival(F_nds, n_survive, F_cd=None, random_state=None):
+    """
+    Seleção de sobrevivência seguindo o pipeline do NSGA-II (RankAndCrowding do pymoo).
+    
+    Pipeline:
+    1. Non-dominated sorting em F_nds → frentes F1, F2, ...
+    2. Acumular frentes em ordem até ultrapassar n_survive.
+    3. Na frente que "estoura", ordenar por crowding distance (maior primeiro)
+       calculada em F_cd e ficar com os primeiros k = n_survive − |já selecionados|.
+    
+    Permite usar espaços diferentes para NDS e para crowding:
+    - A_F (viáveis): F_nds = (f1, f2), F_cd = (f1, f2)  → NSGA-II canônico.
+    - A_I (inviáveis): F_nds = (f1, f2, G2), F_cd = (f1, f2)
+      → ranking considera proximidade de factibilidade, diversidade medida em objetivos.
+    
+    Args:
+        F_nds: array (n, m1) usado para non-dominated sorting.
+        n_survive: número de sobreviventes desejado.
+        F_cd: array (n, m2) usado para crowding distance. Se None, usa F_nds.
+        random_state: se fornecido, desempate em crowding usa sorteio (como pymoo).
+    
+    Returns:
+        Índices dos sobreviventes (0 a len(F_nds)-1), no máximo n_survive.
+    """
+    n = len(F_nds)
+    if n == 0:
+        return np.array([], dtype=int)
+    if F_cd is None:
+        F_cd = F_nds
+    n_survive = min(n_survive, n)
+    nds = NonDominatedSorting()
+    fronts = nds.do(F_nds)
+    survivors = []
+    for k, front in enumerate(fronts):
+        front = np.atleast_1d(front)
+        n_add = len(front)
+        if len(survivors) + n_add > n_survive:
+            n_remove = len(survivors) + n_add - n_survive
+            cd = calculate_crowding_distance(F_cd[front])
+            if random_state is not None:
+                order = _randomized_argsort_desc(cd, random_state)
+            else:
+                order = np.argsort(-cd)
+            n_keep = n_add - n_remove
+            I = order[:n_keep]
+            survivors.extend(front[I].tolist())
+        else:
+            cd = calculate_crowding_distance(F_cd[front])
+            if random_state is not None:
+                order = _randomized_argsort_desc(cd, random_state)
+            else:
+                order = np.argsort(-cd)
+            survivors.extend(front[order].tolist())
+    return np.array(survivors, dtype=int)
+
+
+def _randomized_argsort_desc(values, random_state):
+    """Ordena por valores decrescentes; empates quebrados aleatoriamente (como pymoo)."""
+    rng = np.random.default_rng(random_state)
+    values = np.asarray(values)
+    n = len(values)
+    random_tie = rng.random(n)
+    perm = np.lexsort((-random_tie, -values))
+    return perm
+
+
 class HybridSampling(Sampling):
     """
     Sampling híbrido que gera 50% da população com force_battery_feasible=True
@@ -94,29 +160,25 @@ class HybridSampling(Sampling):
 
 class InfeasibleSurvival(Selection):
     """
-    Estratégia de sobrevivência que preserva uma porcentagem de soluções inviáveis.
+    Estratégia de sobrevivência com Arquivo Inviável Delimitado (Bounded Infeasible Archive).
     
-    Divide população em:
-    - Grupo A (Viáveis): G2 <= 0
-    - Grupo B (Inviáveis): G2 > 0
-    
-    Preenche população com:
-    - Cota de viáveis: usando Rank & Crowding Distance
-    - Cota de inviáveis: ordenados por Shadow Cost (SC = f1 + gamma*G2)
-    
-    Shadow Cost:
-    - Penaliza violações de bateria (G2) proporcionalmente à sua gravidade
-    - Gamma é calculado dinamicamente baseado no contexto do problema
-    - severity_multiplier = 20.0 (aumentado para desencorajar violações triviais)
+    - Viáveis (G2 <= 0): seleção por Rank & Crowding em (f1, f2).
+    - Inviáveis: apenas "quase viáveis" (G2 <= epsilon_max = bateria * max_violation_ratio)
+      são considerados; acima disso são descartados (lixo evolutivo).
+    - Entre os inviáveis aceitáveis: seleção por Rank & Crowding em (f1, f2) puros
+      (sem Shadow Cost), para diversidade e Hipervolume.
+    - Fallback: se faltar gente, completa com rejeitados por menor G2.
     """
     
-    def __init__(self, infeasible_ratio: float = 0.25):
+    def __init__(self, infeasible_ratio: float = 0.25, max_violation_ratio: float = 0.90):
         """
         Args:
-            infeasible_ratio: Proporção de soluções inviáveis a preservar (0.2 a 0.3)
+            infeasible_ratio: Proporção da população que deve ser inviável (ex.: 25%).
+            max_violation_ratio: Tolerância máxima de violação G2 (ex.: 15% da capacidade da bateria).
         """
         super().__init__()
         self.infeasible_ratio = infeasible_ratio
+        self.max_violation_ratio = max_violation_ratio
     
     def _do(self, pop, n_select, n_parents=1, **kwargs):
         """
@@ -140,7 +202,9 @@ class InfeasibleSurvival(Selection):
         feasible_mask = pop.get("G")[:, 1] <= 0  # G2 <= 0
         feasible_indices = np.where(feasible_mask)[0]
         infeasible_indices = np.where(~feasible_mask)[0]
-        
+        acceptable_infeasible_indices = np.array(infeasible_indices)
+        rejected_infeasible_indices = np.array([], dtype=int)
+
         selected = []
         
         # ===== PASSO 1: Seleção de Viáveis (Rank & Crowding Distance) =====
@@ -189,58 +253,52 @@ class InfeasibleSurvival(Selection):
             # Ajusta cota de inviáveis
             n_infeasible_target = n_select - len(selected)
         
-        # ===== PASSO 2: Seleção de Inviáveis (por Shadow Cost) =====
+        # ===== PASSO 2: Seleção de Inviáveis (Arquivo Delimitado: epsilon + Rank & Crowding em F) =====
+        # Filtro epsilon: só inviáveis com G2 <= bateria * max_violation_ratio ("quase viáveis").
+        rejected_infeasible_indices = np.array([], dtype=int)
         if len(infeasible_indices) > 0 and len(selected) < n_select:
-            infeasible_pop = pop[infeasible_indices]
-            F = infeasible_pop.get("F")
-            G = infeasible_pop.get("G")
-            
-            f1_values = F[:, 0]  # Custo (f1)
-            g2_values = G[:, 1]  # Violação de bateria (G2)
-            
-            # Calcula Shadow Cost: SC = f1 + (gamma * G2)
-            # Gamma é calculado baseado no contexto do problema
-            gamma = None
+            G_inf = pop.get("G")[infeasible_indices, 1]
+            battery_capacity = None
             if 'algorithm' in kwargs and hasattr(kwargs['algorithm'], 'problem'):
                 problem = kwargs['algorithm'].problem
                 if hasattr(problem, 'context'):
-                    context = problem.context
-                    # Calcula gamma baseado no custo de energia
-                    # Gamma = (km_per_kWh * distance_cost) * severity_multiplier
-                    km_per_kwh = 1.0 / context.consumption_rate
-                    base_energy_cost = km_per_kwh * context.distance_cost
-                    severity_multiplier = 5.0  # Aumentado de 5.0 para desencorajar violações triviais
-                    gamma = base_energy_cost * severity_multiplier
-                    print(f"  [SHADOW_COST] Gamma calculado: {gamma:.2f} (base={base_energy_cost:.2f}, severity={severity_multiplier})")
-            
-            if gamma is None:
-                # Fallback: usa gamma fixo se não conseguir acessar contexto
-                # Estimativa conservadora: assume que 1 kWh = 2 km e custo = 2.0/km
-                # Então base_energy_cost = 2 km/kWh * 2.0 R$/km = 4.0 R$/kWh
-                # Com severity_multiplier = 20.0: gamma = 80.0
-                gamma = 80.0
-                print(f"  [SHADOW_COST] AVISO: Usando gamma fixo (fallback): {gamma:.2f}")
-            
-            # Calcula Shadow Cost para cada inviável
-            shadow_costs = f1_values + (gamma * g2_values)
-            
-            # Ordena por menor Shadow Cost (menor = melhor)
-            infeasible_sorted = infeasible_indices[np.argsort(shadow_costs)]
-            
-            # Log das top 3 soluções inviáveis (para debug)
-            if len(shadow_costs) > 0:
-                top3_indices = np.argsort(shadow_costs)[:min(3, len(shadow_costs))]
-                print(f"  [SHADOW_COST] Top 3 inviáveis: ", end="")
-                for idx in top3_indices:
-                    orig_idx = infeasible_indices[idx]
-                    print(f"f1={f1_values[idx]:.1f}, G2={g2_values[idx]:.2f}, SC={shadow_costs[idx]:.1f} | ", end="")
-                print()
-            
-            # CORTE RÍGIDO: Seleciona no máximo n_infeasible_target
-            n_remaining = n_select - len(selected)
-            n_select_infeasible = min(n_infeasible_target, len(infeasible_sorted), n_remaining)
-            selected_infeasible = infeasible_sorted[:n_select_infeasible]
-            selected.extend(selected_infeasible.tolist())
+                    battery_capacity = getattr(problem.context, 'battery_capacity', None)
+            if battery_capacity is None or battery_capacity <= 0:
+                battery_capacity = 100.0
+            max_g2_allowed = battery_capacity * self.max_violation_ratio
+            acceptable_mask = G_inf <= max_g2_allowed
+            acceptable_infeasible_indices = np.array(infeasible_indices)[acceptable_mask]
+            rejected_infeasible_indices = np.array(infeasible_indices)[~acceptable_mask]
+
+            if len(acceptable_infeasible_indices) > 0:
+                infeasible_pop = pop[acceptable_infeasible_indices]
+                F_inf = infeasible_pop.get("F")
+
+                nds_inf = NonDominatedSorting()
+                fronts_inf = nds_inf.do(F_inf)
+
+                n_remaining = n_select - len(selected)
+                n_select_infeasible = min(n_infeasible_target, len(acceptable_infeasible_indices), n_remaining)
+                selected_infeasible_local = []
+
+                for front in fronts_inf:
+                    front = np.atleast_1d(front)
+                    if len(selected_infeasible_local) + len(front) <= n_select_infeasible:
+                        selected_infeasible_local.extend(front.tolist())
+                    else:
+                        n_missing = n_select_infeasible - len(selected_infeasible_local)
+                        F_front = F_inf[front]
+                        cd_front = calculate_crowding_distance(F_front)
+                        sorted_in_front = np.argsort(-cd_front)[:n_missing]
+                        for i in sorted_in_front:
+                            selected_infeasible_local.append(front[i])
+                        break
+
+                selected_infeasible_global = np.array(acceptable_infeasible_indices)[selected_infeasible_local]
+                selected.extend(selected_infeasible_global.tolist())
+                if len(rejected_infeasible_indices) > 0 or len(acceptable_infeasible_indices) != len(infeasible_indices):
+                    print(f"  [INFEASIBLE_BOUNDED] Aceitos G2<={max_g2_allowed:.1f}: {len(acceptable_infeasible_indices)}, "
+                          f"rejeitados: {len(rejected_infeasible_indices)}, selecionados: {len(selected_infeasible_global)}")
         
         # ===== PASSO 3: Completar com Viáveis Restantes (se necessário) =====
         if len(selected) < n_select:
@@ -252,12 +310,18 @@ class InfeasibleSurvival(Selection):
                 n_needed = n_select - len(selected)
                 selected.extend(remaining_sorted[:n_needed].tolist())
         
-        # ===== PASSO 4: Completar com Inviáveis Restantes (se necessário) =====
+        # ===== PASSO 4: Completar com Inviáveis Restantes (aceitáveis primeiro, depois rejeitados por G2) =====
         if len(selected) < n_select:
-            remaining_infeasible = [i for i in infeasible_indices if i not in selected]
+            remaining_acceptable = [i for i in acceptable_infeasible_indices if i not in selected]
+            if len(rejected_infeasible_indices) > 0:
+                g2_rej = pop.get("G")[rejected_infeasible_indices, 1]
+                remaining_rejected_sorted = rejected_infeasible_indices[np.argsort(g2_rej)].tolist()
+            else:
+                remaining_rejected_sorted = []
+            remaining_infeasible = remaining_acceptable + remaining_rejected_sorted
             if len(remaining_infeasible) > 0:
                 n_needed = n_select - len(selected)
-                selected.extend(remaining_infeasible[:n_needed].tolist())
+                selected.extend(remaining_infeasible[:n_needed])
         
         # ===== VERIFICAÇÃO DE SEGURANÇA: Garante exatamente n_select =====
         # Se por algum motivo ainda faltam, completa aleatoriamente (raro, mas evita crash)
@@ -308,42 +372,142 @@ class InfeasibleSurvival(Selection):
         return result
 
 
+# Base de rank para inviáveis: todo viável tem rank < RANK_INFEASIBLE_BASE, todo inviável >= base
+RANK_INFEASIBLE_BASE = 10000
+
+
+class BinaryTournamentWithInfeasible(Selection):
+    """
+    Torneio binário como no NSGA-II, com competidores podendo vir de A_F (viáveis) ou A_I (inviáveis).
+    
+    - pI(t): probabilidade de sortear um competidor da população inviável. Fase inicial pI maior (ex. 0.3–0.5), final menor (ex. 0.1–0.2).
+    - Para cada torneio: sortear c1 e c2 com prob (1-pI) de A_F e prob pI de A_I.
+    - Comparação: (1) ambos factíveis → (rank, crowding) como NSGA-II; (2) um factível e um inviável → factível ganha; (3) ambos inviáveis → dominância em (f1,f2,G2) e diversidade em (f1,f2).
+    Requer que pop já tenha "rank" e "crowding" definidos (via _update_rank_and_crowding_for_mating).
+    """
+    
+    def __init__(self, pI_start: float = 0.4, pI_end: float = 0.15):
+        super().__init__()
+        self.pI_start = pI_start
+        self.pI_end = pI_end
+    
+    def _pI(self, algorithm) -> float:
+        t = getattr(algorithm, "_current_gen", 1)
+        T = max(1, getattr(algorithm, "n_gen", 100))
+        progress = min(1.0, max(0.0, (t - 1) / max(1, T - 1)))
+        return self.pI_start + (self.pI_end - self.pI_start) * progress
+    
+    def _do(self, pop, n_select, n_parents=2, **kwargs):
+        n = len(pop)
+        if n == 0:
+            return np.array([], dtype=int).reshape(0, n_parents)
+        if not pop.has("G") or not pop.has("F") or not pop.has("rank") or not pop.has("crowding"):
+            return np.array([[np.random.randint(0, n), np.random.randint(0, n)] for _ in range(n_select)])
+        
+        G = pop.get("G")
+        F = pop.get("F")
+        rank = pop.get("rank")
+        crowding = np.asarray(pop.get("crowding"), dtype=float)
+        feasible_mask = G[:, 1] <= 0
+        feasible_indices = np.where(feasible_mask)[0]
+        infeasible_indices = np.where(~feasible_mask)[0]
+        n_feasible = len(feasible_indices)
+        n_infeasible = len(infeasible_indices)
+        algorithm = kwargs.get("algorithm")
+        pI = self._pI(algorithm) if algorithm is not None else 0.2
+        
+        def pick_competitor():
+            if n_feasible == 0:
+                return int(np.random.choice(infeasible_indices))
+            if n_infeasible == 0:
+                return int(np.random.choice(feasible_indices))
+            if np.random.random() < pI:
+                return int(np.random.choice(infeasible_indices))
+            return int(np.random.choice(feasible_indices))
+        
+        def wins(c1: int, c2: int) -> int:
+            f1, f2 = rank[c1] < RANK_INFEASIBLE_BASE, rank[c2] < RANK_INFEASIBLE_BASE
+            if f1 and f2:
+                if rank[c1] != rank[c2]:
+                    return c1 if rank[c1] < rank[c2] else c2
+                return c1 if crowding[c1] >= crowding[c2] else c2
+            if f1 and not f2:
+                return c1
+            if not f1 and f2:
+                return c2
+            if rank[c1] != rank[c2]:
+                return c1 if rank[c1] < rank[c2] else c2
+            return c1 if crowding[c1] >= crowding[c2] else c2
+        
+        selected = []
+        for _ in range(n_select * n_parents):
+            c1, c2 = pick_competitor(), pick_competitor()
+            while c2 == c1 and n > 1:
+                c2 = pick_competitor()
+            selected.append(wins(c1, c2))
+        return np.array(selected, dtype=int).reshape(n_select, n_parents)
+
+
 class DirectedMatingSelection(Selection):
     """
-    Estratégia de acasalamento direcionado.
-    
-    Seleciona pais de forma que:
-    - Pai 1: Do grupo de viáveis (G2 <= 0)
-    - Pai 2: Do grupo de inviáveis (G2 > 0)
-    
-    Isso força cruzamento entre soluções seguras e soluções eficientes.
+    [Legado] Mating por proporção viável×viável vs viável×inviável (proximidade).
+    Mantido para referência; uso preferencial: BinaryTournamentWithInfeasible.
     """
+    
+    def __init__(self, feasible_mating_ratio: float = 0.7):
+        super().__init__()
+        self.feasible_mating_ratio = feasible_mating_ratio
     
     def _do(self, pop, n_select, n_parents=2, **kwargs):
         n = n_select
+        if not pop.has("G") or not pop.has("F"):
+            return np.array([[np.random.randint(0, len(pop)), np.random.randint(0, len(pop))] for _ in range(n)])
         
-        # Separa em viáveis e inviáveis
-        feasible_mask = pop.get("G")[:, 1] <= 0
+        G = pop.get("G")
+        F = pop.get("F")
+        feasible_mask = G[:, 1] <= 0
         feasible_indices = np.where(feasible_mask)[0]
         infeasible_indices = np.where(~feasible_mask)[0]
+        n_feasible = len(feasible_indices)
+        n_infeasible = len(infeasible_indices)
         
         selected = []
-        
-        for i in range(n):
-            # Pai 1: Seleciona do grupo viável (aleatório ou por torneio)
-            if len(feasible_indices) > 0:
-                parent1_idx = np.random.choice(feasible_indices)
+        for _ in range(n):
+            use_feasible_feasible = (
+                n_feasible >= 2
+                and (n_infeasible == 0 or np.random.random() < self.feasible_mating_ratio)
+            )
+            if use_feasible_feasible:
+                i, j = np.random.choice(n_feasible, size=2, replace=False)
+                parent1_idx = int(feasible_indices[i])
+                parent2_idx = int(feasible_indices[j])
             else:
-                # Fallback: seleciona qualquer um se não há viáveis
-                parent1_idx = np.random.choice(len(pop))
-            
-            # Pai 2: Seleciona do grupo inviável (aleatório ou por torneio)
-            if len(infeasible_indices) > 0:
-                parent2_idx = np.random.choice(infeasible_indices)
-            else:
-                # Fallback: seleciona qualquer um se não há inviáveis
-                parent2_idx = np.random.choice(len(pop))
-            
+                if n_feasible == 0:
+                    i1 = np.random.randint(0, n_infeasible)
+                    i2 = (i1 + 1 + np.random.randint(0, max(1, n_infeasible - 1))) % n_infeasible
+                    parent1_idx = int(infeasible_indices[i1])
+                    parent2_idx = int(infeasible_indices[i2])
+                elif n_infeasible == 0:
+                    i, j = np.random.choice(n_feasible, size=2, replace=False)
+                    parent1_idx = int(feasible_indices[i])
+                    parent2_idx = int(feasible_indices[j])
+                else:
+                    parent1_from_F = np.random.random() < 0.5
+                    if parent1_from_F:
+                        parent1_idx = int(np.random.choice(feasible_indices))
+                        other_indices = infeasible_indices
+                    else:
+                        parent1_idx = int(np.random.choice(infeasible_indices))
+                        other_indices = feasible_indices
+                    F_other = F[other_indices]
+                    f1 = F[parent1_idx]
+                    r = F_other.max(axis=0) - F_other.min(axis=0)
+                    r = np.where(r > 1e-12, r, 1.0)
+                    F_norm = (F_other - F_other.min(axis=0)) / r
+                    f1_norm = (f1 - F_other.min(axis=0)) / r
+                    dist = np.sqrt(np.sum((F_norm - f1_norm) ** 2, axis=1))
+                    j = int(np.argmin(dist))
+                    parent2_idx = int(other_indices[j])
             selected.append([parent1_idx, parent2_idx])
         
         return np.array(selected)
@@ -363,6 +527,11 @@ class BatteryFocusedNSGA2(NSGA2):
         self,
         pop_size=100,
         infeasible_ratio=0.25,
+        feasible_mating_ratio=0.7,
+        pI_start=0.4,
+        pI_end=0.15,
+        all_conservative_init=False,
+        test_all_feasible=False,
         sampling=None,
         crossover=OrderCrossover(),
         mutation=InversionMutation(),
@@ -373,6 +542,12 @@ class BatteryFocusedNSGA2(NSGA2):
         Args:
             pop_size: Tamanho da população
             infeasible_ratio: Proporção de soluções inviáveis a preservar
+            feasible_mating_ratio: [Legado] Ignorado quando usa torneio binário (pI); mantido por compatibilidade
+            pI_start: Prob. de sortear competidor inviável no início (ex.: 0.3–0.5)
+            pI_end: Prob. de sortear competidor inviável no fim (ex.: 0.1–0.2)
+            all_conservative_init: Se True, usa NSGA-II puro (mating/survival padrão) — teste baseline.
+            test_all_feasible: Se True, usa o pipeline de dois arquivos mas com 100% viável: init e offspring
+                sempre com decoder conservador, N_I=0. Serve para verificar integridade (resultados = NSGA-II).
             sampling: Estratégia de sampling (usa HybridSampling se None)
             crossover: Operador de crossover
             mutation: Operador de mutação
@@ -393,78 +568,72 @@ class BatteryFocusedNSGA2(NSGA2):
         )
         
         self.infeasible_ratio = infeasible_ratio
+        self.all_conservative_init = all_conservative_init
+        self.test_all_feasible = test_all_feasible
         self._hybrid_sampling = None
-        self._infeasible_survival = InfeasibleSurvival(infeasible_ratio)
-        self._directed_mating = DirectedMatingSelection()
+        # Tamanhos dos dois arquivos (Seção 4 - REFENCIA_TEORICA): A_F (Convergence), A_I (Diversity)
+        # test_all_feasible: N_I=0 para que survival = NSGA-II (só A_F, tamanho pop_size)
+        if test_all_feasible:
+            self._n_F = int(pop_size)
+            self._n_I = 0
+        else:
+            self._n_F = int(pop_size * (1 - infeasible_ratio))  # N_F
+            self._n_I = int(pop_size * infeasible_ratio)          # N_I (α·N_F, α ∈ [0.1, 0.3])
+        self._use_two_archives = True   # Se True, usa dinâmica dos dois arquivos (Seção 4)
+        self._epsilon_F = 0.0           # CV <= epsilon_F → factível (usamos G2 <= 0)
+        self._cv_max_ratio = 0.8        # CV_max = cv_max_ratio * Q_bat; descarta inviáveis com G2 > CV_max (§5.1)
+        # Sem limite de G2 na seleção de inviáveis (max_violation_ratio=inf aceita todos)
+        self._infeasible_survival = InfeasibleSurvival(infeasible_ratio, max_violation_ratio=math.inf)
+        self._directed_mating = None
+        # Modo baseline (all_conservative_init): mantém mating e survival do NSGA-II para teste de integridade.
+        # Caso contrário: torneio binário com competidores de A_F e A_I (pI(t)).
+        if not self.all_conservative_init:
+            self._directed_mating = BinaryTournamentWithInfeasible(pI_start=pI_start, pI_end=pI_end)
         # Armazena operadores explicitamente para uso em _advance
         self._crossover_op = crossover
         self._mutation_op = mutation
         # Rastreia número de geração para logs
         self._current_gen = 0
         
-        # Substitui o mating padrão para usar nossa seleção customizada
-        # Isso evita que o NSGA2 padrão tente usar tournament selection que precisa de crowding distance
-        from pymoo.core.mating import Mating
-        
-        # Cria um mating customizado que usa nossa seleção direcionada
-        class CustomMating(Mating):
-            def __init__(self, crossover, mutation, directed_mating):
-                super().__init__(selection=None, crossover=crossover, mutation=mutation)
-                self._directed_mating = directed_mating
+        # Substitui o mating apenas quando NÃO em modo baseline (para igualar NSGA-II padrão no teste)
+        if not self.all_conservative_init:
+            from pymoo.core.mating import Mating
             
-            def _do(self, problem, pop, n_offsprings, **kwargs):
-                """
-                Realiza mating (crossover + mutation) com validações de X.
+            class CustomMating(Mating):
+                def __init__(self, crossover, mutation, directed_mating):
+                    super().__init__(selection=None, crossover=crossover, mutation=mutation)
+                    self._directed_mating = directed_mating
                 
-                MODIFICAÇÕES:
-                - Valida X antes de qualquer operação
-                - Valida X antes de chamar crossover
-                - Valida X após crossover
-                - Valida X após mutation
-                - Melhora tratamento de exceções com validação antes de retry
-                """
-                # VALIDAÇÃO 1: Antes de qualquer operação, valida pop
-                pop = BatteryFocusedNSGA2._validate_and_fix_pop_X(pop, problem, log_prefix="[CUSTOM_MATING] Pre-op: ")
-                
-                # Usa seleção direcionada em vez de tournament
-                # Calcula quantos matings são necessários
-                n_matings = math.ceil(n_offsprings / self.crossover.n_offsprings)
-                
-                # Obtém índices dos pais (array 2D com shape (n_matings, n_parents))
-                parents_array = self._directed_mating._do(pop, n_matings, n_parents=2, **kwargs)
-                
-                # Converte para lista de listas (formato esperado por crossover.do())
-                parents = parents_array.tolist()
-                
-                # VALIDAÇÃO 2: Antes de chamar crossover, valida pop novamente
-                # (pode ter sido modificada por operações anteriores)
-                pop = BatteryFocusedNSGA2._validate_and_fix_pop_X(pop, problem, log_prefix="[CUSTOM_MATING] Pre-crossover: ")
-                
-                # CRÍTICO: O crossover.do() espera (problem, pop, parents, ...)
-                # Onde pop é a Population original e parents é lista de listas de índices
-                # O crossover.do() então faz: pop = [pop[mating] for mating in parents]
-                # Isso cria uma lista de Population objects, cada um com os pais para um mating
-                try:
-                    _off = self.crossover.do(problem, pop, parents, **kwargs)
-                except (ValueError, AttributeError, TypeError) as e:
-                    # Se falhar, tenta corrigir pop e tentar novamente
-                    print(f"[CUSTOM_MATING] Crossover falhou: {e}. Tentando corrigir Population...")
-                    pop = BatteryFocusedNSGA2._validate_and_fix_pop_X(pop, problem, log_prefix="[CUSTOM_MATING] Retry-crossover: ")
-                    _off = self.crossover.do(problem, pop, parents, **kwargs)
-                
-                # VALIDAÇÃO 3: Após crossover, valida offspring
-                _off = BatteryFocusedNSGA2._validate_and_fix_pop_X(_off, problem, log_prefix="[CUSTOM_MATING] Post-crossover: ")
-                
-                # Aplica mutation
-                off = self.mutation.do(problem, _off, **kwargs)
-                
-                # VALIDAÇÃO 4: Após mutation, valida offspring
-                off = BatteryFocusedNSGA2._validate_and_fix_pop_X(off, problem, log_prefix="[CUSTOM_MATING] Post-mutation: ")
-                
-                return off
-        
-        # Substitui o mating padrão
-        self.mating = CustomMating(crossover, mutation, self._directed_mating)
+                def _do(self, problem, pop, n_offsprings, **kwargs):
+                    pop = BatteryFocusedNSGA2._validate_and_fix_pop_X(pop, problem, log_prefix="[CUSTOM_MATING] Pre-op: ")
+                    n_matings = math.ceil(n_offsprings / self.crossover.n_offsprings)
+                    parents_array = self._directed_mating._do(pop, n_matings, n_parents=2, **kwargs)
+                    if pop.has("G"):
+                        G = pop.get("G")
+                        g2 = G[:, 1]
+                        is_ff_mating = (g2[parents_array[:, 0]] <= 0) & (g2[parents_array[:, 1]] <= 0)
+                    else:
+                        is_ff_mating = np.zeros(n_matings, dtype=bool)
+                    parents = parents_array.tolist()
+                    pop = BatteryFocusedNSGA2._validate_and_fix_pop_X(pop, problem, log_prefix="[CUSTOM_MATING] Pre-crossover: ")
+                    try:
+                        _off = self.crossover.do(problem, pop, parents, **kwargs)
+                    except (ValueError, AttributeError, TypeError) as e:
+                        print(f"[CUSTOM_MATING] Crossover falhou: {e}. Tentando corrigir Population...")
+                        pop = BatteryFocusedNSGA2._validate_and_fix_pop_X(pop, problem, log_prefix="[CUSTOM_MATING] Retry-crossover: ")
+                        _off = self.crossover.do(problem, pop, parents, **kwargs)
+                    _off = BatteryFocusedNSGA2._validate_and_fix_pop_X(_off, problem, log_prefix="[CUSTOM_MATING] Post-crossover: ")
+                    off = self.mutation.do(problem, _off, **kwargs)
+                    off = BatteryFocusedNSGA2._validate_and_fix_pop_X(off, problem, log_prefix="[CUSTOM_MATING] Post-mutation: ")
+                    n_off = len(off)
+                    n_off_per_mating = getattr(self.crossover, "n_offsprings", 1)
+                    is_ff_offspring = np.repeat(is_ff_mating, n_off_per_mating)[:n_off]
+                    algorithm = kwargs.get("algorithm")
+                    if algorithm is not None:
+                        algorithm._last_offspring_ff_mask = is_ff_offspring
+                    return off
+            
+            self.mating = CustomMating(crossover, mutation, self._directed_mating)
     
     @staticmethod
     def _validate_and_fix_pop_X(pop, problem, log_prefix=""):
@@ -672,6 +841,82 @@ class BatteryFocusedNSGA2(NSGA2):
         assert X.ndim == 2, f"X do sampling deve ser 2D, mas tem shape {X.shape}"
         assert X.shape == (self.pop_size, problem.n_var), \
             f"X deve ter shape ({self.pop_size}, {problem.n_var}), mas tem {X.shape}"
+        
+        # ===== Modo baseline (teste integridade): 100% conservador, sem split =====
+        if getattr(self, "all_conservative_init", False):
+            pop_all = Population.new("X", X)
+            pop_all = self._validate_and_fix_pop_X(pop_all, problem, log_prefix="[INIT] Baseline: ")
+            original_flag = getattr(problem, "force_battery_feasible", None)
+            if hasattr(problem, "force_battery_feasible"):
+                problem.force_battery_feasible = True
+            try:
+                out = problem.evaluate(X, return_as_dictionary=True, **kwargs)
+                pop_all.set("F", out["F"])
+                if "G" in out:
+                    pop_all.set("G", out["G"])
+            finally:
+                if original_flag is not None:
+                    problem.force_battery_feasible = original_flag
+            self.pop = self._validate_and_fix_pop_X(pop_all, problem, log_prefix="[INIT] Baseline pós-eval: ")
+            if self.pop.has("G"):
+                n_f = np.sum(self.pop.get("G")[:, 1] <= 0)
+                print(f"[INIT] Baseline (100% conservador): {n_f}/{len(self.pop)} viáveis (G2<=0)")
+            self._update_opt_after_initialization()
+            # Rank e crowding na pop inicial para o tournament selection do NSGA-II padrão
+            F = self.pop.get("F")
+            nds = NonDominatedSorting()
+            fronts = nds.do(F)
+            n = len(self.pop)
+            rank = np.zeros(n, dtype=int)
+            for r, front in enumerate(fronts):
+                front = np.atleast_1d(front)
+                rank[front] = r
+            crowding = np.zeros(n)
+            for front in fronts:
+                front = np.atleast_1d(front)
+                if len(front) > 2:
+                    cd = calculate_crowding_distance(F[front])
+                    for i, idx in enumerate(front):
+                        crowding[idx] = cd[i]
+                else:
+                    crowding[front] = np.inf
+            self.pop.set("rank", rank)
+            self.pop.set("crowding", crowding)
+            if len(self.pop) > 0 and self.pop.has("G"):
+                G = self.pop.get("G")
+                n_f = np.sum(G[:, 1] <= 0)
+                n_inv = len(self.pop) - n_f
+                print(f"Gen {self._current_gen:3d} | Pop: {len(self.pop):3d} | Viáveis: {n_f:3d} | Inviáveis: {n_inv:3d} [Inicial Baseline]")
+            return
+        
+        # ===== test_all_feasible: pipeline dois arquivos com 100% viável (init 100% conservador) =====
+        if getattr(self, "test_all_feasible", False):
+            n_feasible = self.pop_size  # todos no lote "viável"
+            X_feasible = X.copy()
+            X_infeasible = np.zeros((0, X.shape[1]), dtype=X.dtype)
+            pop_feasible = Population.new("X", X_feasible)
+            pop_feasible = self._validate_and_fix_pop_X(pop_feasible, problem, log_prefix="[INIT] TestAllFeasible: ")
+            original_flag = getattr(problem, "force_battery_feasible", None)
+            if hasattr(problem, "force_battery_feasible"):
+                problem.force_battery_feasible = True
+            try:
+                out = problem.evaluate(X_feasible, return_as_dictionary=True, **kwargs)
+                pop_feasible.set("F", out["F"])
+                if "G" in out:
+                    pop_feasible.set("G", out["G"])
+            finally:
+                if original_flag is not None:
+                    problem.force_battery_feasible = original_flag
+            if len(X_infeasible) == 0:
+                self.pop = pop_feasible
+            else:
+                pop_infeasible = Population.new("X", X_infeasible)
+                self.pop = Population.merge(pop_feasible, pop_infeasible)
+            self.pop = self._validate_and_fix_pop_X(self.pop, problem, log_prefix="[INIT] TestAllFeasible pós-eval: ")
+            n_f = np.sum(self.pop.get("G")[:, 1] <= 0) if self.pop.has("G") else len(self.pop)
+            print(f"[INIT] TestAllFeasible: 100% conservador, {n_f}/{len(self.pop)} viáveis (G2<=0); pipeline dois arquivos com N_I=0")
+            self._update_opt_after_initialization()
+            return
         
         # ===== PASSO 2: Fissionamento =====
         # Divide matematicamente em dois lotes
@@ -897,6 +1142,144 @@ class BatteryFocusedNSGA2(NSGA2):
                 self.opt = Population()
                 print(f"[UPDATE_OPT] ERRO: População também está vazia, opt permanece vazio")
     
+    def _update_two_archives(self, pop):
+        """
+        Atualiza os dois arquivos conforme Seção 4 (REFENCIA_TEORICA.md).
+        
+        - A_F (Convergence Archive): todos os viáveis do merge (pop atual + offspring).
+          Processo idêntico ao NSGA-II: NDS em (f1, f2), ranking por frentes F1, F2, ...,
+          crowding distance dentro de cada frente; acumular frentes até ultrapassar N_F;
+          na última frente parcial ordenar por crowding e pegar os primeiros até completar N_F.
+          Ver nsga2_survival().
+        - A_I (Diversity Archive): todos os inviáveis do merge (pool único, sem pré-filtro).
+          NDS em (f1, f2, G2), crowding em (f1, f2), acumular frentes até N_I.
+          Ver nsga2_survival().
+        Garante população total = pop_size (N_F + N_I); se há menos viáveis que N_F,
+        completa com inviáveis até pop_size.
+        
+        Args:
+            pop: Population (merge de população atual + offspring), com F e G.
+        Returns:
+            Population de tamanho pop_size = A_F ∪ A_I.
+        """
+        n_select = self.pop_size
+        N_F = self._n_F
+        N_I = self._n_I
+        epsilon_F = self._epsilon_F
+        
+        if not pop.has("F") or not pop.has("G"):
+            return pop
+        F = pop.get("F")
+        G = pop.get("G")
+        # CV para factibilidade: G2 (violação de bateria)
+        cv = G[:, 1]
+        feasible_mask = cv <= epsilon_F
+        feasible_indices = np.where(feasible_mask)[0]
+        infeasible_indices = np.where(~feasible_mask)[0]
+        
+        selected_indices = []
+        
+        # ----- A_F: Arquivo factível (Convergence Archive) -----
+        # Pipeline idêntico ao NSGA-II: NDS em (f1,f2), ranking por frente, crowding por frente,
+        # acumular frentes até ultrapassar N_F; na frente parcial ordenar por crowding e pegar os primeiros.
+        if len(feasible_indices) > 0:
+            feasible_pop = pop[feasible_indices]
+            F_f = feasible_pop.get("F")
+            survivor_local = nsga2_survival(
+                F_f, N_F, random_state=getattr(self, "random_state", None)
+            )
+            selected_f = [feasible_indices[i] for i in survivor_local]
+            selected_indices.extend(selected_f)
+        
+        # ----- A_I: Arquivo inviável (Diversity Archive) -----
+        # NSGAzinho: pool único com TODOS os inviáveis do merge; sem pré-filtro de qualidade.
+        # NDS em (f1, f2, G2): ranking considera proximidade de factibilidade.
+        # Crowding em (f1, f2): diversidade medida no espaço de objetivos reais.
+        # Acumular frentes até N_I; na frente parcial, ordenar por crowding e completar.
+        n_remaining = n_select - len(selected_indices)
+        if len(infeasible_indices) > 0 and n_remaining > 0:
+            F_inf = F[infeasible_indices]
+            G2_inf = G[infeasible_indices, 1]
+            F_nds_inf = np.column_stack([F_inf[:, 0], F_inf[:, 1], G2_inf])
+            F_cd_inf = F_inf  # crowding em (f1, f2)
+            survivor_local_inf = nsga2_survival(
+                F_nds_inf, n_remaining, F_cd=F_cd_inf,
+                random_state=getattr(self, "random_state", None)
+            )
+            selected_i = [infeasible_indices[i] for i in survivor_local_inf]
+            selected_indices.extend(selected_i)
+        
+        # Garantir exatamente n_select (completar com restantes ou duplicatas se necessário)
+        if len(selected_indices) < n_select:
+            all_indices = list(range(len(pop)))
+            remaining = [i for i in all_indices if i not in selected_indices]
+            n_needed = n_select - len(selected_indices)
+            if len(remaining) >= n_needed:
+                selected_indices.extend(
+                    np.random.choice(remaining, size=n_needed, replace=False).tolist()
+                )
+            else:
+                selected_indices.extend(remaining)
+                # Se ainda faltam (ex.: só 75 viáveis, 0 inviáveis), completa ciclando nos já escolhidos
+                n_prev = len(selected_indices)
+                for i in range(n_select - n_prev):
+                    selected_indices.append(selected_indices[i % n_prev])
+        if len(selected_indices) > n_select:
+            selected_indices = selected_indices[:n_select]
+        
+        return pop[selected_indices]
+    
+    def _update_rank_and_crowding_for_mating(self):
+        """
+        Atualiza rank e crowding em self.pop para uso no torneio binário.
+        - Viáveis (A_F): NDS em F, rank 0,1,2,..., crowding por frente em F.
+        - Inviáveis (A_I): NDS em (f1, f2, G2), rank = RANK_INFEASIBLE_BASE + frente;
+          diversidade = crowding em (f1, f2) por frente.
+        Assim, no torneio: factível sempre ganha de inviável; entre factíveis (rank, crowding);
+        entre inviáveis (rank, crowding) em (f1,f2,G2) e (f1,f2).
+        """
+        pop = self.pop
+        n = len(pop)
+        if n == 0 or not pop.has("F") or not pop.has("G"):
+            return
+        F = pop.get("F")
+        G = pop.get("G")
+        feasible_mask = G[:, 1] <= 0
+        feasible_indices = np.where(feasible_mask)[0]
+        infeasible_indices = np.where(~feasible_mask)[0]
+        rank_all = np.full(n, RANK_INFEASIBLE_BASE + 9999, dtype=float)
+        crowding_all = np.zeros(n, dtype=float)
+        nds = NonDominatedSorting()
+        
+        if len(feasible_indices) > 0:
+            F_f = F[feasible_indices]
+            fronts_f = nds.do(F_f)
+            for r, front in enumerate(fronts_f):
+                front = np.atleast_1d(front)
+                for idx in front:
+                    rank_all[feasible_indices[idx]] = float(r)
+                if len(front) > 0:
+                    cd = calculate_crowding_distance(F_f[front])
+                    for i, idx in enumerate(front):
+                        crowding_all[feasible_indices[idx]] = cd[i]
+        
+        if len(infeasible_indices) > 0:
+            F_inf = F[infeasible_indices]
+            G2_inf = G[infeasible_indices, 1]
+            F3 = np.column_stack([F_inf[:, 0], F_inf[:, 1], G2_inf])
+            fronts_i = nds.do(F3)
+            for r, front in enumerate(fronts_i):
+                front = np.atleast_1d(front)
+                for idx in front:
+                    rank_all[infeasible_indices[idx]] = float(RANK_INFEASIBLE_BASE + r)
+                if len(front) > 0:
+                    cd = calculate_crowding_distance(F_inf[front])
+                    for i, idx in enumerate(front):
+                        crowding_all[infeasible_indices[idx]] = cd[i]
+        
+        pop.set("rank", rank_all)
+        pop.set("crowding", crowding_all)
+    
     def _advance(self, infills=None, **kwargs):
         """
         Avança uma geração com estratégias customizadas.
@@ -969,56 +1352,115 @@ class BatteryFocusedNSGA2(NSGA2):
         # (pode ter sido modificada por operações anteriores)
         self.pop = self._validate_and_fix_pop_X(self.pop, self.problem, log_prefix=f"[GEN {self._current_gen}] Pre-mating: ")
         
+        # Rank e crowding para torneio binário (A_F e A_I); só quando usamos seleção com inviáveis
+        if not getattr(self, "all_conservative_init", False):
+            self._update_rank_and_crowding_for_mating()
+        
         # Gera filhos usando o mating customizado (já configurado)
         off = self.mating.do(self.problem, self.pop, self.n_offsprings, algorithm=self, random_state=self.random_state)
         
         # VALIDAÇÃO 3: Após criar offspring, valida X dos filhos
         off = self._validate_and_fix_pop_X(off, self.problem, log_prefix=f"[GEN {self._current_gen}] Post-mating: ")
         
-        # ===== REPARO PROBABILÍSTICO (LAMARCKIANO) =====
-        # 50% dos filhos são avaliados com force_battery_feasible=True (tentativa de gerar novos viáveis)
-        # 50% dos filhos são avaliados com force_battery_feasible=False (exploração de novos limites inviáveis)
-        if len(off) > 0:
-            n_offspring = len(off)
-            n_repair = n_offspring // 2  # 50% para reparo
-            
-            # Embaralha índices para seleção aleatória (usa random_state do algoritmo)
-            # self.random_state é um Generator, não RandomState
-            repair_indices = self.random_state.choice(n_offspring, size=n_repair, replace=False)
-            repair_mask = np.zeros(n_offspring, dtype=bool)
-            repair_mask[repair_indices] = True
-            
-            # Salva estado original do problema
-            original_force_feasible = self.problem.force_battery_feasible
-            
-            # Avalia 50% com force_battery_feasible=True (REPARO)
-            if np.any(repair_mask):
-                off_repair = off[repair_mask]
-                self.problem.force_battery_feasible = True
-                try:
-                    self.evaluator.eval(self.problem, off_repair, **kwargs)
-                    # Log: verifica quantos ficaram viáveis após reparo
-                    if off_repair.has("G"):
-                        G_repair = off_repair.get("G")
-                        n_feasible_after_repair = np.sum(G_repair[:, 1] <= 0)
-                        print(f"  [REPARO] {len(off_repair)} filhos avaliados com force_battery_feasible=True → {n_feasible_after_repair} viáveis")
+        # ===== PIPELINE: F×F → decoder conservador; resto → agressivo. Pool viável/inviável por G2 =====
+        # Modo baseline: toda offspring com decoder conservador (igual NSGA-II)
+        if getattr(self, "all_conservative_init", False) and len(off) > 0:
+            original_force = self.problem.force_battery_feasible
+            self.problem.force_battery_feasible = True
+            try:
+                self.evaluator.eval(self.problem, off, **kwargs)
+            finally:
+                self.problem.force_battery_feasible = original_force
+            if len(off) > 0:
+                print(f"  [DECODER] Baseline: toda offspring em modo conservador")
+        # test_all_feasible: mesmo pipeline dois arquivos, mas toda offspring com conservador (100% viável)
+        elif getattr(self, "test_all_feasible", False) and len(off) > 0:
+            original_force = self.problem.force_battery_feasible
+            self.problem.force_battery_feasible = True
+            try:
+                self.evaluator.eval(self.problem, off, **kwargs)
+            finally:
+                self.problem.force_battery_feasible = original_force
+            if len(off) > 0:
+                print(f"  [DECODER] TestAllFeasible: toda offspring em modo conservador")
+        elif len(off) > 0:
+            mask_ff = getattr(self, "_last_offspring_ff_mask", None)
+            n_off = len(off)
+            if mask_ff is not None and len(mask_ff) == n_off:
+                n_ff = int(np.sum(mask_ff))
+                n_mixed = n_off - n_ff
+                original_force = self.problem.force_battery_feasible
+                if n_ff > 0 and n_mixed > 0:
+                    off_ff = off[mask_ff]
+                    off_mixed = off[~mask_ff]
+                    self.problem.force_battery_feasible = True
+                    try:
+                        self.evaluator.eval(self.problem, off_ff, **kwargs)
+                    finally:
+                        self.problem.force_battery_feasible = original_force
+                    self.problem.force_battery_feasible = False
+                    try:
+                        self.evaluator.eval(self.problem, off_mixed, **kwargs)
+                    finally:
+                        self.problem.force_battery_feasible = original_force
+                    n_obj = off_ff.get("F").shape[1]
+                    n_g = off_ff.get("G").shape[1]
+                    F_all = np.zeros((n_off, n_obj))
+                    G_all = np.zeros((n_off, n_g))
+                    F_all[mask_ff] = off_ff.get("F")
+                    F_all[~mask_ff] = off_mixed.get("F")
+                    G_all[mask_ff] = off_ff.get("G")
+                    G_all[~mask_ff] = off_mixed.get("G")
+                    off.set("F", F_all)
+                    off.set("G", G_all)
+                elif n_ff > 0:
+                    self.problem.force_battery_feasible = True
+                    try:
+                        self.evaluator.eval(self.problem, off, **kwargs)
+                    finally:
+                        self.problem.force_battery_feasible = original_force
+                else:
+                    self.problem.force_battery_feasible = False
+                    try:
+                        self.evaluator.eval(self.problem, off, **kwargs)
+                    finally:
+                        self.problem.force_battery_feasible = original_force
+                # Log: entre os filhos F×I/I×F (decoder agressivo), quantos ficaram viáveis e mínimos de f1/f2
+                if n_mixed > 0 and off.has("G"):
+                    mixed_mask = ~mask_ff
+                    G_off = off.get("G")
+                    F_off = off.get("F")
+                    feasible_from_mixed = mixed_mask & (G_off[:, 1] <= 0)
+                    n_feas_mixed = int(np.sum(feasible_from_mixed))
+                    if n_feas_mixed > 0:
+                        f1_min_mixed = np.min(F_off[feasible_from_mixed, 0])
+                        f2_min_mixed = np.min(F_off[feasible_from_mixed, 1])
+                        print(f"  [F×I/I×F viáveis] n={n_feas_mixed}/{n_mixed} | f1_min={f1_min_mixed:.1f} | f2_min={f2_min_mixed:.4f}")
                     else:
-                        print(f"  [REPARO] {len(off_repair)} filhos avaliados com force_battery_feasible=True")
-                finally:
-                    # Restaura estado original
-                    self.problem.force_battery_feasible = original_force_feasible
-            
-            # Avalia 50% com force_battery_feasible=False (EXPLORAÇÃO)
-            if np.any(~repair_mask):
-                off_explore = off[~repair_mask]
+                        print(f"  [F×I/I×F viáveis] n=0/{n_mixed} (nenhum filho agressivo viável)")
+                print(f"  [DECODER] F×F (conservador): {n_ff} | F×I/I×F (agressivo): {n_mixed}")
+            else:
+                original_force = self.problem.force_battery_feasible
                 self.problem.force_battery_feasible = False
                 try:
-                    self.evaluator.eval(self.problem, off_explore, **kwargs)
-                    print(f"  [EXPLORAÇÃO] {len(off_explore)} filhos avaliados com force_battery_feasible=False")
+                    self.evaluator.eval(self.problem, off, **kwargs)
                 finally:
-                    # Restaura estado original
-                    self.problem.force_battery_feasible = original_force_feasible
-        
+                    self.problem.force_battery_feasible = original_force
+                # Toda offspring é F×I/I×F (agressivo); log viáveis e mínimos f1/f2
+                if off.has("G"):
+                    G_off = off.get("G")
+                    F_off = off.get("F")
+                    feasible = (G_off[:, 1] <= 0)
+                    n_feas = int(np.sum(feasible))
+                    n_off = len(off)
+                    if n_feas > 0:
+                        f1_min_mixed = np.min(F_off[feasible, 0])
+                        f2_min_mixed = np.min(F_off[feasible, 1])
+                        print(f"  [F×I/I×F viáveis] n={n_feas}/{n_off} | f1_min={f1_min_mixed:.1f} | f2_min={f2_min_mixed:.4f}")
+                    else:
+                        print(f"  [F×I/I×F viáveis] n=0/{n_off} (nenhum filho agressivo viável)")
+                print(f"  [DECODER] Offspring toda em modo agressivo (sem máscara F×F)")
+
         # VALIDAÇÃO 4: Após avaliação, valida X novamente
         # (avaliação não deve modificar X, mas vamos garantir)
         off = self._validate_and_fix_pop_X(off, self.problem, log_prefix=f"[GEN {self._current_gen}] Post-eval: ")
@@ -1029,11 +1471,43 @@ class BatteryFocusedNSGA2(NSGA2):
         # VALIDAÇÃO 5: Após merge, valida X
         pop = self._validate_and_fix_pop_X(pop, self.problem, log_prefix=f"[GEN {self._current_gen}] Post-merge: ")
         
-        # Aplica sobrevivência customizada para manter tamanho
-        selected_indices = self._infeasible_survival._do(pop, self.pop_size, algorithm=self)
-        self.pop = pop[selected_indices]
+        # Log: tamanho dos pools viável/inviável após toda a offspring passar pelo decoder, antes da seleção
+        if len(pop) > 0 and pop.has("G"):
+            G_merged = pop.get("G")
+            n_viable = int(np.sum(G_merged[:, 1] <= 0))
+            n_inv = len(pop) - n_viable
+            print(f"  [POOL] viáveis: {n_viable} | inviáveis: {n_inv} (antes da seleção)")
         
-        # VALIDAÇÃO 6: Após survival, valida X final
+        # Filtro CV_max (§5.1): descarta inviáveis com G2 > cv_max_ratio * Q_bat
+        if getattr(self, '_cv_max_ratio', None) is not None and pop.has("G") and hasattr(self.problem, 'context'):
+            battery_capacity = getattr(self.problem.context, 'battery_capacity', None) or 100.0
+            cv_max = battery_capacity * self._cv_max_ratio
+            G = pop.get("G")
+            keep = G[:, 1] <= cv_max
+            if not np.all(keep):
+                n_discarded = np.sum(~keep)
+                pop = pop[keep]
+                if n_discarded > 0:
+                    print(f"  [CV_MAX] Descartados {n_discarded} indivíduos com G2 > {cv_max:.1f} ({self._cv_max_ratio*100:.0f}% Q_bat)")
+        
+        # Atualização da população: baseline usa survival do NSGA-II; senão dois arquivos ou cotas
+        if getattr(self, "all_conservative_init", False):
+            # Igual NSGA-II: RankAndCrowdingSurvival (rank, depois crowding)
+            self.pop = self.survival.do(self.problem, pop, n_survive=self.pop_size, **kwargs)
+            if len(self.pop) > 0 and self.pop.has("G"):
+                n_f = np.sum(self.pop.get("G")[:, 1] <= 0)
+                print(f"  [BASELINE] Survival NSGA-II: {n_f} viáveis")
+        elif getattr(self, '_use_two_archives', False):
+            # A_F (Convergence) + A_I (Diversity): NDS+crowding por arquivo, tamanhos N_F e N_I
+            self.pop = self._update_two_archives(pop)
+            if len(self.pop) > 0 and self.pop.has("G"):
+                n_f = np.sum(self.pop.get("G")[:, 1] <= self._epsilon_F)
+                print(f"  [DOIS ARQUIVOS] A_F (Convergence): {n_f}, A_I (Diversity): {len(self.pop) - n_f}")
+        else:
+            selected_indices = self._infeasible_survival._do(pop, self.pop_size, algorithm=self)
+            self.pop = pop[selected_indices]
+        
+        # VALIDAÇÃO 6: Após survival/archives, valida X final
         self.pop = self._validate_and_fix_pop_X(self.pop, self.problem, log_prefix=f"[GEN {self._current_gen}] Post-survival: ")
         
         # Log: Estatísticas detalhadas da população após seleção

@@ -1,0 +1,73 @@
+
+================================================================================
+EXECUTANDO NSGA-II COM DIRECTED MATING (BATERIA)
+================================================================================
+Logs sendo salvos em: logs/battery_focused_nsga2_rc208_21_20260226_215111.txt
+================================================================================
+População: 100
+Gerações: 2
+Taxa de inviáveis preservados: 30.0%
+Cruzamentos viável-viável: 70%
+================================================================================
+
+[INIT] Passo 3: Criadas populações - Viáveis: 50, Inviáveis: 50
+[INIT] Passo 4A: Avaliando 50 indivíduos com force_battery_feasible=True
+[INIT] Passo 4A: Após avaliação - 50/50 realmente viáveis (G2 <= 0)
+[INIT] Passo 4B: Avaliando 50 indivíduos com force_battery_feasible=False
+[INIT] Passo 4B: Após avaliação - 41/50 realmente inviáveis (G2 > 0)
+[INIT] Passo 5: População fundida - Tamanho total: 100
+[INIT] Passo 5: Após merge - Viáveis: 59 (59.0%), Inviáveis: 41
+[INIT] Passo 6: Atualizando opt...
+[UPDATE_OPT] População tem 100 indivíduos, 59 viáveis (cv == 0)
+[UPDATE_OPT] Filtrando 59 soluções viáveis para opt
+[UPDATE_OPT] Non-dominated sorting encontrou 10 frentes
+[UPDATE_OPT] Opt criado com 9 soluções da primeira frente viável
+[INIT] Passo 6: Opt atualizado - Tamanho: 9
+[INIT] Passo 6: Opt contém 9/9 soluções viáveis
+[INIT] Passo 6: Opt tem 'cv' - min: 0.0, max: 0.0
+Gen   0 | Pop: 100 | Viáveis:  59 ( 59.0%) | Inviáveis:  41 [Inicial]
+[POST_ADVANCE] Iniciando - Gen: 0, Pop: 100, Opt: 9
+[POST_ADVANCE] Self ID: 5672493056, Opt ID: 5672929616, Opt size: 9
+[POST_ADVANCE] Concluído com sucesso
+Gen   1 | Pop: 100 | Viáveis:  59 ( 59.0%) | Inviáveis:  41
+  └─ Viáveis: f1 médio=54028.7, min=39148.2 | f2 médio=0.006, min=0.000
+  └─ Inviáveis: f1 médio=39475.0, min=39118.4 | f2 médio=0.013 | G2 médio=19.77, min=10.38, max=42.05
+  [F×I/I×F viáveis] n=7/24 | f1_min=39276.8 | f2_min=0.0036
+  [DECODER] F×F (conservador): 76 | F×I/I×F (agressivo): 24
+  [POOL] viáveis: 142 | inviáveis: 58 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 70, A_I (Diversity): 30
+      | Pop: 100 | Viáveis:  70 ( 70.0%) | Inviáveis:  30 [Após Seleção]
+        └─ Viáveis: f1 médio=51122.6, min=39148.2 | f2 médio=0.005, min=0.000
+        └─ Inviáveis: f1 médio=39387.7, min=39118.4 | f2 médio=0.010 | G2 médio=16.62, min=10.38, max=42.05
+[POST_ADVANCE] Iniciando - Gen: 1, Pop: 100, Opt: 9
+[POST_ADVANCE] Self ID: 5672493056, Opt ID: 5672722768, Opt size: 9
+[POST_ADVANCE] Concluído com sucesso
+
+================================================================================
+NSGA-II COM DIRECTED MATING FINALIZADO
+================================================================================
+Tempo de execução: 1.38 segundos
+Tamanho da população final: 100
+Soluções viáveis: 70 (70.0%)
+Soluções inviáveis: 30 (30.0%)
+Soluções na frente de Pareto: 9
+
+Estatísticas dos Objetivos:
+  f1 (custo): min=39148.20, max=55033.02, média=44805.74
+  f2 (insatisfação): min=0.0000, max=0.0155, média=0.0054
+
+Todas as soluções da frente de Pareto:
+  Solução 1: Custo=39148.20, Insatisfação=0.0155
+  Solução 2: Custo=55033.02, Insatisfação=0.0000
+  Solução 3: Custo=49316.92, Insatisfação=0.0024
+  Solução 4: Custo=39545.30, Insatisfação=0.0036
+  Solução 5: Custo=39172.53, Insatisfação=0.0141
+  Solução 6: Custo=39276.82, Insatisfação=0.0061
+  Solução 7: Custo=51505.73, Insatisfação=0.0001
+  Solução 8: Custo=50740.42, Insatisfação=0.0019
+  Solução 9: Custo=39512.76, Insatisfação=0.0052
+
+================================================================================
+Logs salvos em: logs/battery_focused_nsga2_rc208_21_20260226_215111.txt
+================================================================================
+

@@ -1,0 +1,1153 @@
+
+================================================================================
+EXECUTANDO NSGA-II COM DIRECTED MATING (BATERIA)
+================================================================================
+Logs sendo salvos em: logs/battery_focused_nsga2_rc208_21_20260226_204909.txt
+================================================================================
+População: 100
+Gerações: 100
+Taxa de inviáveis preservados: 30.0%
+Cruzamentos viável-viável: 70%
+================================================================================
+
+[INIT] Passo 3: Criadas populações - Viáveis: 50, Inviáveis: 50
+[INIT] Passo 4A: Avaliando 50 indivíduos com force_battery_feasible=True
+[INIT] Passo 4A: Após avaliação - 50/50 realmente viáveis (G2 <= 0)
+[INIT] Passo 4B: Avaliando 50 indivíduos com force_battery_feasible=False
+[INIT] Passo 4B: Após avaliação - 50/50 realmente inviáveis (G2 > 0)
+[INIT] Passo 5: População fundida - Tamanho total: 100
+[INIT] Passo 5: Após merge - Viáveis: 50 (50.0%), Inviáveis: 50
+[INIT] Passo 6: Atualizando opt...
+[UPDATE_OPT] População tem 100 indivíduos, 50 viáveis (cv == 0)
+[UPDATE_OPT] Filtrando 50 soluções viáveis para opt
+[UPDATE_OPT] Non-dominated sorting encontrou 13 frentes
+[UPDATE_OPT] Opt criado com 1 soluções da primeira frente viável
+[INIT] Passo 6: Opt atualizado - Tamanho: 1
+[INIT] Passo 6: Opt contém 1/1 soluções viáveis
+[INIT] Passo 6: Opt tem 'cv' - min: 0.0, max: 0.0
+Gen   0 | Pop: 100 | Viáveis:  50 ( 50.0%) | Inviáveis:  50 [Inicial]
+[POST_ADVANCE] Iniciando - Gen: 0, Pop: 100, Opt: 1
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000140368, Opt size: 1
+==========================================================================================
+n_gen  |  n_eval  | n_nds  |     cv_min    |     cv_avg    |      eps      |   indicator  
+==========================================================================================
+     1 |      100 |      1 |  0.000000E+00 |  1.601791E+02 |             - |             -
+[POST_ADVANCE] Concluído com sucesso
+Gen   1 | Pop: 100 | Viáveis:  50 ( 50.0%) | Inviáveis:  50
+  └─ Viáveis: f1 médio=133342.1, min=74740.4 | f2 médio=0.170, min=0.110
+  └─ Inviáveis: f1 médio=39818.2, min=39315.9 | f2 médio=0.015 | G2 médio=320.36, min=233.46, max=397.41
+  [F×I/I×F viáveis] n=0/38 (nenhum filho agressivo viável)
+  [DECODER] F×F (conservador): 62 | F×I/I×F (agressivo): 38
+  [POOL] viáveis: 112 | inviáveis: 88 (antes da seleção)
+  [CV_MAX] Descartados 88 indivíduos com G2 > 80.0 (80% Q_bat)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=126686.0, min=59876.4 | f2 médio=0.169, min=0.110
+[POST_ADVANCE] Iniciando - Gen: 1, Pop: 100, Opt: 3
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000147792, Opt size: 3
+     2 |      300 |      3 |  0.000000E+00 |  0.000000E+00 |  1.0000000000 |         ideal
+[POST_ADVANCE] Concluído com sucesso
+Gen   2 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=126686.0, min=59876.4 | f2 médio=0.169, min=0.110
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=110233.9, min=59876.4 | f2 médio=0.159, min=0.110
+[POST_ADVANCE] Iniciando - Gen: 2, Pop: 100, Opt: 5
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000582736, Opt size: 5
+     3 |      500 |      5 |  0.000000E+00 |  0.000000E+00 |  0.1321981635 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen   3 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=110233.9, min=59876.4 | f2 médio=0.159, min=0.110
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=96800.0, min=57573.8 | f2 médio=0.158, min=0.100
+[POST_ADVANCE] Iniciando - Gen: 3, Pop: 100, Opt: 9
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000511312, Opt size: 9
+     4 |      700 |      9 |  0.000000E+00 |  0.000000E+00 |  0.1105547277 |         ideal
+[POST_ADVANCE] Concluído com sucesso
+Gen   4 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=96800.0, min=57573.8 | f2 médio=0.158, min=0.100
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=88116.6, min=57468.8 | f2 médio=0.154, min=0.090
+[POST_ADVANCE] Iniciando - Gen: 4, Pop: 100, Opt: 10
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000173520, Opt size: 10
+     5 |      900 |     10 |  0.000000E+00 |  0.000000E+00 |  0.0708044419 |         ideal
+[POST_ADVANCE] Concluído com sucesso
+Gen   5 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=88116.6, min=57468.8 | f2 médio=0.154, min=0.090
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=86019.4, min=57468.8 | f2 médio=0.154, min=0.090
+[POST_ADVANCE] Iniciando - Gen: 5, Pop: 100, Opt: 12
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000588752, Opt size: 12
+     6 |     1100 |     12 |  0.000000E+00 |  0.000000E+00 |  0.0133625246 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen   6 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=86019.4, min=57468.8 | f2 médio=0.154, min=0.090
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=82481.2, min=56341.1 | f2 médio=0.161, min=0.090
+[POST_ADVANCE] Iniciando - Gen: 6, Pop: 100, Opt: 12
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000584912, Opt size: 12
+     7 |     1300 |     12 |  0.000000E+00 |  0.000000E+00 |  0.0161514723 |         ideal
+[POST_ADVANCE] Concluído com sucesso
+Gen   7 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=82481.2, min=56341.1 | f2 médio=0.161, min=0.090
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=78440.6, min=54295.0 | f2 médio=0.163, min=0.090
+[POST_ADVANCE] Iniciando - Gen: 7, Pop: 100, Opt: 13
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000443728, Opt size: 13
+     8 |     1500 |     13 |  0.000000E+00 |  0.000000E+00 |  0.0284723273 |         ideal
+[POST_ADVANCE] Concluído com sucesso
+Gen   8 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=78440.6, min=54295.0 | f2 médio=0.163, min=0.090
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=78274.0, min=54295.0 | f2 médio=0.159, min=0.090
+[POST_ADVANCE] Iniciando - Gen: 8, Pop: 100, Opt: 12
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000251984, Opt size: 12
+     9 |     1700 |     12 |  0.000000E+00 |  0.000000E+00 |  0.0135301381 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen   9 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=78274.0, min=54295.0 | f2 médio=0.159, min=0.090
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=73570.6, min=54242.8 | f2 médio=0.163, min=0.090
+[POST_ADVANCE] Iniciando - Gen: 9, Pop: 100, Opt: 12
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000430544, Opt size: 12
+    10 |     1900 |     12 |  0.000000E+00 |  0.000000E+00 |  0.0060968310 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  10 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=73570.6, min=54242.8 | f2 médio=0.163, min=0.090
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=72552.8, min=54076.9 | f2 médio=0.168, min=0.090
+[POST_ADVANCE] Iniciando - Gen: 10, Pop: 100, Opt: 12
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 4999848912, Opt size: 12
+    11 |     2100 |     12 |  0.000000E+00 |  0.000000E+00 |  0.1711913920 |         nadir
+[POST_ADVANCE] Concluído com sucesso
+Gen  11 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=72552.8, min=54076.9 | f2 médio=0.168, min=0.090
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=71063.1, min=54076.9 | f2 médio=0.170, min=0.090
+[POST_ADVANCE] Iniciando - Gen: 11, Pop: 100, Opt: 14
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000251088, Opt size: 14
+    12 |     2300 |     14 |  0.000000E+00 |  0.000000E+00 |  0.0062130713 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  12 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=71063.1, min=54076.9 | f2 médio=0.170, min=0.090
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=70771.9, min=53123.2 | f2 médio=0.167, min=0.090
+[POST_ADVANCE] Iniciando - Gen: 12, Pop: 100, Opt: 12
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000439376, Opt size: 12
+    13 |     2500 |     12 |  0.000000E+00 |  0.000000E+00 |  0.0140881368 |         ideal
+[POST_ADVANCE] Concluído com sucesso
+Gen  13 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=70771.9, min=53123.2 | f2 médio=0.167, min=0.090
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=70112.3, min=53123.2 | f2 médio=0.164, min=0.090
+[POST_ADVANCE] Iniciando - Gen: 13, Pop: 100, Opt: 12
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 4999842000, Opt size: 12
+    14 |     2700 |     12 |  0.000000E+00 |  0.000000E+00 |  0.0012102618 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  14 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=70112.3, min=53123.2 | f2 médio=0.164, min=0.090
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=69446.1, min=53123.2 | f2 médio=0.165, min=0.090
+[POST_ADVANCE] Iniciando - Gen: 14, Pop: 100, Opt: 12
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000257360, Opt size: 12
+    15 |     2900 |     12 |  0.000000E+00 |  0.000000E+00 |  0.0012102618 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  15 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=69446.1, min=53123.2 | f2 médio=0.165, min=0.090
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=67940.0, min=49887.1 | f2 médio=0.164, min=0.090
+[POST_ADVANCE] Iniciando - Gen: 15, Pop: 100, Opt: 16
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 4999701968, Opt size: 16
+    16 |     3100 |     16 |  0.000000E+00 |  0.000000E+00 |  0.0456245532 |         ideal
+[POST_ADVANCE] Concluído com sucesso
+Gen  16 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=67940.0, min=49887.1 | f2 médio=0.164, min=0.090
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=70410.3, min=49887.1 | f2 médio=0.161, min=0.090
+[POST_ADVANCE] Iniciando - Gen: 16, Pop: 100, Opt: 11
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 4999844176, Opt size: 11
+    17 |     3300 |     11 |  0.000000E+00 |  0.000000E+00 |  0.0097966467 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  17 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=70410.3, min=49887.1 | f2 médio=0.161, min=0.090
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=69946.4, min=49887.1 | f2 médio=0.164, min=0.090
+[POST_ADVANCE] Iniciando - Gen: 17, Pop: 100, Opt: 13
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 4999704400, Opt size: 13
+    18 |     3500 |     13 |  0.000000E+00 |  0.000000E+00 |  0.0206139705 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  18 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=69946.4, min=49887.1 | f2 médio=0.164, min=0.090
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=65482.5, min=49887.1 | f2 médio=0.166, min=0.090
+[POST_ADVANCE] Iniciando - Gen: 18, Pop: 100, Opt: 15
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000263632, Opt size: 15
+    19 |     3700 |     15 |  0.000000E+00 |  0.000000E+00 |  2.4267329193 |         nadir
+[POST_ADVANCE] Concluído com sucesso
+Gen  19 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=65482.5, min=49887.1 | f2 médio=0.166, min=0.090
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=64098.7, min=48822.0 | f2 médio=0.169, min=0.090
+[POST_ADVANCE] Iniciando - Gen: 19, Pop: 100, Opt: 16
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 4999701200, Opt size: 16
+    20 |     3900 |     16 |  0.000000E+00 |  0.000000E+00 |  0.0489382136 |         ideal
+[POST_ADVANCE] Concluído com sucesso
+Gen  20 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=64098.7, min=48822.0 | f2 médio=0.169, min=0.090
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=65461.3, min=48822.0 | f2 médio=0.169, min=0.090
+[POST_ADVANCE] Iniciando - Gen: 20, Pop: 100, Opt: 16
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 4999700176, Opt size: 16
+    21 |     4100 |     16 |  0.000000E+00 |  0.000000E+00 |  0.0075998572 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  21 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=65461.3, min=48822.0 | f2 médio=0.169, min=0.090
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=65575.2, min=48822.0 | f2 médio=0.164, min=0.080
+[POST_ADVANCE] Iniciando - Gen: 21, Pop: 100, Opt: 18
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 4999704272, Opt size: 18
+    22 |     4300 |     18 |  0.000000E+00 |  0.000000E+00 |  0.0523607701 |         ideal
+[POST_ADVANCE] Concluído com sucesso
+Gen  22 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=65575.2, min=48822.0 | f2 médio=0.164, min=0.080
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=65518.3, min=48822.0 | f2 médio=0.165, min=0.080
+[POST_ADVANCE] Iniciando - Gen: 22, Pop: 100, Opt: 18
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000435152, Opt size: 18
+    23 |     4500 |     18 |  0.000000E+00 |  0.000000E+00 |  0.0125935486 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  23 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=65518.3, min=48822.0 | f2 médio=0.165, min=0.080
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=63657.2, min=48822.0 | f2 médio=0.165, min=0.080
+[POST_ADVANCE] Iniciando - Gen: 23, Pop: 100, Opt: 16
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 4999701840, Opt size: 16
+    24 |     4700 |     16 |  0.000000E+00 |  0.000000E+00 |  0.0052064711 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  24 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=63657.2, min=48822.0 | f2 médio=0.165, min=0.080
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=62896.1, min=48822.0 | f2 médio=0.166, min=0.080
+[POST_ADVANCE] Iniciando - Gen: 24, Pop: 100, Opt: 16
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000433360, Opt size: 16
+    25 |     4900 |     16 |  0.000000E+00 |  0.000000E+00 |  0.0043741518 |         nadir
+[POST_ADVANCE] Concluído com sucesso
+Gen  25 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=62896.1, min=48822.0 | f2 médio=0.166, min=0.080
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=62047.0, min=48822.0 | f2 médio=0.164, min=0.080
+[POST_ADVANCE] Iniciando - Gen: 25, Pop: 100, Opt: 16
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 4999705936, Opt size: 16
+    26 |     5100 |     16 |  0.000000E+00 |  0.000000E+00 |  0.0495642258 |         nadir
+[POST_ADVANCE] Concluído com sucesso
+Gen  26 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=62047.0, min=48822.0 | f2 médio=0.164, min=0.080
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=61382.0, min=48775.0 | f2 médio=0.163, min=0.080
+[POST_ADVANCE] Iniciando - Gen: 26, Pop: 100, Opt: 18
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000058448, Opt size: 18
+    27 |     5300 |     18 |  0.000000E+00 |  0.000000E+00 |  0.1014734098 |         nadir
+[POST_ADVANCE] Concluído com sucesso
+Gen  27 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=61382.0, min=48775.0 | f2 médio=0.163, min=0.080
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=61725.0, min=47755.1 | f2 médio=0.167, min=0.070
+[POST_ADVANCE] Iniciando - Gen: 27, Pop: 100, Opt: 22
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000259920, Opt size: 22
+    28 |     5500 |     22 |  0.000000E+00 |  0.000000E+00 |  0.0495573250 |         ideal
+[POST_ADVANCE] Concluído com sucesso
+Gen  28 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=61725.0, min=47755.1 | f2 médio=0.167, min=0.070
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=61627.4, min=47755.1 | f2 médio=0.165, min=0.070
+[POST_ADVANCE] Iniciando - Gen: 28, Pop: 100, Opt: 25
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 4999706576, Opt size: 25
+    29 |     5700 |     25 |  0.000000E+00 |  0.000000E+00 |  0.0375742606 |         nadir
+[POST_ADVANCE] Concluído com sucesso
+Gen  29 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=61627.4, min=47755.1 | f2 médio=0.165, min=0.070
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=60749.0, min=47755.1 | f2 médio=0.162, min=0.070
+[POST_ADVANCE] Iniciando - Gen: 29, Pop: 100, Opt: 25
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000061136, Opt size: 25
+    30 |     5900 |     25 |  0.000000E+00 |  0.000000E+00 |  0.1600125182 |         nadir
+[POST_ADVANCE] Concluído com sucesso
+Gen  30 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=60749.0, min=47755.1 | f2 médio=0.162, min=0.070
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=59665.4, min=46701.5 | f2 médio=0.160, min=0.070
+[POST_ADVANCE] Iniciando - Gen: 30, Pop: 100, Opt: 25
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 4999706448, Opt size: 25
+    31 |     6100 |     25 |  0.000000E+00 |  0.000000E+00 |  0.0479745768 |         ideal
+[POST_ADVANCE] Concluído com sucesso
+Gen  31 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=59665.4, min=46701.5 | f2 médio=0.160, min=0.070
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=62542.0, min=46697.3 | f2 médio=0.155, min=0.070
+[POST_ADVANCE] Iniciando - Gen: 31, Pop: 100, Opt: 28
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000510032, Opt size: 28
+    32 |     6300 |     28 |  0.000000E+00 |  0.000000E+00 |  0.0947945128 |         nadir
+[POST_ADVANCE] Concluído com sucesso
+Gen  32 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=62542.0, min=46697.3 | f2 médio=0.155, min=0.070
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=60175.3, min=45689.1 | f2 médio=0.164, min=0.070
+[POST_ADVANCE] Iniciando - Gen: 32, Pop: 100, Opt: 24
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 4999706192, Opt size: 24
+    33 |     6500 |     24 |  0.000000E+00 |  0.000000E+00 |  0.0439855175 |         ideal
+[POST_ADVANCE] Concluído com sucesso
+Gen  33 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=60175.3, min=45689.1 | f2 médio=0.164, min=0.070
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=59292.7, min=45689.1 | f2 médio=0.166, min=0.070
+[POST_ADVANCE] Iniciando - Gen: 33, Pop: 100, Opt: 23
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 4999704400, Opt size: 23
+    34 |     6700 |     23 |  0.000000E+00 |  0.000000E+00 |  0.0043994163 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  34 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=59292.7, min=45689.1 | f2 médio=0.166, min=0.070
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=60788.6, min=45689.1 | f2 médio=0.163, min=0.070
+[POST_ADVANCE] Iniciando - Gen: 34, Pop: 100, Opt: 22
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000500560, Opt size: 22
+    35 |     6900 |     22 |  0.000000E+00 |  0.000000E+00 |  0.0050241948 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  35 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=60788.6, min=45689.1 | f2 médio=0.163, min=0.070
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=59351.7, min=45689.1 | f2 médio=0.169, min=0.070
+[POST_ADVANCE] Iniciando - Gen: 35, Pop: 100, Opt: 23
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 4999700944, Opt size: 23
+    36 |     7100 |     23 |  0.000000E+00 |  0.000000E+00 |  0.0052378391 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  36 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=59351.7, min=45689.1 | f2 médio=0.169, min=0.070
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=59096.3, min=45689.1 | f2 médio=0.169, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 36, Pop: 100, Opt: 25
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000580560, Opt size: 25
+    37 |     7300 |     25 |  0.000000E+00 |  0.000000E+00 |  0.0432932900 |         ideal
+[POST_ADVANCE] Concluído com sucesso
+Gen  37 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=59096.3, min=45689.1 | f2 médio=0.169, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=58955.9, min=45689.1 | f2 médio=0.168, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 37, Pop: 100, Opt: 24
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000507728, Opt size: 24
+    38 |     7500 |     24 |  0.000000E+00 |  0.000000E+00 |  0.0034790489 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  38 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=58955.9, min=45689.1 | f2 médio=0.168, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=58858.6, min=45689.1 | f2 médio=0.164, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 38, Pop: 100, Opt: 22
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 4999700432, Opt size: 22
+    39 |     7700 |     22 |  0.000000E+00 |  0.000000E+00 |  0.0058406980 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  39 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=58858.6, min=45689.1 | f2 médio=0.164, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=60743.6, min=45689.1 | f2 médio=0.161, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 39, Pop: 100, Opt: 25
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000582992, Opt size: 25
+    40 |     7900 |     25 |  0.000000E+00 |  0.000000E+00 |  0.0042097810 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  40 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=60743.6, min=45689.1 | f2 médio=0.161, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=58733.1, min=43444.2 | f2 médio=0.165, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 40, Pop: 100, Opt: 26
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000057680, Opt size: 26
+    41 |     8100 |     26 |  0.000000E+00 |  0.000000E+00 |  0.0734531968 |         ideal
+[POST_ADVANCE] Concluído com sucesso
+Gen  41 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=58733.1, min=43444.2 | f2 médio=0.165, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=61011.4, min=43444.2 | f2 médio=0.161, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 41, Pop: 100, Opt: 25
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000182864, Opt size: 25
+    42 |     8300 |     25 |  0.000000E+00 |  0.000000E+00 |  0.0044191022 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  42 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=61011.4, min=43444.2 | f2 médio=0.161, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=60959.9, min=43444.2 | f2 médio=0.167, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 42, Pop: 100, Opt: 25
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000253904, Opt size: 25
+    43 |     8500 |     25 |  0.000000E+00 |  0.000000E+00 |  0.0053685836 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  43 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=60959.9, min=43444.2 | f2 médio=0.167, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=58678.5, min=43444.2 | f2 médio=0.165, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 43, Pop: 100, Opt: 25
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 4999700560, Opt size: 25
+    44 |     8700 |     25 |  0.000000E+00 |  0.000000E+00 |  0.0055103392 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  44 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=58678.5, min=43444.2 | f2 médio=0.165, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=58380.4, min=43444.2 | f2 médio=0.166, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 44, Pop: 100, Opt: 25
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000170960, Opt size: 25
+    45 |     8900 |     25 |  0.000000E+00 |  0.000000E+00 |  0.0044100255 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  45 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=58380.4, min=43444.2 | f2 médio=0.166, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=58165.4, min=43444.2 | f2 médio=0.165, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 45, Pop: 100, Opt: 23
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 4999702608, Opt size: 23
+    46 |     9100 |     23 |  0.000000E+00 |  0.000000E+00 |  0.0077750549 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  46 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=58165.4, min=43444.2 | f2 médio=0.165, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=63325.5, min=43444.2 | f2 médio=0.161, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 46, Pop: 100, Opt: 20
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 4982662992, Opt size: 20
+    47 |     9300 |     20 |  0.000000E+00 |  0.000000E+00 |  0.0056287440 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  47 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=63325.5, min=43444.2 | f2 médio=0.161, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=58061.5, min=43444.2 | f2 médio=0.172, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 47, Pop: 100, Opt: 20
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000170960, Opt size: 20
+    48 |     9500 |     20 |  0.000000E+00 |  0.000000E+00 |  0.0022420363 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  48 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=58061.5, min=43444.2 | f2 médio=0.172, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=59462.8, min=43444.2 | f2 médio=0.170, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 48, Pop: 100, Opt: 16
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 4999843664, Opt size: 16
+    49 |     9700 |     16 |  0.000000E+00 |  0.000000E+00 |  0.0108780541 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  49 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=59462.8, min=43444.2 | f2 médio=0.170, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=61853.6, min=43444.2 | f2 médio=0.161, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 49, Pop: 100, Opt: 16
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 4999853008, Opt size: 16
+    50 |     9900 |     16 |  0.000000E+00 |  0.000000E+00 |  0.0049712579 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  50 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=61853.6, min=43444.2 | f2 médio=0.161, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=60882.0, min=43444.2 | f2 médio=0.162, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 50, Pop: 100, Opt: 15
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000175952, Opt size: 15
+    51 |    10100 |     15 |  0.000000E+00 |  0.000000E+00 |  0.0110354814 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  51 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=60882.0, min=43444.2 | f2 médio=0.162, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=61823.8, min=43444.2 | f2 médio=0.162, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 51, Pop: 100, Opt: 15
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 4999706192, Opt size: 15
+    52 |    10300 |     15 |  0.000000E+00 |  0.000000E+00 |  0.0081827048 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  52 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=61823.8, min=43444.2 | f2 médio=0.162, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=61769.4, min=43444.2 | f2 médio=0.160, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 52, Pop: 100, Opt: 17
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 4999848272, Opt size: 17
+    53 |    10500 |     17 |  0.000000E+00 |  0.000000E+00 |  0.0430519817 |         nadir
+[POST_ADVANCE] Concluído com sucesso
+Gen  53 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=61769.4, min=43444.2 | f2 médio=0.160, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=60031.1, min=43444.2 | f2 médio=0.162, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 53, Pop: 100, Opt: 17
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000170064, Opt size: 17
+    54 |    10700 |     17 |  0.000000E+00 |  0.000000E+00 |  0.0000976304 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  54 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=60031.1, min=43444.2 | f2 médio=0.162, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=59019.3, min=43444.2 | f2 médio=0.159, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 54, Pop: 100, Opt: 18
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000589008, Opt size: 18
+    55 |    10900 |     18 |  0.000000E+00 |  0.000000E+00 |  0.0022024377 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  55 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=59019.3, min=43444.2 | f2 médio=0.159, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=58561.2, min=43444.2 | f2 médio=0.161, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 55, Pop: 100, Opt: 20
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 4999849296, Opt size: 20
+    56 |    11100 |     20 |  0.000000E+00 |  0.000000E+00 |  0.0111687894 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  56 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=58561.2, min=43444.2 | f2 médio=0.161, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=58921.5, min=43444.2 | f2 médio=0.158, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 56, Pop: 100, Opt: 20
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000249936, Opt size: 20
+    57 |    11300 |     20 |  0.000000E+00 |  0.000000E+00 |  0.0763104494 |         nadir
+[POST_ADVANCE] Concluído com sucesso
+Gen  57 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=58921.5, min=43444.2 | f2 médio=0.158, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=56966.0, min=43444.2 | f2 médio=0.158, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 57, Pop: 100, Opt: 20
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 4999701072, Opt size: 20
+    58 |    11500 |     20 |  0.000000E+00 |  0.000000E+00 |  0.0901233230 |         nadir
+[POST_ADVANCE] Concluído com sucesso
+Gen  58 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=56966.0, min=43444.2 | f2 médio=0.158, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=57407.6, min=42469.0 | f2 médio=0.164, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 58, Pop: 100, Opt: 21
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 4999842896, Opt size: 21
+    59 |    11700 |     21 |  0.000000E+00 |  0.000000E+00 |  0.0375839997 |         ideal
+[POST_ADVANCE] Concluído com sucesso
+Gen  59 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=57407.6, min=42469.0 | f2 médio=0.164, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=57387.3, min=42469.0 | f2 médio=0.161, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 59, Pop: 100, Opt: 19
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000250064, Opt size: 19
+    60 |    11900 |     19 |  0.000000E+00 |  0.000000E+00 |  0.0085288958 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  60 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=57387.3, min=42469.0 | f2 médio=0.161, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=58477.6, min=42469.0 | f2 médio=0.161, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 60, Pop: 100, Opt: 20
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 4999703888, Opt size: 20
+    61 |    12100 |     20 |  0.000000E+00 |  0.000000E+00 |  0.0785969311 |         nadir
+[POST_ADVANCE] Concluído com sucesso
+Gen  61 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=58477.6, min=42469.0 | f2 médio=0.161, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=56323.5, min=40362.1 | f2 médio=0.162, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 61, Pop: 100, Opt: 18
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 4999847376, Opt size: 18
+    62 |    12300 |     18 |  0.000000E+00 |  0.000000E+00 |  0.0805323758 |         ideal
+[POST_ADVANCE] Concluído com sucesso
+Gen  62 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=56323.5, min=40362.1 | f2 médio=0.162, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=56698.3, min=40362.1 | f2 médio=0.167, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 62, Pop: 100, Opt: 18
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 4999706064, Opt size: 18
+    63 |    12500 |     18 |  0.000000E+00 |  0.000000E+00 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  63 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=56698.3, min=40362.1 | f2 médio=0.167, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=56549.6, min=40362.1 | f2 médio=0.167, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 63, Pop: 100, Opt: 19
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000509264, Opt size: 19
+    64 |    12700 |     19 |  0.000000E+00 |  0.000000E+00 |  0.0004734081 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  64 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=56549.6, min=40362.1 | f2 médio=0.167, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=57516.0, min=40362.1 | f2 médio=0.167, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 64, Pop: 100, Opt: 19
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 4999843280, Opt size: 19
+    65 |    12900 |     19 |  0.000000E+00 |  0.000000E+00 |  0.0036073893 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  65 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=57516.0, min=40362.1 | f2 médio=0.167, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=57058.8, min=40362.1 | f2 médio=0.161, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 65, Pop: 100, Opt: 19
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000064208, Opt size: 19
+    66 |    13100 |     19 |  0.000000E+00 |  0.000000E+00 |  0.0036370714 |         nadir
+[POST_ADVANCE] Concluído com sucesso
+Gen  66 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=57058.8, min=40362.1 | f2 médio=0.161, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=58828.9, min=40362.1 | f2 médio=0.161, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 66, Pop: 100, Opt: 19
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000065104, Opt size: 19
+    67 |    13300 |     19 |  0.000000E+00 |  0.000000E+00 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  67 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=58828.9, min=40362.1 | f2 médio=0.161, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=56248.8, min=40362.1 | f2 médio=0.168, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 67, Pop: 100, Opt: 20
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 4999853776, Opt size: 20
+    68 |    13500 |     20 |  0.000000E+00 |  0.000000E+00 |  0.0017801597 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  68 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=56248.8, min=40362.1 | f2 médio=0.168, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=56853.4, min=40362.1 | f2 médio=0.169, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 68, Pop: 100, Opt: 20
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000263632, Opt size: 20
+    69 |    13700 |     20 |  0.000000E+00 |  0.000000E+00 |  0.0018432121 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  69 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=56853.4, min=40362.1 | f2 médio=0.169, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=56882.0, min=40362.1 | f2 médio=0.165, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 69, Pop: 100, Opt: 20
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000067792, Opt size: 20
+    70 |    13900 |     20 |  0.000000E+00 |  0.000000E+00 |  0.0018432121 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  70 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=56882.0, min=40362.1 | f2 médio=0.165, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=55172.7, min=40362.1 | f2 médio=0.159, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 70, Pop: 100, Opt: 21
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 4999704656, Opt size: 21
+    71 |    14100 |     21 |  0.000000E+00 |  0.000000E+00 |  0.0034638512 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  71 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=55172.7, min=40362.1 | f2 médio=0.159, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=54610.7, min=40362.1 | f2 médio=0.161, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 71, Pop: 100, Opt: 21
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000437456, Opt size: 21
+    72 |    14300 |     21 |  0.000000E+00 |  0.000000E+00 |  0.0003946682 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  72 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=54610.7, min=40362.1 | f2 médio=0.161, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=54630.5, min=40362.1 | f2 médio=0.159, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 72, Pop: 100, Opt: 21
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000052944, Opt size: 21
+    73 |    14500 |     21 |  0.000000E+00 |  0.000000E+00 |  0.0004758130 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  73 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=54630.5, min=40362.1 | f2 médio=0.159, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=56170.6, min=40362.1 | f2 médio=0.157, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 73, Pop: 100, Opt: 21
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000265296, Opt size: 21
+    74 |    14700 |     21 |  0.000000E+00 |  0.000000E+00 |  0.0004758130 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  74 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=56170.6, min=40362.1 | f2 médio=0.157, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=57960.1, min=40362.1 | f2 médio=0.151, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 74, Pop: 100, Opt: 21
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000435280, Opt size: 21
+    75 |    14900 |     21 |  0.000000E+00 |  0.000000E+00 |  0.0041692907 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  75 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=57960.1, min=40362.1 | f2 médio=0.151, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=57601.9, min=40362.1 | f2 médio=0.156, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 75, Pop: 100, Opt: 21
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000063312, Opt size: 21
+    76 |    15100 |     21 |  0.000000E+00 |  0.000000E+00 |  0.0019084361 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  76 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=57601.9, min=40362.1 | f2 médio=0.156, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=55730.6, min=40362.1 | f2 médio=0.159, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 76, Pop: 100, Opt: 24
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000264272, Opt size: 24
+    77 |    15300 |     24 |  0.000000E+00 |  0.000000E+00 |  0.0087798108 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  77 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=55730.6, min=40362.1 | f2 médio=0.159, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=55554.7, min=40362.1 | f2 médio=0.157, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 77, Pop: 100, Opt: 26
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000440016, Opt size: 26
+    78 |    15500 |     26 |  0.000000E+00 |  0.000000E+00 |  0.0027537225 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  78 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=55554.7, min=40362.1 | f2 médio=0.157, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=55190.7, min=40362.1 | f2 médio=0.162, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 78, Pop: 100, Opt: 25
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 4999704528, Opt size: 25
+    79 |    15700 |     25 |  0.000000E+00 |  0.000000E+00 |  0.0002095788 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  79 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=55190.7, min=40362.1 | f2 médio=0.162, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=55395.6, min=40362.1 | f2 médio=0.157, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 79, Pop: 100, Opt: 23
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000256848, Opt size: 23
+    80 |    15900 |     23 |  0.000000E+00 |  0.000000E+00 |  0.0031210455 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  80 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=55395.6, min=40362.1 | f2 médio=0.157, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=56428.6, min=40362.1 | f2 médio=0.157, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 80, Pop: 100, Opt: 24
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000431952, Opt size: 24
+    81 |    16100 |     24 |  0.000000E+00 |  0.000000E+00 |  0.0430955096 |         nadir
+[POST_ADVANCE] Concluído com sucesso
+Gen  81 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=56428.6, min=40362.1 | f2 médio=0.157, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=55610.7, min=40362.1 | f2 médio=0.157, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 81, Pop: 100, Opt: 25
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 4999698384, Opt size: 25
+    82 |    16300 |     25 |  0.000000E+00 |  0.000000E+00 |  0.0024880505 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  82 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=55610.7, min=40362.1 | f2 médio=0.157, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=55995.2, min=40362.1 | f2 médio=0.159, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 82, Pop: 100, Opt: 25
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000589648, Opt size: 25
+    83 |    16500 |     25 |  0.000000E+00 |  0.000000E+00 |  0.0025158306 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  83 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=55995.2, min=40362.1 | f2 médio=0.159, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=54240.5, min=40362.1 | f2 médio=0.160, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 83, Pop: 100, Opt: 25
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000433488, Opt size: 25
+    84 |    16700 |     25 |  0.000000E+00 |  0.000000E+00 |  0.0022270160 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  84 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=54240.5, min=40362.1 | f2 médio=0.160, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=54801.6, min=40362.1 | f2 médio=0.159, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 84, Pop: 100, Opt: 20
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000438480, Opt size: 20
+    85 |    16900 |     20 |  0.000000E+00 |  0.000000E+00 |  0.0123014138 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  85 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=54801.6, min=40362.1 | f2 médio=0.159, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=55799.3, min=38138.9 | f2 médio=0.164, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 85, Pop: 100, Opt: 19
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000441680, Opt size: 19
+    86 |    17100 |     19 |  0.000000E+00 |  0.000000E+00 |  0.0816884208 |         ideal
+[POST_ADVANCE] Concluído com sucesso
+Gen  86 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=55799.3, min=38138.9 | f2 médio=0.164, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=53531.7, min=38138.9 | f2 médio=0.167, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 86, Pop: 100, Opt: 19
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000356944, Opt size: 19
+    87 |    17300 |     19 |  0.000000E+00 |  0.000000E+00 |  0.0071746055 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  87 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=53531.7, min=38138.9 | f2 médio=0.167, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=54442.3, min=38138.9 | f2 médio=0.162, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 87, Pop: 100, Opt: 19
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000580304, Opt size: 19
+    88 |    17500 |     19 |  0.000000E+00 |  0.000000E+00 |  0.0022717072 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  88 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=54442.3, min=38138.9 | f2 médio=0.162, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=53906.8, min=38138.9 | f2 médio=0.164, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 88, Pop: 100, Opt: 20
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000431312, Opt size: 20
+    89 |    17700 |     20 |  0.000000E+00 |  0.000000E+00 |  0.0064871158 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  89 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=53906.8, min=38138.9 | f2 médio=0.164, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=53828.5, min=38138.9 | f2 médio=0.161, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 89, Pop: 100, Opt: 23
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000362576, Opt size: 23
+    90 |    17900 |     23 |  0.000000E+00 |  0.000000E+00 |  0.0062999627 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  90 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=53828.5, min=38138.9 | f2 médio=0.161, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=54931.9, min=38138.9 | f2 médio=0.162, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 90, Pop: 100, Opt: 24
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000577744, Opt size: 24
+    91 |    18100 |     24 |  0.000000E+00 |  0.000000E+00 |  0.0024951060 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  91 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=54931.9, min=38138.9 | f2 médio=0.162, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=55154.6, min=38138.9 | f2 médio=0.164, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 91, Pop: 100, Opt: 24
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000439632, Opt size: 24
+    92 |    18300 |     24 |  0.000000E+00 |  0.000000E+00 |  0.0058657960 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  92 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=55154.6, min=38138.9 | f2 médio=0.164, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=56353.9, min=38138.9 | f2 médio=0.159, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 92, Pop: 100, Opt: 23
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000360272, Opt size: 23
+    93 |    18500 |     23 |  0.000000E+00 |  0.000000E+00 |  0.0072218213 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  93 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=56353.9, min=38138.9 | f2 médio=0.159, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=54345.7, min=38138.9 | f2 médio=0.167, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 93, Pop: 100, Opt: 23
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000584528, Opt size: 23
+    94 |    18700 |     23 |  0.000000E+00 |  0.000000E+00 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  94 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=54345.7, min=38138.9 | f2 médio=0.167, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=56048.2, min=38138.9 | f2 médio=0.161, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 94, Pop: 100, Opt: 25
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 4999702096, Opt size: 25
+    95 |    18900 |     25 |  0.000000E+00 |  0.000000E+00 |  0.0037570244 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  95 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=56048.2, min=38138.9 | f2 médio=0.161, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=54169.9, min=38138.9 | f2 médio=0.162, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 95, Pop: 100, Opt: 26
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000354896, Opt size: 26
+    96 |    19100 |     26 |  0.000000E+00 |  0.000000E+00 |  0.0030337961 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  96 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=54169.9, min=38138.9 | f2 médio=0.162, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=52242.3, min=38138.9 | f2 médio=0.159, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 96, Pop: 100, Opt: 26
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000587088, Opt size: 26
+    97 |    19300 |     26 |  0.000000E+00 |  0.000000E+00 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  97 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=52242.3, min=38138.9 | f2 médio=0.159, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=53703.3, min=38138.9 | f2 médio=0.159, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 97, Pop: 100, Opt: 26
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 4999701584, Opt size: 26
+    98 |    19500 |     26 |  0.000000E+00 |  0.000000E+00 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  98 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=53703.3, min=38138.9 | f2 médio=0.159, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=53191.7, min=38138.9 | f2 médio=0.165, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 98, Pop: 100, Opt: 26
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000349904, Opt size: 26
+    99 |    19700 |     26 |  0.000000E+00 |  0.000000E+00 |  0.000000E+00 |             f
+[POST_ADVANCE] Concluído com sucesso
+Gen  99 | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0
+  └─ Viáveis: f1 médio=53191.7, min=38138.9 | f2 médio=0.165, min=0.060
+  [DECODER] F×F (conservador): 100 | F×I/I×F (agressivo): 0
+  [POOL] viáveis: 200 | inviáveis: 0 (antes da seleção)
+  [DOIS ARQUIVOS] A_F (Convergence): 100, A_I (Diversity): 0
+      | Pop: 100 | Viáveis: 100 (100.0%) | Inviáveis:   0 [Após Seleção]
+        └─ Viáveis: f1 médio=53639.9, min=38138.9 | f2 médio=0.162, min=0.060
+[POST_ADVANCE] Iniciando - Gen: 99, Pop: 100, Opt: 26
+[POST_ADVANCE] Self ID: 4999882384, Opt ID: 5000583888, Opt size: 26
+   100 |    19900 |     26 |  0.000000E+00 |  0.000000E+00 |  0.0020625935 |             f
+[POST_ADVANCE] Concluído com sucesso
+
+================================================================================
+NSGA-II COM DIRECTED MATING FINALIZADO
+================================================================================
+Tempo de execução: 84.05 segundos
+Tamanho da população final: 100
+Soluções viáveis: 100 (100.0%)
+Soluções inviáveis: 0 (0.0%)
+Soluções na frente de Pareto: 26
+
+Estatísticas dos Objetivos:
+  f1 (custo): min=38138.93, max=65310.91, média=48882.40
+  f2 (insatisfação): min=0.0600, max=0.2810, média=0.1567
+
+Primeiras 5 soluções da frente de Pareto:
+  Solução 1: Custo=65310.91, Insatisfação=0.0600
+  Solução 2: Custo=38138.93, Insatisfação=0.2810
+  Solução 3: Custo=57731.31, Insatisfação=0.0800
+  Solução 4: Custo=41310.92, Insatisfação=0.2510
+  Solução 5: Custo=63276.16, Insatisfação=0.0753
+  ... e mais 21 soluções
+
+================================================================================
+Logs salvos em: logs/battery_focused_nsga2_rc208_21_20260226_204909.txt
+================================================================================
+

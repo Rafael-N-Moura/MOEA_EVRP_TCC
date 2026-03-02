@@ -27,18 +27,27 @@ class EVRPTWProblem(ElementwiseProblem):
     - G2: Violação de bateria (déficit de energia, positivo se violação)
     """
     
-    def __init__(self, context: Context, use_constraints: bool = False, force_battery_feasible: bool = False):
+    def __init__(
+        self,
+        context: Context,
+        use_constraints: bool = False,
+        force_battery_feasible: bool = False,
+        use_radical_infeasible: bool = False
+    ):
         """
         Inicializa o problema.
-        
+
         Args:
             context: Contexto global com mapa e parâmetros
             use_constraints: Se True, usa restrições (G) em vez de penalização
             force_battery_feasible: Se True, força viabilidade de bateria no decoder
+            use_radical_infeasible: Se True e force_battery_feasible=False, decoder em modo
+                                   radical (sem estações). Maior gap inviável vs viável.
         """
         self.context = context
         self.use_constraints = use_constraints
         self.force_battery_feasible = force_battery_feasible
+        self.use_radical_infeasible = use_radical_infeasible
         n_customers = len(context.customers)
         
         # Define problema: n variáveis (permutação de clientes), 2 objetivos
@@ -85,7 +94,12 @@ class EVRPTWProblem(ElementwiseProblem):
         # Decodifica genótipo em fenótipo (solução)
         # Durante evolução, sempre usa force_battery_feasible=False para expor violações
         # O sampling híbrido será tratado na inicialização do algoritmo
-        solution = decode(individual, self.context, force_battery_feasible=self.force_battery_feasible)
+        solution = decode(
+            individual,
+            self.context,
+            force_battery_feasible=self.force_battery_feasible,
+            use_radical_infeasible=getattr(self, "use_radical_infeasible", False)
+        )
         
         # Extrai objetivos
         f1 = solution.total_cost  # Custo total (veículos + distância)

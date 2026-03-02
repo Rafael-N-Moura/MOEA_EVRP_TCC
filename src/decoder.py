@@ -1,15 +1,67 @@
 """
 Módulo de Decodificação para EVRPTW-PR.
 Implementa a heurística construtiva que transforma genótipo (permutação) em fenótipo (rotas).
+Suporta perfis de recarga (Conservative / Aggressive) conforme DECODER_ALTERNATIVO.md.
 """
 
 from typing import List, Tuple, Optional
 from .model import Context, Solution, Route, RouteStep, Node, NodeType
 
-# Parâmetros de recarga preventiva (conforme especificação)
+# Parâmetros de recarga (fallback quando perfil não especificado)
 BATTERY_THRESHOLD_PREVENTIVE = 0.30  # 30% - Recarrega preventivamente quando bateria < 30%
-BATTERY_THRESHOLD_CRITICAL = 0.15  # 15% - Considera retornar ao depósito quando < 15%
-BATTERY_SAFETY_MARGIN = 0.05  # 5% - Margem de segurança após recarga (conforme especificação)
+BATTERY_THRESHOLD_CRITICAL = 0.15   # 15% - Considera retornar ao depósito quando < 15%
+BATTERY_SAFETY_MARGIN = 0.05        # 5% - Margem de segurança após recarga
+
+
+class RechargeProfile:
+    """
+    Perfil de recarga (DECODER_ALTERNATIVO.md §2.2, §3.2).
+    - Conservative (C): viabilidade com margem; b_safe alto, buffer grande.
+    - Aggressive (A): minimiza custo/tempo de recarga; b_safe mais baixo que C; pode ter g2_max_ratio.
+    """
+    __slots__ = ("name", "b_safe_ratio", "b_critical_ratio", "safety_margin_ratio", "prefer_nearest_station", "g2_max_ratio", "max_customers_per_route")
+
+    def __init__(
+        self,
+        name: str,
+        b_safe_ratio: float,
+        b_critical_ratio: float,
+        safety_margin_ratio: float,
+        prefer_nearest_station: bool = False,
+        g2_max_ratio: Optional[float] = None,
+        max_customers_per_route: Optional[int] = None
+    ):
+        self.name = name
+        self.b_safe_ratio = b_safe_ratio
+        self.b_critical_ratio = b_critical_ratio
+        self.safety_margin_ratio = safety_margin_ratio
+        self.prefer_nearest_station = prefer_nearest_station
+        self.g2_max_ratio = g2_max_ratio
+        self.max_customers_per_route = max_customers_per_route
+
+
+# Perfil conservador: recarga cedo, buffer grande (20–30%), estação por best detour
+PROFILE_CONSERVATIVE = RechargeProfile(
+    name="conservative",
+    b_safe_ratio=0.35,
+    b_critical_ratio=0.15,
+    safety_margin_ratio=0.20,
+    prefer_nearest_station=False,
+    g2_max_ratio=None,
+    max_customers_per_route=None
+)
+
+# Perfil agressivo: calibrado para n_vehicles_A ~10–30% abaixo de C, 10–30% soluções g2=0, G2 abaixo do teto
+# b_safe/safety_margin um pouco maiores que antes para mais soluções viáveis; g2_max_ratio força split por rota
+PROFILE_AGGRESSIVE = RechargeProfile(
+    name="aggressive",
+    b_safe_ratio=0.42,       # próximo do C para 10–30% g2=0 (C usa 0.35; aqui 0.42 recarrega ainda mais cedo)
+    b_critical_ratio=0.14,
+    safety_margin_ratio=0.18,  # buffer grande (C usa 0.20)
+    prefer_nearest_station=True,
+    g2_max_ratio=0.05,
+    max_customers_per_route=3
+)
 
 
 def _calculate_energy_needed(
@@ -70,108 +122,78 @@ def _get_best_station(
     current_battery: float,
     context: Context,
     force_battery_feasible: bool = True,
+    prefer_nearest_station: bool = False,
     debug: bool = False
 ) -> Tuple[Node, bool]:
     """
-    Encontra a melhor estação usando Smart Detour (menor desvio triangular).
-    
-    Conforme especificação: minimiza desvio triangular (Origem -> Estação -> Destino).
-    Respeita autonomia atual: no modo conservador, só considera estações alcançáveis.
+    Encontra a melhor estação: Smart Detour (menor desvio) ou mais próxima no caminho (perfil A).
     
     Args:
-        current_position: Posição atual (origem)
-        destination: Destino final (cliente)
-        current_battery: Bateria atual
-        context: Contexto com parâmetros
-        force_battery_feasible: Se True, só considera estações alcançáveis
-        debug: Se True, imprime informações de debug
-    
-    Returns:
-        Tupla (melhor_estação, foi_fallback)
-        - melhor_estação: Estação escolhida
-        - foi_fallback: True se usou fallback (mais próxima), False se usou Smart Detour
+        prefer_nearest_station: Se True (perfil agressivo), escolhe estação mais próxima; senão Smart Detour.
     """
-    # Distância direta (sem desvio)
     direct_distance = current_position.distance_to(destination)
-    
-    # Lista de estações candidatas (incluindo depósito)
     candidates = list(context.stations) + [context.depot]
-    
     if not candidates:
-        # Sem estações, retorna depósito
         return context.depot, True
-    
+
     best_station = None
     best_detour = float('inf')
+    best_nearest = None
+    min_dist_nearest = float('inf')
     best_reachable = None
     min_distance_to_reachable = float('inf')
-    
-    if debug:
-        print(f"      [SMART_DETOUR] Buscando melhor estação:")
-        print(f"        Origem: {current_position.id}, Destino: {destination.id}")
-        print(f"        Distância direta: {direct_distance:.2f}")
-        print(f"        Bateria atual: {current_battery:.2f}")
-    
+
     for station in candidates:
-        # Calcula desvio triangular: (origem -> estação -> destino) - (origem -> destino)
         distance_to_station = current_position.distance_to(station)
+        energy_to_station = distance_to_station * context.consumption_rate
+        is_reachable = current_battery >= energy_to_station
+
+        if prefer_nearest_station:
+            if is_reachable and distance_to_station < min_dist_nearest:
+                min_dist_nearest = distance_to_station
+                best_nearest = station
+            elif not is_reachable and distance_to_station < min_distance_to_reachable:
+                min_distance_to_reachable = distance_to_station
+                best_reachable = station
+            continue
+        # Smart Detour
         distance_station_to_dest = station.distance_to(destination)
         detour_distance = distance_to_station + distance_station_to_dest - direct_distance
-        
-        # Energia necessária para chegar à estação
-        energy_to_station = distance_to_station * context.consumption_rate
-        
-        # Verifica se é alcançável
-        is_reachable = current_battery >= energy_to_station
-        
-        if debug:
-            print(f"        Estação {station.id}: detour={detour_distance:.2f}, "
-                  f"alcançável={is_reachable}, energia={energy_to_station:.2f}")
-        
         if force_battery_feasible:
-            # Modo conservador: só considera estações alcançáveis
-            if is_reachable:
-                if detour_distance < best_detour:
-                    best_detour = detour_distance
-                    best_station = station
+            if is_reachable and detour_distance < best_detour:
+                best_detour = detour_distance
+                best_station = station
         else:
-            # Modo otimista: considera todas, mas prioriza alcançáveis
-            if is_reachable:
-                if detour_distance < best_detour:
-                    best_detour = detour_distance
-                    best_station = station
-            else:
-                # Guarda a mais próxima não alcançável como fallback
-                if distance_to_station < min_distance_to_reachable:
-                    min_distance_to_reachable = distance_to_station
-                    best_reachable = station
-    
-    # Se encontrou estação com Smart Detour, retorna ela
+            if is_reachable and detour_distance < best_detour:
+                best_detour = detour_distance
+                best_station = station
+            elif not is_reachable and distance_to_station < min_distance_to_reachable:
+                min_distance_to_reachable = distance_to_station
+                best_reachable = station
+
+    if prefer_nearest_station:
+        if best_nearest is not None:
+            return best_nearest, False
+        if best_reachable is not None:
+            return best_reachable, True
+        return context.get_nearest_station(current_position), True
+
     if best_station is not None:
-        if debug:
-            print(f"      [SMART_DETOUR] Melhor estação: {best_station.id} (detour={best_detour:.2f})")
         return best_station, False
-    
-    # Fallback: se não encontrou estação alcançável, usa a mais próxima
     if best_reachable is not None:
-        if debug:
-            print(f"      [SMART_DETOUR] Fallback: usando estação mais próxima {best_reachable.id}")
         return best_reachable, True
-    
-    # Último fallback: estação mais próxima absoluta (pode não ser alcançável)
-    nearest_station = context.get_nearest_station(current_position)
-    if debug:
-        print(f"      [SMART_DETOUR] Fallback final: estação mais próxima absoluta {nearest_station.id}")
-    return nearest_station, True
+    return context.get_nearest_station(current_position), True
 
 
 def _should_recharge_preventively(
     current_battery: float,
     battery_capacity: float,
-    energy_needed: float
+    energy_needed: float,
+    profile: Optional[RechargeProfile] = None
 ) -> bool:
     """
     Decide se deve recarregar preventivamente antes de visitar um cliente.
+    Usa b_safe e b_critical do perfil quando fornecido (DECODER_ALTERNATIVO §2.2).
     
     Args:
         current_battery: Bateria atual
@@ -181,19 +203,15 @@ def _should_recharge_preventively(
     Returns:
         True se deve recarregar preventivamente
     """
-    # Recarrega se bateria está abaixo do threshold preventivo
-    if current_battery < battery_capacity * BATTERY_THRESHOLD_PREVENTIVE:
+    b_safe = profile.b_safe_ratio if profile else BATTERY_THRESHOLD_PREVENTIVE
+    b_crit = profile.b_critical_ratio if profile else BATTERY_THRESHOLD_CRITICAL
+    if current_battery < battery_capacity * b_safe:
         return True
-    
-    # Recarrega se bateria atual não é suficiente para a tarefa
     if current_battery < energy_needed:
         return True
-    
-    # Recarrega se após a tarefa a bateria ficaria muito baixa (< threshold crítico)
     battery_after = current_battery - energy_needed
-    if battery_after < battery_capacity * BATTERY_THRESHOLD_CRITICAL:
+    if battery_after < battery_capacity * b_crit:
         return True
-    
     return False
 
 
@@ -203,53 +221,27 @@ def _calculate_recharge_amount(
     battery_capacity: float,
     current_position: Node,
     customer: Node,
-    context: Context
+    context: Context,
+    profile: Optional[RechargeProfile] = None
 ) -> float:
     """
-    Calcula quantidade de energia a recarregar com margem de segurança (Smart Recharge).
-    
-    Conforme especificação: E_alvo = E(S_atual -> C_alvo) + E_buffer(C_alvo) + Margem(5%)
-    
-    Args:
-        current_battery: Bateria atual (após chegar na estação)
-        energy_needed: Energia necessária para tarefa (não usado diretamente, recalculamos)
-        battery_capacity: Capacidade máxima
-        current_position: Posição atual (estação)
-        customer: Cliente a visitar
-        context: Contexto com parâmetros
-    
-    Returns:
-        Quantidade de energia a recarregar
+    Calcula quantidade de energia a recarregar. Margem conforme perfil (C: grande, A: pequena).
     """
-    # Calcula energia total necessária: da estação ao cliente + do cliente à segurança
     energy_station_to_customer = _calculate_energy_needed(current_position, customer, context)
-    
-    # Encontra estação/depósito mais próximo do cliente (safety buffer)
     nearest_safety = context.get_nearest_station(customer)
     energy_customer_to_safety = _calculate_energy_needed(customer, nearest_safety, context)
     energy_customer_to_depot = _calculate_energy_needed(customer, context.depot, context)
     energy_customer_to_safety = min(energy_customer_to_safety, energy_customer_to_depot)
-    
     total_energy_needed = energy_station_to_customer + energy_customer_to_safety
-    
-    # Verifica se é fisicamente impossível (conforme especificação - Cliente Impossível)
+
     if total_energy_needed > battery_capacity:
-        # Cliente impossível: retorna capacidade máxima (100%)
-        # No modo conservador, isso será detectado e abortará a rota
         return battery_capacity - current_battery
-    
-    # Adiciona margem de segurança (5% conforme especificação)
-    safety_margin = battery_capacity * BATTERY_SAFETY_MARGIN
-    
-    # Energia total desejada após recarga
+
+    margin_ratio = profile.safety_margin_ratio if profile else BATTERY_SAFETY_MARGIN
+    safety_margin = battery_capacity * margin_ratio
     desired_battery = total_energy_needed + safety_margin
-    
-    # Quantidade a recarregar: Delta_E = min(Q, E_alvo) - max(0, E_atual)
     recharge_needed = max(0.0, desired_battery - current_battery)
-    
-    # Limita pela capacidade máxima
     recharge_needed = min(recharge_needed, battery_capacity - current_battery)
-    
     return recharge_needed
 
 
@@ -266,47 +258,29 @@ def _travel_with_debt(
 ) -> Tuple[Node, float, float]:
     """
     Realiza viagem com dívida (quando não há bateria suficiente).
-    
-    Adiciona distância e tempo reais à rota, mas acumula violação (G2) pelo déficit de energia.
-    
-    Args:
-        route: Rota atual
-        current_position: Posição atual
-        current_battery: Bateria atual
-        current_load: Carga atual
-        current_time: Tempo atual
-        destination: Destino (estação ou cliente)
-        context: Contexto com parâmetros
-        solution: Solução para acumular violação (G2)
-    
-    Returns:
-        Tupla (nova_posição, nova_bateria (zerada), novo_tempo)
+    Adiciona distância e tempo reais à rota e acumula violação (G2) pelo déficit.
     """
     distance = current_position.distance_to(destination)
     energy_needed = distance * context.consumption_rate
-    
+
     if debug:
         print(f"      [DÍVIDA] Viagem com dívida:")
         print(f"        De: {current_position.id} -> Para: {destination.id}")
         print(f"        Distância: {distance:.2f}")
         print(f"        Energia necessária: {energy_needed:.2f}")
         print(f"        Bateria atual: {current_battery:.2f}")
-    
-    # Calcula déficit de energia
+
     if current_battery < energy_needed:
         deficit = energy_needed - current_battery
-        solution.battery_violation += deficit  # Acumula G2
+        solution.battery_violation += deficit
         if debug:
             print(f"        [VIOLAÇÃO G2] Déficit: {deficit:.2f}")
             print(f"        G2 acumulado: {solution.battery_violation:.2f}")
-    
-    # Viaja fisicamente (adiciona distância e tempo reais)
+
     travel_time = distance / context.velocity
     arrival_time = current_time + travel_time
-    
-    # Bateria fica zerada (virtualmente pagou a dívida com violação)
     battery_after = 0.0
-    
+
     # Se destino é estação, adiciona passo da estação
     if destination.type == NodeType.STATION:
         # Calcula recarga necessária para continuar
@@ -342,6 +316,7 @@ def _recharge_at_station(
     solution: 'Solution' = None,
     allow_debt: bool = False,
     force_battery_feasible: bool = True,
+    profile: Optional[RechargeProfile] = None,
     debug: bool = False
 ) -> Tuple[Node, float, float]:
     """
@@ -366,13 +341,14 @@ def _recharge_at_station(
     Returns:
         Tupla (nova_posição, nova_bateria, novo_tempo)
     """
-    # Encontra melhor estação usando Smart Detour
+    prefer_nearest = profile.prefer_nearest_station if profile else False
     best_station, used_fallback = _get_best_station(
         current_position,
         customer,
         current_battery,
         context,
         force_battery_feasible=force_battery_feasible,
+        prefer_nearest_station=prefer_nearest,
         debug=debug
     )
     
@@ -420,7 +396,8 @@ def _recharge_at_station(
         context.battery_capacity,
         best_station,
         customer,
-        context
+        context,
+        profile=profile
     )
     
     if debug:
@@ -460,27 +437,47 @@ def _recharge_at_station(
     return best_station, battery_after_recharge, arrival_time + recharge_time
 
 
-def decode(individual: List[int], context: Context, force_battery_feasible: bool = True, debug: bool = False) -> Solution:
+def decode(
+    individual: List[int],
+    context: Context,
+    force_battery_feasible: bool = True,
+    debug: bool = False,
+    use_radical_infeasible: bool = False
+) -> Solution:
     """
     Decodifica uma permutação de IDs de clientes em uma solução completa.
-    
+
     Args:
         individual: Lista de inteiros representando IDs de clientes (ex: [5, 12, 1, ...])
                    Os IDs devem corresponder aos índices dos clientes na lista context.customers
         context: Contexto global com mapa e parâmetros
-        force_battery_feasible: Se True, força viabilidade de bateria retornando ao depósito
-                               preventivamente. Se False, permite violações de bateria para
-                               explorar limites (modo relaxado).
+        force_battery_feasible: Se True, força viabilidade de bateria (recargas preventivas, G2=0).
+                               Se False, modo inviável (permite dívida de bateria).
         debug: Se True, imprime logs detalhados durante a decodificação
-    
+        use_radical_infeasible: Se True e force_battery_feasible=False, modo "radical": não insere
+                               nenhuma estação (só movimento em linha reta), acumula G2. Maior gap
+                               inviável vs viável. Ignorado quando force_battery_feasible=True.
+
     Returns:
         Solution: Solução completa com rotas, métricas e viabilidade
     """
     solution = Solution()
     solution.battery_violation = 0.0  # Inicializa violação de bateria
-    
+
+    # Perfil de recarga (DECODER_ALTERNATIVO §2.2, §4.1): C = viável, A = inviável controlado, None = radical
+    if force_battery_feasible:
+        profile: Optional[RechargeProfile] = PROFILE_CONSERVATIVE
+    elif use_radical_infeasible:
+        profile = None  # radical: sem estações
+    else:
+        profile = PROFILE_AGGRESSIVE
+
     if debug:
         print(f"[DECODE] Iniciando decodificação - force_battery_feasible={force_battery_feasible}")
+        if profile:
+            print(f"[DECODE] Perfil de recarga: {profile.name}")
+        if not force_battery_feasible and use_radical_infeasible:
+            print(f"[DECODE] Modo inviável RADICAL (sem estações)")
         print(f"[DECODE] Número de clientes: {len(individual)}")
     
     # Mapeia índices para objetos Node dos clientes
@@ -514,8 +511,13 @@ def decode(individual: List[int], context: Context, force_battery_feasible: bool
     )
     current_route.add_step(depot_step)
     
-    # Iteração: Para cada cliente na permutação
-    for customer_idx, customer in enumerate(customer_nodes):
+    # G2 acumulado só na rota atual (modo agressivo: split se superar g2_max_ratio * Q_bat)
+    current_route_g2 = 0.0
+    
+    # Iteração: por cliente (while para permitir retry do mesmo cliente após split por g2_max)
+    customer_idx = 0
+    while customer_idx < len(customer_nodes):
+        customer = customer_nodes[customer_idx]
         if debug:
             print(f"\n[DECODE] Processando cliente {customer_idx+1}/{len(customer_nodes)}: {customer.id}")
             print(f"  Posição atual: {current_position.id}, Bateria: {current_battery:.2f}/{context.battery_capacity:.2f}")
@@ -528,17 +530,19 @@ def decode(individual: List[int], context: Context, force_battery_feasible: bool
             # Retorna ao depósito, fecha veículo atual, abre novo veículo
             return_to_depot(
                 current_route, current_position, context.depot,
-                current_battery, current_load, current_time, context, solution, force_battery_feasible, debug
+                current_battery, current_load, current_time, context, solution,
+                force_battery_feasible, profile=profile, debug=debug
             )
-            
+
             if debug:
                 print(f"  [VEÍCULO {current_vehicle}] FECHADO - G2 acumulado até agora: {solution.battery_violation:.2f}")
                 print(f"  [VEÍCULO {current_vehicle}] Total de passos: {len(current_route.steps)}")
             
             solution.routes.append(current_route)
             
-            # Abre novo veículo
+            # Abre novo veículo (reset G2 da rota para modo agressivo)
             current_vehicle += 1
+            current_route_g2 = 0.0
             current_route = Route(vehicle_id=current_vehicle)
             current_position = context.depot
             current_battery = context.battery_capacity
@@ -578,18 +582,43 @@ def decode(individual: List[int], context: Context, force_battery_feasible: bool
             print(f"    Bateria atual: {current_battery:.2f}")
         
         if force_battery_feasible:
-            # MODO CONSERVADOR: Look-ahead rigoroso (conforme especificação)
-            # Verifica se consegue chegar E sair do cliente (total_energy = E_trip + E_safe)
-            total_energy_needed = energy_to_customer + energy_customer_to_safety
-            
-            # Check 1: Consigo chegar no Cliente?
-            if current_battery < energy_to_customer:
+            # MODO CONSERVADOR: Look-ahead + buffer do perfil (DECODER_ALTERNATIVO §3.2)
+            margin_ratio = profile.safety_margin_ratio if profile else BATTERY_SAFETY_MARGIN
+            total_energy_needed = energy_to_customer + energy_customer_to_safety + context.battery_capacity * margin_ratio
+
+            # Caso 1: Cliente impossível (energia mínima ida+volta segurança > capacidade)
+            raw_energy_needed = energy_to_customer + energy_customer_to_safety
+            if raw_energy_needed > context.battery_capacity:
                 if debug:
-                    print(f"  [RECARGA PREVENTIVA 1] Bateria ({current_battery:.2f}) < energia até cliente ({energy_to_customer:.2f})")
+                    print(f"  [DESCARTE] Cliente {customer.id} impossível (energia {raw_energy_needed:.2f} > capacidade {context.battery_capacity:.2f}) - não visitado, G2 não alterado")
+                solution.skipped_customer_ids.append(customer.id)
+                customer_idx += 1
+                continue
+
+            # Caso 1b: Total com margem excede capacidade — não dá para ter bateria suficiente (evita loop infinito com Q pequeno)
+            if total_energy_needed > context.battery_capacity:
+                if debug:
+                    print(f"  [DESCARTE] Cliente {customer.id} impossível (total com margem {total_energy_needed:.2f} > capacidade {context.battery_capacity:.2f}) - não visitado")
+                solution.skipped_customer_ids.append(customer.id)
+                customer_idx += 1
+                continue
+
+            # Loop: garantir bateria >= total_energy_needed; ou recarga preventiva se SOC < b_safe (DECODER_ALTERNATIVO §3.1)
+            skipped_this_customer = False
+            need_recharge = current_battery < total_energy_needed
+            if profile and not need_recharge:
+                need_recharge = _should_recharge_preventively(
+                    current_battery, context.battery_capacity, total_energy_needed, profile
+                )
+            max_recharge_iters = 50  # evita loop infinito (ex.: Q pequeno, estações distantes)
+            recharge_iters = 0
+            while need_recharge and recharge_iters < max_recharge_iters:
+                recharge_iters += 1
+                # Uma recarga por iteração até ter bateria >= total_energy_needed (ida + safety)
+                if debug:
+                    print(f"  [RECARGA PREVENTIVA] Bateria ({current_battery:.2f}) < total necessário ({total_energy_needed:.2f})")
                     print(f"    Vai para estação mais próxima de {current_position.id}")
                 
-                # Não consegue chegar - precisa recarregar AGORA
-                # Usa Smart Detour para escolher melhor estação
                 new_position, new_battery, new_time = _recharge_at_station(
                     current_route,
                     current_position,
@@ -599,8 +628,9 @@ def decode(individual: List[int], context: Context, force_battery_feasible: bool
                     customer,
                     context,
                     solution,
-                    allow_debt=False,  # Modo conservador não permite dívida
-                    force_battery_feasible=True,  # Modo conservador
+                    allow_debt=False,
+                    force_battery_feasible=True,
+                    profile=profile,
                     debug=debug
                 )
                 
@@ -612,30 +642,26 @@ def decode(individual: List[int], context: Context, force_battery_feasible: bool
                 
                 # Verifica se conseguiu chegar à estação
                 if new_position == current_position and abs(new_battery - current_battery) < 0.01:
-                    # CRÍTICO: Não consegue chegar nem na estação mais próxima
+                    # Não consegue chegar à estação: retorna ao depósito (split) ou descarta cliente — sem G2
                     if debug:
-                        print(f"  [ERRO] Não conseguiu chegar à estação após recarga preventiva!")
-                        print(f"    Posição: {current_position.id}, Bateria: {current_battery:.2f}")
-                    # Conforme especificação: Retornar ao depósito e encerrar rota (split)
+                        print(f"  [SPLIT/STUCK] Não conseguiu chegar à estação após recarga preventiva")
                     energy_to_depot = _calculate_energy_needed(current_position, context.depot, context)
                     if current_battery >= energy_to_depot:
                         if debug:
                             print(f"  [SPLIT] Retornando ao depósito e abrindo novo veículo")
-                        # Tem bateria para voltar ao depósito - faz split
                         return_to_depot(
                             current_route, current_position, context.depot,
-                            current_battery, current_load, current_time, context, solution, force_battery_feasible, debug
+                            current_battery, current_load, current_time, context, solution,
+                            force_battery_feasible, profile=profile, debug=debug
                         )
                         solution.routes.append(current_route)
-                        
-                        # Abre novo veículo
                         current_vehicle += 1
+                        current_route_g2 = 0.0
                         current_route = Route(vehicle_id=current_vehicle)
                         current_position = context.depot
                         current_battery = context.battery_capacity
                         current_load = 0.0
                         current_time = 0.0
-                        
                         depot_step = RouteStep(
                             node=context.depot,
                             arrival_time=0.0,
@@ -645,36 +671,31 @@ def decode(individual: List[int], context: Context, force_battery_feasible: bool
                             load=0.0
                         )
                         current_route.add_step(depot_step)
-                        
-                        # Recalcula energia do novo veículo
                         energy_to_customer = _calculate_energy_needed(current_position, customer, context)
                         nearest_station_from_customer = context.get_nearest_station(customer)
                         energy_customer_to_safety = _calculate_energy_needed(customer, nearest_station_from_customer, context)
-                        total_energy_needed = energy_to_customer + energy_customer_to_safety
+                        margin_ratio = profile.safety_margin_ratio if profile else BATTERY_SAFETY_MARGIN
+                        total_energy_needed = energy_to_customer + energy_customer_to_safety + context.battery_capacity * margin_ratio
+                        raw_energy_needed = energy_to_customer + energy_customer_to_safety
+                        if raw_energy_needed > context.battery_capacity:
+                            solution.skipped_customer_ids.append(customer.id)
+                            skipped_this_customer = True
+                            break
                     else:
-                        # Não consegue nem voltar ao depósito - erro crítico
-                        # Adiciona violação e continua (não deveria acontecer)
-                        deficit = energy_to_depot - current_battery
-                        solution.battery_violation += deficit
-                        solution.add_violation(
-                            f"Veículo {current_vehicle}: Não consegue retornar ao depósito "
-                            f"(bateria: {current_battery:.2f}, necessário: {energy_to_depot:.2f})"
-                        )
-                        # Força retorno ao depósito mesmo assim
+                        # Não consegue nem voltar ao depósito: return_to_depot faz cadeia de estações (sem G2)
                         return_to_depot(
                             current_route, current_position, context.depot,
-                            0.0, current_load, current_time, context, solution, force_battery_feasible, debug
+                            current_battery, current_load, current_time, context, solution,
+                            force_battery_feasible, profile=profile, debug=debug
                         )
                         solution.routes.append(current_route)
-                        
-                        # Abre novo veículo
                         current_vehicle += 1
+                        current_route_g2 = 0.0
                         current_route = Route(vehicle_id=current_vehicle)
                         current_position = context.depot
                         current_battery = context.battery_capacity
                         current_load = 0.0
                         current_time = 0.0
-                        
                         depot_step = RouteStep(
                             node=context.depot,
                             arrival_time=0.0,
@@ -684,65 +705,100 @@ def decode(individual: List[int], context: Context, force_battery_feasible: bool
                             load=0.0
                         )
                         current_route.add_step(depot_step)
-                        
-                        # Recalcula energia do novo veículo
-                        energy_to_customer = _calculate_energy_needed(current_position, customer, context)
-                        nearest_station_from_customer = context.get_nearest_station(customer)
-                        energy_customer_to_safety = _calculate_energy_needed(customer, nearest_station_from_customer, context)
-                        total_energy_needed = energy_to_customer + energy_customer_to_safety
+                        solution.skipped_customer_ids.append(customer.id)
+                        skipped_this_customer = True
+                        break
                 else:
-                    # Recarga funcionou, atualiza estado
                     current_position = new_position
                     current_battery = new_battery
                     current_time = new_time
-                    # Recalcula energia necessária da nova posição
                     energy_to_customer = _calculate_energy_needed(current_position, customer, context)
                     nearest_station_from_customer = context.get_nearest_station(customer)
                     energy_customer_to_safety = _calculate_energy_needed(customer, nearest_station_from_customer, context)
-                    total_energy_needed = energy_to_customer + energy_customer_to_safety
-            
-            # Check 2 (Look-ahead): Consigo sair do Cliente? (Bat >= E_trip + E_safe)
-            if current_battery < total_energy_needed:
-                if debug:
-                    print(f"  [RECARGA PREVENTIVA 2] Look-ahead: Bateria ({current_battery:.2f}) < total necessário ({total_energy_needed:.2f})")
-                    print(f"    Risco de ficar ilhado - recarga preventiva")
-                    print(f"    Vai para estação mais próxima de {current_position.id}")
-                
-                # Risco de ficar ilhado - recarga preventiva
-                new_position, new_battery, new_time = _recharge_at_station(
-                    current_route,
-                    current_position,
-                    current_battery,
-                    current_load,
-                    current_time,
-                    customer,
-                    context,
-                    solution,
-                    allow_debt=False,  # Modo conservador não permite dívida
-                    force_battery_feasible=True,  # Modo conservador
-                    debug=debug
-                )
-                
-                if debug:
-                    print(f"  [RECARGA] Após recarga preventiva:")
-                    print(f"    Posição: {new_position.id} (era {current_position.id})")
-                    print(f"    Bateria: {new_battery:.2f} (era {current_battery:.2f})")
-                    print(f"    Tempo: {new_time:.2f} (era {current_time:.2f})")
-                
-                # Atualiza estado após recarga preventiva
-                if new_position != current_position or abs(new_battery - current_battery) > 0.01:
-                    current_position = new_position
-                    current_battery = new_battery
-                    current_time = new_time
-                    # Recalcula energia necessária da nova posição
-                    energy_to_customer = _calculate_energy_needed(current_position, customer, context)
+                    margin_ratio = profile.safety_margin_ratio if profile else BATTERY_SAFETY_MARGIN
+                    total_energy_needed = energy_to_customer + energy_customer_to_safety + context.battery_capacity * margin_ratio
+                    raw_energy_needed = energy_to_customer + energy_customer_to_safety
+                    if raw_energy_needed > context.battery_capacity:
+                        solution.skipped_customer_ids.append(customer.id)
+                        skipped_this_customer = True
+                        break
+                    need_recharge = current_battery < total_energy_needed
+                    if profile and not need_recharge:
+                        need_recharge = _should_recharge_preventively(
+                            current_battery, context.battery_capacity, total_energy_needed, profile
+                        )
+                    # Evita loop infinito quando Q é pequeno: já estamos com bateria cheia e ainda precisamos de mais que a capacidade
+                    if current_battery >= context.battery_capacity - 1e-6 and total_energy_needed > context.battery_capacity:
+                        solution.skipped_customer_ids.append(customer.id)
+                        skipped_this_customer = True
+                        break
                     if debug:
                         print(f"    Nova energia até cliente: {energy_to_customer:.2f}")
+                    continue
+            if recharge_iters >= max_recharge_iters and need_recharge:
+                # Limite de recargas atingido sem conseguir bateria suficiente — descarta cliente
+                solution.skipped_customer_ids.append(customer.id)
+                skipped_this_customer = True
+            if skipped_this_customer:
+                customer_idx += 1
+                continue
         else:
-            # MODO INVIÁVEL: Verificação Simples (Arriscada, sem Safety Buffer)
-            # Verifica apenas se consegue chegar ao cliente (ignora se vai ficar ilhado)
-            if current_battery < energy_to_customer:
-                # Não consegue chegar nem no cliente - tenta ir para estação (corretivo)
+            # MODO INVIÁVEL (agressivo com estações)
+            # Recarga se: bateria < energia até cliente OU SOC < b_safe OU bateria < ida+volta segurança (evita resgate com dívida → 10–30% g2=0)
+            need_recharge_agg = current_battery < energy_to_customer
+            if profile and not need_recharge_agg and current_battery < context.battery_capacity * profile.b_safe_ratio:
+                need_recharge_agg = True
+            total_energy_agg = None
+            if profile:
+                margin_agg = profile.safety_margin_ratio if profile else BATTERY_SAFETY_MARGIN
+                energy_customer_to_depot = _calculate_energy_needed(customer, context.depot, context)
+                # Exigir bateria para: ida ao cliente + volta (estação ou depósito) + margem → evita dívida no retorno
+                energy_back = max(energy_customer_to_safety, energy_customer_to_depot)
+                total_energy_agg = energy_to_customer + energy_back + context.battery_capacity * margin_agg
+                if not need_recharge_agg and current_battery < total_energy_agg:
+                    need_recharge_agg = True
+            # Se bateria < ida+volta segurança: não permitir dívida na recarga (split se não alcançar estação) → g2=0
+            avoid_stranded = profile is not None and total_energy_agg is not None and current_battery < total_energy_agg
+            if not use_radical_infeasible and need_recharge_agg:
+                # Split por g2_max antes de ir à estação com dívida (evita uma rota com G2 excessivo)
+                g2_max_per_route = float("inf")
+                if profile and getattr(profile, "g2_max_ratio", None) is not None:
+                    g2_max_per_route = profile.g2_max_ratio * context.battery_capacity
+                best_station, _ = _get_best_station(
+                    current_position, customer, current_battery, context,
+                    force_battery_feasible=False, prefer_nearest_station=profile.prefer_nearest_station if profile else True
+                )
+                energy_to_station = _calculate_energy_needed(current_position, best_station, context)
+                deficit_to_station = max(0.0, energy_to_station - current_battery)
+                if deficit_to_station > 0 and current_route_g2 + deficit_to_station > g2_max_per_route:
+                    if debug:
+                        print(f"  [G2_MAX] Antes recarga: G2 rota ({current_route_g2:.1f}) + déficit até estação ({deficit_to_station:.1f}) > {g2_max_per_route:.1f} → split")
+                    return_to_depot(
+                        current_route, current_position, context.depot,
+                        current_battery, current_load, current_time, context, solution,
+                        force_battery_feasible, profile=profile, debug=debug
+                    )
+                    solution.routes.append(current_route)
+                    current_vehicle += 1
+                    current_route_g2 = 0.0
+                    current_route = Route(vehicle_id=current_vehicle)
+                    current_position = context.depot
+                    current_battery = context.battery_capacity
+                    current_load = 0.0
+                    current_time = 0.0
+                    depot_step = RouteStep(
+                        node=context.depot,
+                        arrival_time=0.0,
+                        departure_time=0.0,
+                        battery_arrival=context.battery_capacity,
+                        battery_departure=context.battery_capacity,
+                        load=0.0
+                    )
+                    current_route.add_step(depot_step)
+                    continue
+                g2_before_recharge = solution.battery_violation
+                # Sem dívida na recarga no agressivo (split se não alcançar estação) → mais soluções com g2=0
+                allow_debt_recharge = False
                 new_position, new_battery, new_time = _recharge_at_station(
                     current_route,
                     current_position,
@@ -752,18 +808,44 @@ def decode(individual: List[int], context: Context, force_battery_feasible: bool
                     customer,
                     context,
                     solution,
-                    allow_debt=True,  # Modo inviável permite dívida
-                    force_battery_feasible=False,  # Modo otimista
+                    allow_debt=allow_debt_recharge,
+                    force_battery_feasible=False,
+                    profile=profile,
                     debug=debug
                 )
-                
-                # Atualiza estado após recarga (ou viagem com dívida)
+                current_route_g2 += solution.battery_violation - g2_before_recharge
+                # Ficou preso (não alcançou estação)? Split como no conservador
+                if new_position == current_position and abs(new_battery - current_battery) < 0.01:
+                    energy_to_depot = _calculate_energy_needed(current_position, context.depot, context)
+                    if current_battery >= energy_to_depot:
+                        return_to_depot(
+                            current_route, current_position, context.depot,
+                            current_battery, current_load, current_time, context, solution,
+                            force_battery_feasible, profile=profile, debug=debug
+                        )
+                        solution.routes.append(current_route)
+                        current_vehicle += 1
+                        current_route_g2 = 0.0
+                        current_route = Route(vehicle_id=current_vehicle)
+                        current_position = context.depot
+                        current_battery = context.battery_capacity
+                        current_load = 0.0
+                        current_time = 0.0
+                        depot_step = RouteStep(
+                            node=context.depot,
+                            arrival_time=0.0,
+                            departure_time=0.0,
+                            battery_arrival=context.battery_capacity,
+                            battery_departure=context.battery_capacity,
+                            load=0.0
+                        )
+                        current_route.add_step(depot_step)
+                        continue
                 current_position = new_position
                 current_battery = new_battery
                 current_time = new_time
-                # Recalcula energia necessária da nova posição
                 energy_to_customer = _calculate_energy_needed(current_position, customer, context)
-        
+
         # Passo C: Visita ao Cliente
         # Calcula distância para tempo de viagem
         distance_to_customer = current_position.distance_to(customer)
@@ -772,10 +854,41 @@ def decode(individual: List[int], context: Context, force_battery_feasible: bool
         # Verificação final de bateria (antes de viajar para o cliente)
         if current_battery < battery_needed:
             if not force_battery_feasible:
-                # MODO OTIMISTA: Permite viagem com dívida (conforme especificação)
+                # MODO AGRESSIVO: split por g2_max antes de aceitar dívida (mantém n_vehicles_A próximo de n_vehicles_C)
+                deficit = battery_needed - current_battery
+                g2_max_per_route = float("inf")
+                if profile and getattr(profile, "g2_max_ratio", None) is not None:
+                    g2_max_per_route = profile.g2_max_ratio * context.battery_capacity
+                if current_route_g2 + deficit > g2_max_per_route:
+                    if debug:
+                        print(f"  [G2_MAX] G2 rota ({current_route_g2:.1f}) + déficit ({deficit:.1f}) > {g2_max_per_route:.1f} → split")
+                    return_to_depot(
+                        current_route, current_position, context.depot,
+                        current_battery, current_load, current_time, context, solution,
+                        force_battery_feasible, profile=profile, debug=debug
+                    )
+                    solution.routes.append(current_route)
+                    current_vehicle += 1
+                    current_route_g2 = 0.0
+                    current_route = Route(vehicle_id=current_vehicle)
+                    current_position = context.depot
+                    current_battery = context.battery_capacity
+                    current_load = 0.0
+                    current_time = 0.0
+                    depot_step = RouteStep(
+                        node=context.depot,
+                        arrival_time=0.0,
+                        departure_time=0.0,
+                        battery_arrival=context.battery_capacity,
+                        battery_departure=context.battery_capacity,
+                        load=0.0
+                    )
+                    current_route.add_step(depot_step)
+                    continue  # retry same customer with new vehicle
+                # Viagem com dívida (G2 abaixo do teto): permite soluções inviáveis com g2 controlado (maioria abaixo de g2_max)
                 if debug:
-                    print(f"  [DÍVIDA] Modo otimista - viajando com dívida para {customer.id}")
-                # Viaja fisicamente, acumula G2, mas soma distância real em f1
+                    print(f"  [DÍVIDA] Viajando com dívida para {customer.id} (G2 rota permanece abaixo do teto)")
+                g2_before = solution.battery_violation
                 current_position, current_battery, current_time = _travel_with_debt(
                     current_route,
                     current_position,
@@ -785,62 +898,18 @@ def decode(individual: List[int], context: Context, force_battery_feasible: bool
                     customer,
                     context,
                     solution,
-                    debug
+                    debug=debug
                 )
-                # Após viagem com dívida, bateria já está zerada e posição já é o cliente
+                current_route_g2 += solution.battery_violation - g2_before
                 battery_needed = 0.0
             else:
-                # MODO CONSERVADOR: Não deveria acontecer após recarga preventiva
-                # Se aconteceu, é um bug ou cliente impossível
-                # Verifica se é cliente impossível (total > capacidade)
-                nearest_station_from_customer = context.get_nearest_station(customer)
-                energy_customer_to_safety = _calculate_energy_needed(customer, nearest_station_from_customer, context)
-                total_energy = energy_to_customer + energy_customer_to_safety
-                
-                if total_energy > context.battery_capacity:
-                    # Cliente impossível - conforme especificação: no modo conservador, adiciona violação
-                    if debug:
-                        print(f"  [ERRO CRÍTICO] Cliente impossível!")
-                        print(f"    Total energia necessária: {total_energy:.2f}")
-                        print(f"    Capacidade bateria: {context.battery_capacity:.2f}")
-                        print(f"    Bateria atual: {current_battery:.2f}")
-                        print(f"    Energia necessária para cliente: {battery_needed:.2f}")
-                    # e tenta visitar mesmo assim (mas vai falhar e adicionar G2)
-                    # Isso é melhor que pular o cliente completamente
-                    deficit = battery_needed - current_battery
-                    old_g2 = solution.battery_violation
-                    solution.battery_violation += deficit
-                    solution.add_violation(
-                        f"Veículo {current_vehicle}: Cliente {customer.id} impossível "
-                        f"(energia total necessária: {total_energy:.2f} > capacidade: {context.battery_capacity:.2f})"
-                    )
-                    if debug:
-                        print(f"  [VIOLAÇÃO G2] Cliente impossível")
-                        print(f"    Déficit: {deficit:.2f}")
-                        print(f"    G2 antes: {old_g2:.2f} -> G2 depois: {solution.battery_violation:.2f}")
-                    # Tenta visitar mesmo assim (vai acumular violação)
-                    current_battery = 0.0
-                else:
-                    # Erro na lógica - adiciona violação como último recurso
-                    if debug:
-                        print(f"  [ERRO CRÍTICO] Bateria insuficiente após recarga preventiva!")
-                        print(f"    Bateria: {current_battery:.2f}")
-                        print(f"    Necessário: {battery_needed:.2f}")
-                        print(f"    Total energia necessária: {total_energy:.2f}")
-                        print(f"    Capacidade: {context.battery_capacity:.2f}")
-                        print(f"    Posição atual: {current_position.id}")
-                    deficit = battery_needed - current_battery
-                    old_g2 = solution.battery_violation
-                    solution.battery_violation += deficit
-                    solution.add_violation(
-                        f"Veículo {current_vehicle}: Bateria insuficiente após recarga preventiva "
-                        f"(bateria: {current_battery:.2f}, necessário: {battery_needed:.2f})"
-                    )
-                    if debug:
-                        print(f"  [VIOLAÇÃO G2] Bateria insuficiente após recarga preventiva")
-                        print(f"    Déficit: {deficit:.2f}")
-                        print(f"    G2 antes: {old_g2:.2f} -> G2 depois: {solution.battery_violation:.2f}")
-                    current_battery = 0.0
+                # MODO CONSERVADOR: não deve acontecer (loop de recarga garante total_energy).
+                # Se acontecer, descarta cliente sem violar G2.
+                if debug:
+                    print(f"  [DESCARTE] Bateria insuficiente para {customer.id} após recarga - cliente não visitado, G2 não alterado")
+                solution.skipped_customer_ids.append(customer.id)
+                customer_idx += 1
+                continue
         else:
             # Tem bateria suficiente - viaja normalmente
             if debug:
@@ -911,12 +980,11 @@ def decode(individual: List[int], context: Context, force_battery_feasible: bool
         current_time = departure_time
         
         # Passo D: Saída do Cliente (Gestão do Risco Assumido)
-        # Se chegou no cliente no modo inviável "no cheiro", pode estar ilhado
-        if not force_battery_feasible:
-            # Verifica se consegue sair do cliente para próxima estação
+        # Modo radical: não faz resgate em estação (próximo movimento será em linha reta com dívida se necessário)
+        if not force_battery_feasible and not use_radical_infeasible:
             nearest_station_from_customer = context.get_nearest_station(customer)
             energy_customer_to_safety = _calculate_energy_needed(customer, nearest_station_from_customer, context)
-            
+
             if current_battery < energy_customer_to_safety:
                 # Ficou ilhado - resgate físico com dívida usando Smart Detour
                 if debug:
@@ -937,6 +1005,7 @@ def decode(individual: List[int], context: Context, force_battery_feasible: bool
                 if debug:
                     method = "Fallback" if used_fallback else "Smart Detour"
                     print(f"    Melhor estação para resgate ({method}): {best_rescue_station.id}")
+                g2_before_rescue = solution.battery_violation
                 current_position, current_battery, current_time = _travel_with_debt(
                     current_route,
                     current_position,
@@ -948,12 +1017,71 @@ def decode(individual: List[int], context: Context, force_battery_feasible: bool
                     solution,
                     debug
                 )
+                current_route_g2 += solution.battery_violation - g2_before_rescue
                 if debug:
                     print(f"  [RESGATE] Após resgate:")
                     print(f"    Posição: {current_position.id}")
                     print(f"    Bateria: {current_battery:.2f}")
                     print(f"    Tempo: {current_time:.2f}")
                 # Após resgate, current_position já é a estação e current_battery já foi recarregada
+        
+        # Modo agressivo: split por teto de G2 ou por máx. clientes por rota (n_vehicles_A ~10–30% abaixo de C)
+        n_customers_this_route = sum(1 for s in current_route.steps if s.node.type == NodeType.CUSTOMER)
+        if not force_battery_feasible and profile and getattr(profile, "max_customers_per_route", None) is not None:
+            if n_customers_this_route >= profile.max_customers_per_route:
+                if debug:
+                    print(f"  [MAX_CLIENTES] Rota com {n_customers_this_route} clientes >= {profile.max_customers_per_route} → fechando rota")
+                return_to_depot(
+                    current_route, current_position, context.depot,
+                    current_battery, current_load, current_time, context, solution,
+                    force_battery_feasible, profile=profile, debug=debug
+                )
+                solution.routes.append(current_route)
+                current_vehicle += 1
+                current_route_g2 = 0.0
+                current_route = Route(vehicle_id=current_vehicle)
+                current_position = context.depot
+                current_battery = context.battery_capacity
+                current_load = 0.0
+                current_time = 0.0
+                depot_step = RouteStep(
+                    node=context.depot,
+                    arrival_time=0.0,
+                    departure_time=0.0,
+                    battery_arrival=context.battery_capacity,
+                    battery_departure=context.battery_capacity,
+                    load=0.0
+                )
+                current_route.add_step(depot_step)
+        if not force_battery_feasible and profile and getattr(profile, "g2_max_ratio", None) is not None:
+            g2_max_per_route = profile.g2_max_ratio * context.battery_capacity
+            if current_route_g2 > g2_max_per_route:
+                if debug:
+                    print(f"  [G2_MAX] G2 rota ({current_route_g2:.1f}) > {g2_max_per_route:.1f} → fechando rota")
+                return_to_depot(
+                    current_route, current_position, context.depot,
+                    current_battery, current_load, current_time, context, solution,
+                    force_battery_feasible, profile=profile, debug=debug
+                )
+                solution.routes.append(current_route)
+                current_vehicle += 1
+                current_route_g2 = 0.0
+                current_route = Route(vehicle_id=current_vehicle)
+                current_position = context.depot
+                current_battery = context.battery_capacity
+                current_load = 0.0
+                current_time = 0.0
+                depot_step = RouteStep(
+                    node=context.depot,
+                    arrival_time=0.0,
+                    departure_time=0.0,
+                    battery_arrival=context.battery_capacity,
+                    battery_departure=context.battery_capacity,
+                    load=0.0
+                )
+                current_route.add_step(depot_step)
+        
+        customer_idx += 1
     
     # Finalização: Último veículo retorna ao depósito
     if debug:
@@ -963,7 +1091,8 @@ def decode(individual: List[int], context: Context, force_battery_feasible: bool
     
     return_to_depot(
         current_route, current_position, context.depot,
-        current_battery, current_load, current_time, context, solution, force_battery_feasible, debug
+        current_battery, current_load, current_time, context, solution,
+        force_battery_feasible, profile=profile, debug=debug
     )
     
     if debug:
@@ -995,17 +1124,12 @@ def return_to_depot(
     context: Context,
     solution: 'Solution' = None,
     force_battery_feasible: bool = True,
+    profile: Optional[RechargeProfile] = None,
     debug: bool = False
 ):
     """
     Adiciona passo de retorno ao depósito e fecha a rota.
-    
-    No modo conservador (force_battery_feasible=True), se não tiver bateria suficiente
-    para retornar diretamente, vai para a estação mais próxima e recarrega o suficiente
-    para chegar ao depósito.
-    
-    Args:
-        solution: Solução para acumular violação de bateria (opcional, para otimização)
+    Usa perfil para margem de segurança e escolha de estação (DECODER_ALTERNATIVO §2.12).
     """
     distance_to_depot = current_position.distance_to(depot)
     battery_needed = distance_to_depot * context.consumption_rate
@@ -1018,20 +1142,29 @@ def return_to_depot(
         print(f"    Bateria atual: {current_battery:.2f}")
     
     # Verifica se tem bateria suficiente
+    # Conservador: sempre tenta recarga preventiva.
+    # Agressivo: tenta preventiva só quando déficit é pequeno (≤6% Q); senão registra dívida → 10–30% g2=0, maioria g2 abaixo do teto
+    deficit_return = max(0.0, battery_needed - current_battery) if current_battery < battery_needed else 0.0
+    is_aggressive = profile is not None and getattr(profile, "g2_max_ratio", None) is not None
+    try_preventive = force_battery_feasible or (
+        is_aggressive and deficit_return <= 0.06 * context.battery_capacity
+    )
     if current_battery < battery_needed:
-        if force_battery_feasible:
-            # MODO CONSERVADOR: Tenta recarregar na estação mais próxima antes de retornar
+        if try_preventive:
+            margin_ratio = profile.safety_margin_ratio if profile else BATTERY_SAFETY_MARGIN
+            # Tenta recarregar na estação mais próxima antes de retornar (perfil define prefer_nearest)
             if debug:
                 print(f"    [RECARGA PREVENTIVA] Bateria insuficiente para retornar diretamente")
                 print(f"      Vai para estação mais próxima para recarregar")
             
-            # Encontra melhor estação usando Smart Detour (destino: depósito)
+            prefer_nearest = profile.prefer_nearest_station if profile else False
             best_station, used_fallback = _get_best_station(
                 current_position,
                 depot,
                 current_battery,
                 context,
-                force_battery_feasible=True,  # Modo conservador
+                force_battery_feasible=True,
+                prefer_nearest_station=prefer_nearest,
                 debug=debug
             )
             distance_to_station = current_position.distance_to(best_station)
@@ -1043,35 +1176,26 @@ def return_to_depot(
                 print(f"      Distância até estação: {distance_to_station:.2f}")
                 print(f"      Energia necessária até estação: {energy_to_station:.2f}")
             
-            # Verifica se consegue chegar à estação (deveria estar garantido pelo safety buffer)
+            # Verifica se consegue chegar à estação (safety buffer no último cliente deveria garantir)
             if current_battery < energy_to_station:
-                # Não consegue chegar à estação - erro crítico
+                # Não consegue chegar à estação
                 if debug:
-                    print(f"      [ERRO CRÍTICO] Não consegue chegar à estação!")
-                    print(f"        Déficit: {energy_to_station - current_battery:.2f}")
-                if solution is not None:
-                    deficit = battery_needed - current_battery
-                    old_g2 = solution.battery_violation
-                    solution.battery_violation += deficit
-                    solution.add_violation(
-                        f"Veículo {route.vehicle_id}: Não consegue chegar à estação para recarregar "
-                        f"antes de retornar ao depósito (bateria: {current_battery:.2f}, "
-                        f"necessário para estação: {energy_to_station:.2f})"
-                    )
-                    if debug:
-                        print(f"        G2 antes: {old_g2:.2f} -> G2 depois: {solution.battery_violation:.2f}")
+                    print(f"      [RETORNO] Não consegue chegar à estação - passo direto ao depósito")
                 arrival_battery = 0.0
                 travel_time = distance_to_depot / context.velocity
                 arrival_time = current_time + travel_time
+                # Modo agressivo: registra dívida do retorno (mix: algumas soluções g2=0, maioria g2 abaixo do teto)
+                if solution is not None and profile is not None and getattr(profile, "g2_max_ratio", None) is not None:
+                    solution.battery_violation += max(0.0, battery_needed - current_battery)
             else:
                 # Vai para a estação
                 battery_after_travel_to_station = current_battery - energy_to_station
                 travel_time_to_station = distance_to_station / context.velocity
                 arrival_time_at_station = current_time + travel_time_to_station
                 
-                # Calcula energia necessária da estação ao depósito (com margem de segurança)
+                # Calcula energia necessária da estação ao depósito (margem conforme perfil)
                 energy_station_to_depot = _calculate_energy_needed(best_station, depot, context)
-                safety_margin = context.battery_capacity * BATTERY_SAFETY_MARGIN
+                safety_margin = context.battery_capacity * margin_ratio
                 total_energy_needed_from_station = energy_station_to_depot + safety_margin
                 
                 # Calcula recarga necessária
@@ -1123,43 +1247,74 @@ def return_to_depot(
                     print(f"        Bateria: {current_battery:.2f}")
                     print(f"        Energia necessária: {battery_needed:.2f}")
                 
-                # Verifica se após recarga consegue retornar
-                if current_battery < battery_needed:
-                    # Ainda não consegue - erro na lógica ou cliente impossível
+                # Caso 4: Se após recarga ainda não consegue chegar ao depósito, cadeia de estações (sem G2)
+                max_chain_iters = 20  # evita loop infinito
+                chain_iters = 0
+                while current_battery < battery_needed and chain_iters < max_chain_iters:
+                    chain_iters += 1
                     if debug:
-                        print(f"        [ERRO] Ainda não consegue retornar após recarga!")
-                        print(f"          Déficit: {battery_needed - current_battery:.2f}")
-                    if solution is not None:
-                        deficit = battery_needed - current_battery
-                        old_g2 = solution.battery_violation
-                        solution.battery_violation += deficit
-                        solution.add_violation(
-                            f"Veículo {route.vehicle_id}: Não consegue retornar ao depósito mesmo após recarga "
-                            f"(bateria: {current_battery:.2f}, necessário: {battery_needed:.2f})"
-                        )
+                        print(f"        [CADEIA RECARGA] Bateria ({current_battery:.2f}) < necessário ({battery_needed:.2f}) - próxima estação")
+                    best_station, _ = _get_best_station(
+                        current_position, depot, current_battery, context,
+                        force_battery_feasible=True,
+                        prefer_nearest_station=prefer_nearest,
+                        debug=debug
+                    )
+                    distance_to_station = current_position.distance_to(best_station)
+                    energy_to_station = distance_to_station * context.consumption_rate
+                    if current_battery < energy_to_station:
                         if debug:
-                            print(f"          G2 antes: {old_g2:.2f} -> G2 depois: {solution.battery_violation:.2f}")
-                    arrival_battery = 0.0
-                else:
+                            print(f"        [CADEIA] Não consegue chegar à próxima estação - encerra cadeia (sem G2)")
+                        break
+                    battery_after_travel = current_battery - energy_to_station
+                    travel_time_to_station = distance_to_station / context.velocity
+                    arrival_time_at_station = current_time + travel_time_to_station
+                    energy_station_to_depot = _calculate_energy_needed(best_station, depot, context)
+                    safety_margin = context.battery_capacity * margin_ratio
+                    total_needed = energy_station_to_depot + safety_margin
+                    recharge_needed = max(0.0, min(
+                        total_needed - battery_after_travel,
+                        context.battery_capacity - battery_after_travel
+                    ))
+                    recharge_time = recharge_needed * context.recharge_rate
+                    battery_after_recharge = battery_after_travel + recharge_needed
+                    station_step = RouteStep(
+                        node=best_station,
+                        arrival_time=arrival_time_at_station,
+                        departure_time=arrival_time_at_station + recharge_time,
+                        battery_arrival=battery_after_travel,
+                        battery_departure=battery_after_recharge,
+                        recharge_amount=recharge_needed,
+                        load=current_load
+                    )
+                    route.add_step(station_step)
+                    current_position = best_station
+                    current_battery = battery_after_recharge
+                    current_time = arrival_time_at_station + recharge_time
+                    distance_to_depot = current_position.distance_to(depot)
+                    battery_needed = distance_to_depot * context.consumption_rate
+                if current_battery >= battery_needed:
                     arrival_battery = current_battery - battery_needed
                     if debug:
-                        print(f"        [OK] Bateria suficiente após recarga - chegando com {arrival_battery:.2f}")
-                
+                        print(f"        [OK] Cadeia de recargas - chegando ao depósito com {arrival_battery:.2f}")
+                else:
+                    arrival_battery = 0.0
+                    if debug:
+                        print(f"        [OK] Cadeia encerrada - chegada ao depósito com bateria 0 (sem G2)")
                 travel_time = distance_to_depot / context.velocity
                 arrival_time = current_time + travel_time
         else:
             # MODO OTIMISTA: Permite viagem com dívida
+            deficit = battery_needed - current_battery
             if debug:
                 print(f"    [DÍVIDA] Modo otimista - retornando com dívida")
             if solution is not None:
-                deficit = battery_needed - current_battery
-                old_g2 = solution.battery_violation
                 solution.battery_violation += deficit
                 if debug:
-                    print(f"      G2 antes: {old_g2:.2f} -> G2 depois: {solution.battery_violation:.2f}")
-            arrival_battery = 0.0
+                    print(f"      G2 incremento: {deficit:.2f}")
             travel_time = distance_to_depot / context.velocity
             arrival_time = current_time + travel_time
+            arrival_battery = 0.0
     else:
         # Tem bateria suficiente - retorna diretamente
         arrival_battery = current_battery - battery_needed

@@ -1,77 +1,57 @@
 """
-Módulo de Adaptação para Pymoo.
-Conecta a lógica de negócio (decoder) à biblioteca de otimização.
+Adaptação para pymoo: problema EVRPTW tri-objetivo com constraint handling.
+
+Objetivos:
+    f1 – número de veículos   (inteiro, minimizar)
+    f2 – distância total      (contínuo, minimizar)
+    f3 – makespan             (contínuo, minimizar)
+
+Constraint handling via penalty adaptativa nos objetivos:
+    cv = violação normalizada (TW/horizonte + bateria/Q).
+    Se cv > 0: F_pymoo = F_real + cv × penalty_scale.
+    Se cv = 0: F_pymoo = F_real (solução viável).
+
+Isto implementa o Constrained Domination Principle de forma compatível
+com TODOS os algoritmos (NSGA-II, MOEA/D, SMS-EMOA), já que MOEA/D
+do pymoo não suporta n_ieq_constr > 0.
+
+Os campos _F_real e _cv são armazenados para acesso posterior sem
+necessidade de re-decodificação.
 """
 
 import numpy as np
 from pymoo.core.problem import ElementwiseProblem
 from .model import Context
-from .decoder import decode
-
-
-# Constantes de penalização (apenas para violações físicas graves)
-PENALTY_COST = 100000  # Penalidade para custo em caso de violação física
-PENALTY_DISSATISFACTION = 1.0  # Penalidade para insatisfação (máxima insatisfação)
+from .decoder import Decoder
 
 
 class EVRPTWProblem(ElementwiseProblem):
-    """
-    Problema Multi-Objetivo EVRPTW-PR adaptado para Pymoo.
-    
-    Objetivos:
-    - f1: Minimizar custo total (veículos + distância)
-    - f2: Minimizar insatisfação média (0.0 = totalmente satisfeito, 1.0 = totalmente insatisfeito)
-    """
-    
-    def __init__(self, context: Context):
-        """
-        Inicializa o problema.
-        
-        Args:
-            context: Contexto global com mapa e parâmetros
-        """
+
+    def __init__(self, context: Context, k_max: int = 50):
         self.context = context
-        n_customers = len(context.customers)
-        
-        # Define problema: n variáveis (permutação de clientes), 2 objetivos
+        self.decoder = Decoder(context, k_max=k_max)
+        n = context.n_customers
+
         super().__init__(
-            n_var=n_customers,
-            n_obj=2,
-            n_constr=0,  # Sem restrições explícitas (penalização no objetivo)
+            n_var=n,
+            n_obj=3,
+            n_ieq_constr=0,
             xl=0,
-            xu=n_customers - 1,
-            elementwise_evaluation=True
+            xu=n - 1,
         )
-    
+
+        horizon = float(context.all_nodes[0].due_date)
+        self._penalty = np.array([
+            float(n),
+            float(n) * 200.0,
+            horizon,
+        ])
+
     def _evaluate(self, x, out, *args, **kwargs):
-        """
-        Avalia um indivíduo (permutação de clientes).
-        
-        Args:
-            x: Array numpy com permutação de índices (genótipo)
-            out: Dicionário de saída do Pymoo
-        """
-        # Converte array numpy para lista de inteiros
-        individual = x.astype(int).tolist()
-        
-        # Decodifica genótipo em fenótipo (solução)
-        solution = decode(individual, self.context)
-        
-        # Extrai objetivos
-        f1 = solution.total_cost  # Custo total (veículos + distância)
-        f2 = solution.avg_dissatisfaction  # Insatisfação média
-        
-        # Aplicação de penalidade apenas para violações físicas graves (bateria/carga)
-        # Violações de tempo não marcam como inviável, apenas aumentam insatisfação
-        if not solution.is_feasible:
-            f1 = f1 + PENALTY_COST
-            f2 = min(1.0, f2 + PENALTY_DISSATISFACTION)  # Limita em 1.0
-            # Justificativa: Garante que soluções fisicamente inviáveis sejam dominadas
-            # por soluções viáveis na seleção do NSGA-II
-        
-        # Retorna objetivos
-        out["F"] = np.array([f1, f2])
-        
-        # Opcional: armazena solução completa para análise posterior
-        if hasattr(self, '_last_solution'):
-            self._last_solution = solution
+        F, cv = self.decoder.decode(x)
+        if cv > 0:
+            out["F"] = F + cv * self._penalty
+        else:
+            out["F"] = F
+        out["_F_real"] = F.copy()
+        out["_cv"] = np.array([cv])

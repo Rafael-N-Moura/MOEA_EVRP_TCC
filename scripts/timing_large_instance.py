@@ -233,8 +233,8 @@ def main():
     )
     ap.add_argument(
         "--with-local-search", action="store_true",
-        help="Ativa local search no decoder (k_max={_DEFAULT_K_MAX}). Por padrão ela fica "
-             "DESATIVADA no benchmark de timing pois domina 90%+ do tempo em instâncias grandes."
+        help=f"Ativa local search no decoder (k_max={_DEFAULT_K_MAX}). Por padrao ela fica "
+             "DESATIVADA no benchmark de timing pois domina 90%% do tempo em instancias grandes."
     )
     args = ap.parse_args()
 

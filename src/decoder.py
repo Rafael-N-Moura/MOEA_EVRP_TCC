@@ -3,9 +3,11 @@ Decodificador EVRPTW em quatro fases.
 
     Decode(π) = Evaluate( InsertStations( LocalSearch( Split(π) ) ) )
 
-Fase 1 – Split (Prins simplificado): particiona a permutação com DP.
-         Executa ambas as variantes (capacidade+TW e capacidade-only)
-         e escolhe a de menor CV total.
+Fase 1 – Split (Prins relaxado): particiona a permutação com DP.
+         Apenas duas condições fecham uma rota:
+           (a) acúmulo de demanda excede C
+           (b) tempo estimado de retorno ao depot excede o horizonte
+         Violações de TW individuais NÃO fecham a rota.
 Fase 2 – LocalSearch: relocate inter-rota com recálculo de estações.
          Move um cliente de cada vez; InsertStations é chamado para
          avaliar cada candidato. Critério: economia de custo > 0
@@ -14,9 +16,12 @@ Fase 2 – LocalSearch: relocate inter-rota com recálculo de estações.
 Fase 3 – InsertStations: insere estações com recarga total, critério
          balanceado e look-ahead. Acumula violações de TW e bateria.
 Fase 4 – Evaluate: percorre rotas expandidas e calcula [f1, f2, f3].
+    f1 = Número de veículos
+    f2 = Distância total
+    f3 = Atrasos totais de Janela de Tempo (Soft Constraint)
 
 Retorno: (F, cv) onde F = np.array([f1, f2, f3]) e cv = escalar de
-violação normalizada (cv = 0 → solução viável).
+violação de bateria normalizada (cv = 0 → veículo consegue fazer a rota sem enguiçar).
 """
 
 import numpy as np
@@ -54,6 +59,19 @@ class Decoder:
         self._node_x = np.array([nd.x for nd in context.all_nodes])
         self._node_y = np.array([nd.y for nd in context.all_nodes])
 
+        # Pré-computa energia mínima de cada nó até a estação mais próxima.
+        # Usado pelo look-ahead para decidir recarga preventiva.
+        n_nodes = context.n_nodes
+        self._min_station_energy = np.full(n_nodes, float('inf'))
+        if self.stations:
+            for node in range(n_nodes):
+                min_e = float('inf')
+                for s in self.stations:
+                    e = self.dist[node, s] * self.r
+                    if e < min_e:
+                        min_e = e
+                self._min_station_energy[node] = min_e
+
     # ==================================================================
     # Ponto de entrada público
     # ==================================================================
@@ -68,16 +86,17 @@ class Decoder:
         routes = self._split(perm)
 
         expanded, total_tw, total_bat = self._expand_routes(routes)
-        cv = total_tw / max(self.horizon, 1.0) + total_bat / max(self.Q, 1.0)
+        cv = total_bat / max(self.Q, 1.0)
 
         if self.k_max > 0 and len(routes) > 1:
             routes_ls = self._local_search(routes)
             exp_ls, tw_ls, bat_ls = self._expand_routes(routes_ls)
-            cv_ls = tw_ls / max(self.horizon, 1.0) + bat_ls / max(self.Q, 1.0)
+            cv_ls = bat_ls / max(self.Q, 1.0)
             if cv_ls <= cv:
                 expanded, cv = exp_ls, cv_ls
+                total_tw = tw_ls
 
-        F = self._evaluate(expanded)
+        F = self._evaluate(expanded, total_tw)
         return F, float(cv), expanded
 
     def _expand_routes(self, routes):
@@ -97,38 +116,17 @@ class Decoder:
     # ==================================================================
     def _split(self, perm):
         """
-        Executa ambas as variantes do Split DP e escolhe a de menor CV.
+        Split relaxado: particiona a permutação usando DP com apenas
+        duas condições de quebra de rota:
+          1. Acúmulo de demanda excede C (capacidade de carga)
+          2. Tempo estimado de retorno ao depot excede o horizonte
 
-        O split cap-only reordena clientes por ready_time dentro de cada
-        rota para reduzir violações de TW em rotas longas.
+        Violações de TW individuais NÃO fecham a rota — serão
+        capturadas depois por InsertStations/Evaluate como cv.
         """
-        ready = self.ready
-        cust = self.cust_node
+        return self._split_dp(perm)
 
-        routes_tw = self._split_dp(perm, check_tw=True)
-        routes_cap = self._split_dp(perm, check_tw=False)
-
-        if routes_cap is not None:
-            routes_cap = [sorted(r, key=lambda c: ready[cust[c]])
-                          for r in routes_cap]
-
-        candidates = [r for r in (routes_tw, routes_cap) if r is not None]
-        best_routes, best_cv = candidates[0], float('inf')
-
-        for routes in candidates:
-            total_tw, total_bat = 0.0, 0.0
-            for cust_seq in routes:
-                _, tw_v, bat_v = self._insert_stations(cust_seq)
-                total_tw += tw_v
-                total_bat += bat_v
-            cv = total_tw / max(self.horizon, 1.0) + total_bat / max(self.Q, 1.0)
-            if cv < best_cv:
-                best_cv = cv
-                best_routes = routes
-
-        return best_routes
-
-    def _split_dp(self, perm, check_tw):
+    def _split_dp(self, perm):
         n = len(perm)
         INF_V = float('inf')
         V = [INF_V] * (n + 1)
@@ -141,9 +139,9 @@ class Decoder:
         cust = self.cust_node
         dem = self.demand
         ready = self.ready
-        due = self.due
         service = self.service
         C = self.C
+        horizon = self.horizon
 
         for i in range(1, n + 1):
             load = 0.0
@@ -164,10 +162,12 @@ class Decoder:
                 else:
                     t_arr = travel[depot, cj]
 
-                if check_tw and t_arr > due[cj]:
-                    break
-
                 t_dep = max(t_arr, ready[cj]) + service[cj]
+
+                # Verifica se o retorno ao depot excede o horizonte
+                t_return = t_dep + travel[cj, depot]
+                if t_return > horizon:
+                    break
 
                 cand = V[i - 1] + cost
                 if cand < V[j]:
@@ -175,9 +175,7 @@ class Decoder:
                     P[j] = i - 1
 
         if V[n] >= INF_V:
-            if not check_tw:
-                return [[int(c)] for c in perm]
-            return None
+            return [[int(c)] for c in perm]
 
         routes, j = [], n
         while j > 0:
@@ -318,6 +316,9 @@ class Decoder:
 
     # ==================================================================
     # Fase 3 – InsertStations  (greedy, recarga total, acumula violações)
+    #          Com look-ahead preventivo: antes de ir direto ao cliente,
+    #          verifica se teremos energia para "escapar" (chegar ao
+    #          próximo destino ou à estação mais próxima).
     # ==================================================================
     def _insert_stations(self, customers):
         """Retorna (route, tw_violation, bat_violation). Nunca falha."""
@@ -328,6 +329,7 @@ class Decoder:
         tw_viol = 0.0
         bat_viol = 0.0
         nc = len(customers)
+        min_st_e = self._min_station_energy
 
         for idx in range(nc):
             dest = self.cust_node[customers[idx]]
@@ -335,14 +337,59 @@ class Decoder:
             e_nec = self.dist[ant, dest] * self.r
 
             if bat >= e_nec:
-                t_arr = t + self.travel[ant, dest]
-                tw_viol += max(0.0, t_arr - self.due[dest])
-                t = max(t_arr, self.ready[dest]) + self.service[dest]
-                bat -= e_nec
-                d_acc += self.dist[ant, dest]
+                # ── Look-ahead preventivo ──
+                # Verifica se após chegar em dest teremos energia para
+                # alcançar o próximo ponto OU a estação mais próxima
+                # de dest (o que for menor). Se não, recarrega antes.
+                bat_after = bat - e_nec
+                e_next = self.dist[dest, prox] * self.r
+                e_escape = min(e_next, min_st_e[dest])
+
+                if bat_after >= e_escape:
+                    # Seguro: vai direto ao cliente
+                    t_arr = t + self.travel[ant, dest]
+                    tw_viol += max(0.0, t_arr - self.due[dest])
+                    t = max(t_arr, self.ready[dest]) + self.service[dest]
+                    bat -= e_nec
+                    d_acc += self.dist[ant, dest]
+                    route.append(dest)
+                    ant = dest
+                    continue
+
+                # Look-ahead falhou: recarregar preventivamente.
+                # Busca estação entre ant e dest (mesma lógica do
+                # caso reativo, mas agora temos energia para chegar).
+                good, fallback = self._find_candidates(
+                    ant, dest, prox, t, bat, d_acc, EPS)
+
+                if good:
+                    best = min(good, key=lambda x: x[1])
+                elif fallback:
+                    best = min(fallback, key=lambda x: x[1])
+                else:
+                    # Nenhuma estação acessível entre ant e dest.
+                    # Vai direto mesmo — o look-ahead pode ser
+                    # pessimista (e.g., estação alcançável depois).
+                    t_arr = t + self.travel[ant, dest]
+                    tw_viol += max(0.0, t_arr - self.due[dest])
+                    t = max(t_arr, self.ready[dest]) + self.service[dest]
+                    bat -= e_nec
+                    d_acc += self.dist[ant, dest]
+                    route.append(dest)
+                    ant = dest
+                    continue
+
+                s, _score, t_out, bat_dest, t_dest = best
+                route.append(s)
                 route.append(dest)
+                tw_viol += max(0.0, t_dest - self.due[dest])
+                t = t_out
+                bat = bat_dest
+                d_acc += self.dist[ant, s] + self.dist[s, dest]
                 ant = dest
+
             else:
+                # ── Caso reativo: bateria insuficiente para o arco ──
                 good, fallback = self._find_candidates(
                     ant, dest, prox, t, bat, d_acc, EPS)
 
@@ -448,29 +495,17 @@ class Decoder:
 
     # ==================================================================
     # Fase 4 – Evaluate  (calcula [f1, f2, f3])
+    # f3 agora é a Violação de Janela de Tempo tolerada de toda a solução
     # ==================================================================
-    def _evaluate(self, expanded_routes):
+    def _evaluate(self, expanded_routes, tw_v):
         f1 = float(len(expanded_routes))
         f2 = 0.0
-        ret_times = []
 
         for route in expanded_routes:
-            t, bat, ant = 0.0, self.Q, route[0]
+            ant = route[0]
             for p in route[1:]:
                 f2 += self.dist[ant, p]
-                t += self.travel[ant, p]
-                bat -= self.dist[ant, p] * self.r
-                bat = max(bat, 0.0)
-                t = max(t, self.ready[p])
-
-                if self._is_station[p]:
-                    t += self.g * (self.Q - bat)
-                    bat = self.Q
-                else:
-                    t += self.service[p]
-
                 ant = p
-            ret_times.append(t)
 
-        f3 = max(ret_times) if ret_times else 0.0
+        f3 = tw_v
         return np.array([f1, f2, f3])

@@ -4,12 +4,12 @@ Adaptação para pymoo: problema EVRPTW tri-objetivo com constraint handling.
 Objetivos:
     f1 – número de veículos   (inteiro, minimizar)
     f2 – distância total      (contínuo, minimizar)
-    f3 – makespan             (contínuo, minimizar)
+    f3 – atrasos totais TW    (contínuo, minimizar, Soft Constraint)
 
 Constraint handling via penalty adaptativa nos objetivos:
-    cv = violação normalizada (TW/horizonte + bateria/Q).
+    cv = violação de bateria normalizada (bateria / Q).
     Se cv > 0: F_pymoo = F_real + cv × penalty_scale.
-    Se cv = 0: F_pymoo = F_real (solução viável).
+    Se cv = 0: F_pymoo = F_real (solução viável eletricamente).
 
 Isto implementa o Constrained Domination Principle de forma compatível
 com TODOS os algoritmos (NSGA-II, MOEA/D, SMS-EMOA), já que MOEA/D
@@ -44,7 +44,7 @@ class EVRPTWProblem(ElementwiseProblem):
         self._penalty = np.array([
             float(n),
             float(n) * 200.0,
-            horizon,
+            horizon * 10.0,
         ])
 
     def _evaluate(self, x, out, *args, **kwargs):

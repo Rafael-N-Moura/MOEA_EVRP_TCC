@@ -45,6 +45,7 @@ from pymoo.operators.mutation.inversion import InversionMutation
 from pymoo.indicators.hv import HV
 
 from src import parse_instance, EVRPTWProblem, TWBiasedSampling
+from src.decoder import _DEFAULT_K_MAX
 
 
 # ---------------------------------------------------------------------------
@@ -99,8 +100,10 @@ def _effective_pop(name: str, pop_size: int) -> int:
     return pop_size
 
 
-def _n_gen(n_evals: int, pop_size: int) -> int:
-    return max(1, n_evals // pop_size)
+# NOTA: não usamos n_gen como critério de parada porque SMS-EMOA é (μ+1)
+# — produz apenas 1 offspring por geração. Usar n_gen=n_evals//pop_size
+# resultaria em muito menos avaliações reais do que o esperado.
+# Usamos ("n_eval", n_evals) diretamente, que é correto para todos os algoritmos.
 
 
 def _compute_hv(res, ref_point):
@@ -158,36 +161,39 @@ def run_once(algo_name: str, problem, pop_size: int, n_evals: int, seed: int, re
     """
     Executa um algoritmo por n_evals avaliações e retorna métricas de tempo.
 
+    Usa ("n_eval", n_evals) como critério de parada — correto para todos os
+    algoritmos, incluindo SMS-EMOA (μ+1) que gera 1 offspring por geração.
+
     Returns
     -------
     dict com: elapsed_s, ms_per_eval, n_feasible, n_total, effective_evals, hv
     """
-    eff_pop   = _effective_pop(algo_name, pop_size)
-    n_gens    = _n_gen(n_evals, eff_pop)
-    eff_evals = n_gens * eff_pop
-
-    alg = _build_algorithm(algo_name, pop_size)
+    eff_pop = _effective_pop(algo_name, pop_size)
+    alg     = _build_algorithm(algo_name, pop_size)
 
     wall_start = time.perf_counter()
-    res = minimize(problem, alg, ("n_gen", n_gens), verbose=False, seed=seed)
+    res = minimize(problem, alg, ("n_eval", n_evals), verbose=False, seed=seed)
     elapsed = time.perf_counter() - wall_start
 
-    cv_arr = res.pop.get("_cv")
-    n_total  = len(cv_arr) if cv_arr is not None else 0
-    n_feas   = int(np.sum(cv_arr[:, 0] <= 1e-9)) if cv_arr is not None else 0
+    # n_eval real executado (pode diferir levemente do alvo por arredondamento)
+    actual_evals = res.algorithm.evaluator.n_eval if hasattr(res, 'algorithm') else n_evals
 
-    hv = _compute_hv(res, ref_point)
-    ms_per = (elapsed / eff_evals * 1000) if eff_evals > 0 else 0.0
+    cv_arr  = res.pop.get("_cv")
+    n_total = len(cv_arr) if cv_arr is not None else 0
+    n_feas  = int(np.sum(cv_arr[:, 0] <= 1e-9)) if cv_arr is not None else 0
+
+    hv     = _compute_hv(res, ref_point)
+    ms_per = (elapsed / actual_evals * 1000) if actual_evals > 0 else 0.0
 
     return {
-        "elapsed_s":     round(elapsed, 3),
-        "ms_per_eval":   round(ms_per, 4),
+        "elapsed_s":      round(elapsed, 3),
+        "ms_per_eval":    round(ms_per, 4),
         "effective_pop":  eff_pop,
-        "n_gens":         n_gens,
-        "effective_evals": eff_evals,
-        "n_feasible":    n_feas,
-        "n_total":       n_total,
-        "hv":            round(hv, 8),
+        "n_evals_target": n_evals,
+        "effective_evals": actual_evals,
+        "n_feasible":     n_feas,
+        "n_total":        n_total,
+        "hv":             round(hv, 8),
     }
 
 
@@ -225,6 +231,11 @@ def main():
         "--seed-start", type=int, default=1,
         help="Seed inicial; seeds = seed_start, seed_start+1, ..."
     )
+    ap.add_argument(
+        "--with-local-search", action="store_true",
+        help="Ativa local search no decoder (k_max={_DEFAULT_K_MAX}). Por padrão ela fica "
+             "DESATIVADA no benchmark de timing pois domina 90%+ do tempo em instâncias grandes."
+    )
     args = ap.parse_args()
 
     # ── Cabeçalho ───────────────────────────────────────────────────────
@@ -245,8 +256,20 @@ def main():
 
     # ── Carrega instância ────────────────────────────────────────────────
     print(f"\nCarregando: {args.instance}")
-    ctx     = parse_instance(args.instance)
-    problem = EVRPTWProblem(ctx)
+    ctx = parse_instance(args.instance)
+
+    # Local search desativada por padrão no benchmark de timing:
+    # ela pode dominar 90%+ do tempo em instâncias grandes (k_max=50
+    # relocates × InsertStations por candidato), mascarando a
+    # diferença de velocidade entre os algoritmos evolutivos.
+    # Use --with-local-search para ativar.
+    k_max = _DEFAULT_K_MAX if args.with_local_search else 0
+    if k_max == 0:
+        print("  [INFO] Local search DESATIVADA (use --with-local-search para ativar)")
+    else:
+        print(f"  [INFO] Local search ATIVADA  (k_max={k_max})")
+
+    problem = EVRPTWProblem(ctx, k_max=k_max)
     tws     = [c.due_date - c.ready_time for c in ctx.customers]
 
     print(f"  Clientes : {ctx.n_customers}")
@@ -275,12 +298,10 @@ def main():
         print(f"{'─' * 60}")
 
         for algo in args.algorithms:
-            eff_pop   = _effective_pop(algo, args.pop_size)
-            n_gens    = _n_gen(args.n_evals, eff_pop)
-            eff_evals = n_gens * eff_pop
+            eff_pop = _effective_pop(algo, args.pop_size)
 
-            print(f"\n  [{algo}]  pop={eff_pop}  n_gen={n_gens}  "
-                  f"evals_reais={eff_evals:,}", end="", flush=True)
+            print(f"\n  [{algo}]  pop={eff_pop}  n_eval_alvo={args.n_evals:,}",
+                  end="", flush=True)
 
             metrics = run_once(algo, problem, args.pop_size, args.n_evals, seed, ref_point)
 
@@ -292,23 +313,23 @@ def main():
                   f"HV={metrics['hv']:.6f}")
 
             records.append({
-                "timestamp":      timestamp,
-                "instance":       inst_name,
-                "run":            run_idx,
-                "seed":           seed,
-                "algorithm":      algo,
-                "n_evals_target": args.n_evals,
-                "effective_pop":  metrics["effective_pop"],
-                "n_gens":         metrics["n_gens"],
+                "timestamp":       timestamp,
+                "instance":        inst_name,
+                "run":             run_idx,
+                "seed":            seed,
+                "algorithm":       algo,
+                "n_evals_target":  args.n_evals,
+                "effective_pop":   metrics["effective_pop"],
                 "effective_evals": metrics["effective_evals"],
-                "elapsed_s":      metrics["elapsed_s"],
-                "ms_per_eval":    metrics["ms_per_eval"],
-                "n_feasible":     metrics["n_feasible"],
-                "n_total":        metrics["n_total"],
-                "hv":             metrics["hv"],
-                "machine_node":   machine["node"],
-                "platform":       machine["platform"],
-                "python":         machine["python"],
+                "elapsed_s":       metrics["elapsed_s"],
+                "ms_per_eval":     metrics["ms_per_eval"],
+                "n_feasible":      metrics["n_feasible"],
+                "n_total":         metrics["n_total"],
+                "hv":              metrics["hv"],
+                "local_search":    args.with_local_search,
+                "machine_node":    machine["node"],
+                "platform":        machine["platform"],
+                "python":          machine["python"],
             })
 
     global_elapsed = time.perf_counter() - global_start
@@ -331,10 +352,10 @@ def main():
         mean_t    = np.mean(run_times)
         std_t     = np.std(run_times)
 
-        # ms/eval: usa os effective_evals do primeiro run deste algo
-        eff_pop   = _effective_pop(algo, args.pop_size)
-        eff_evals = _n_gen(args.n_evals, eff_pop) * eff_pop
-        ms_med    = mean_t / eff_evals * 1000 if eff_evals > 0 else 0.0
+        # ms/eval: baseia-se nos evals reais registrados
+        algo_recs_summary = [r for r in records if r["algorithm"] == algo]
+        avg_evals = np.mean([r["effective_evals"] for r in algo_recs_summary])
+        ms_med    = mean_t / avg_evals * 1000 if avg_evals > 0 else 0.0
 
         row = (f"{algo:<12}"
                + "".join(f"{fmt_hms(t):>11}" for t in run_times)

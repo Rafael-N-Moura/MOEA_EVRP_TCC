@@ -1,0 +1,165 @@
+{
+  "meta": {
+    "timestamp": "20260409_180015",
+    "instance": "rc101_21",
+    "n_evals_target": 100000,
+    "pop_size": 105,
+    "runs": 1,
+    "seeds": [
+      1
+    ],
+    "machine": {
+      "platform": "Linux-6.6.128-1-MANJARO-x86_64-with-glibc2.43",
+      "processor": "",
+      "python": "3.14.3",
+      "node": "pesquisa"
+    }
+  },
+  "instance_info": {
+    "n_customers": 100,
+    "n_stations": 21,
+    "battery_capacity": 79.69,
+    "vehicle_capacity": 200.0
+  },
+  "ref_point": [
+    57.2,
+    6305.824914654917,
+    4154.48576900905
+  ],
+  "results_by_algorithm": {
+    "NSGA-II": {
+      "elapsed_s": {
+        "runs": [
+          108.741
+        ],
+        "mean": 108.741,
+        "std": 0.0
+      },
+      "ms_per_eval": {
+        "runs": [
+          1.0867
+        ],
+        "mean": 1.0867
+      },
+      "hv": {
+        "runs": [
+          418941855.4806951
+        ],
+        "mean": 418941855.4806951,
+        "std": 0.0
+      },
+      "n_feasible": [
+        105
+      ]
+    },
+    "MOEA/D": {
+      "elapsed_s": {
+        "runs": [
+          144.69
+        ],
+        "mean": 144.69,
+        "std": 0.0
+      },
+      "ms_per_eval": {
+        "runs": [
+          1.446
+        ],
+        "mean": 1.446
+      },
+      "hv": {
+        "runs": [
+          219295646.49981683
+        ],
+        "mean": 219295646.49981683,
+        "std": 0.0
+      },
+      "n_feasible": [
+        105
+      ]
+    },
+    "SMS-EMOA": {
+      "elapsed_s": {
+        "runs": [
+          107.709
+        ],
+        "mean": 107.709,
+        "std": 0.0
+      },
+      "ms_per_eval": {
+        "runs": [
+          1.0764
+        ],
+        "mean": 1.0764
+      },
+      "hv": {
+        "runs": [
+          407653347.5299523
+        ],
+        "mean": 407653347.5299523,
+        "std": 0.0
+      },
+      "n_feasible": [
+        104
+      ]
+    }
+  },
+  "records": [
+    {
+      "timestamp": "20260409_180015",
+      "instance": "rc101_21",
+      "run": 1,
+      "seed": 1,
+      "algorithm": "NSGA-II",
+      "n_evals_target": 100000,
+      "effective_pop": 105,
+      "effective_evals": 100065,
+      "elapsed_s": 108.741,
+      "ms_per_eval": 1.0867,
+      "n_feasible": 105,
+      "n_total": 105,
+      "hv": 418941855.4806951,
+      "local_search": false,
+      "machine_node": "pesquisa",
+      "platform": "Linux-6.6.128-1-MANJARO-x86_64-with-glibc2.43",
+      "python": "3.14.3"
+    },
+    {
+      "timestamp": "20260409_180015",
+      "instance": "rc101_21",
+      "run": 1,
+      "seed": 1,
+      "algorithm": "MOEA/D",
+      "n_evals_target": 100000,
+      "effective_pop": 105,
+      "effective_evals": 100065,
+      "elapsed_s": 144.69,
+      "ms_per_eval": 1.446,
+      "n_feasible": 105,
+      "n_total": 105,
+      "hv": 219295646.49981683,
+      "local_search": false,
+      "machine_node": "pesquisa",
+      "platform": "Linux-6.6.128-1-MANJARO-x86_64-with-glibc2.43",
+      "python": "3.14.3"
+    },
+    {
+      "timestamp": "20260409_180015",
+      "instance": "rc101_21",
+      "run": 1,
+      "seed": 1,
+      "algorithm": "SMS-EMOA",
+      "n_evals_target": 100000,
+      "effective_pop": 105,
+      "effective_evals": 100065,
+      "elapsed_s": 107.709,
+      "ms_per_eval": 1.0764,
+      "n_feasible": 104,
+      "n_total": 105,
+      "hv": 407653347.5299523,
+      "local_search": false,
+      "machine_node": "pesquisa",
+      "platform": "Linux-6.6.128-1-MANJARO-x86_64-with-glibc2.43",
+      "python": "3.14.3"
+    }
+  ]
+}

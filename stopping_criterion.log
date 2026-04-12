@@ -1,0 +1,171 @@
+========================================================================
+CALIBRAÇÃO DO CRITÉRIO DE PARADA — EVRPTW TCC
+========================================================================
+  Modo        : COMPLETO
+  Algoritmos  : ['nsga2', 'moead_ws', 'smsemoa']
+  Instâncias  : ['c101_21', 'c201_21', 'r101_21', 'r201_21', 'rc101_21', 'rc201_21']
+  Runs        : 5  |  max_evals: 1,000,000  |  max_time: 3600s
+  Total tasks : 90
+  Workers     : 10
+  ETA estim.  : ~9.0h  (~60min/run)
+  Critério    : janela=50,000 evals, ε=1.0%, 3 pontos
+  git commit  : 7482e60
+  Resultados  : /home/rafael/MOEA_EVRP_TCC/results/stopping_criterion_20260411_210157
+========================================================================
+
+  Tasks restantes: 90 / 90  (embaralhadas, seed=42)
+
+────────────────────────────────────────────────────────────────────────
+     #  Alg         Instância     Run    Feas  Pareto            HV     Tempo     ⏱️  Status
+────────────────────────────────────────────────────────────────────────
+     1/90  nsga2       r101_21       1       105     104   68824490.96   1623.3s         ok  ETA:40h08m
+     2/90  smsemoa     r101_21       3       104     103   38253583.18   1753.2s         ok  ETA:21h25m
+     3/90  nsga2       c101_21       2       105     105  138810028.54   1765.8s         ok  ETA:14h13m
+     4/90  moead_ws    r101_21       1       105      98   53838445.33   2130.2s         ok  ETA:12h43m
+     5/90  moead_ws    r101_21       3       105      78  140802716.31   2179.4s         ok  ETA:10h17m
+     6/90  nsga2       rc201_21      2       105     103  240297777.26   2232.6s         ok  ETA:8h41m
+     7/90  moead_ws    c101_21       3       105      64  686155382.70   2390.5s         ok  ETA:7h52m
+     8/90  nsga2       r201_21       1       105     104  236767183.73   2405.1s         ok  ETA:6h50m
+     9/90  moead_ws    rc201_21      4       105      43   96473909.66   2605.6s         ok  ETA:6h30m
+    10/90  smsemoa     c201_21       2       105     105   59418743.19   2883.7s         ok  ETA:6h24m
+    11/90  smsemoa     r101_21       1       105      90   14214166.58   1648.9s         ok  ETA:8h05m
+    12/90  smsemoa     c101_21       3       105     105   95304762.16   1779.4s         ok  ETA:7h31m
+    13/90  moead_ws    r201_21       3       105      78   41324552.19   2790.3s         ok  ETA:7h28m
+    14/90  nsga2       r201_21       5       105     105  236551112.05   2470.8s         ok  ETA:6h56m
+    15/90  smsemoa     c201_21       3       105     100  133042112.92   2851.7s         ok  ETA:6h24m
+    16/90  moead_ws    rc101_21      2       105      62   75918187.07   2123.3s         ok  ETA:6h04m
+    17/90  moead_ws    r201_21       1       105      63  129624298.06   3133.2s         ok  ETA:5h40m
+    18/90  moead_ws    rc201_21      5       105      75  112794235.51   2683.7s         ok  ETA:5h24m
+    19/90  moead_ws    rc201_21      1       105      55  175216876.72   2645.0s         ok  ETA:5h03m
+    20/90  moead_ws    rc201_21      2       105      53  102638384.87   2749.7s         ok  ETA:5h28m
+    21/90  smsemoa     c101_21       4       105     104  112815658.35   1761.1s         ok  ETA:5h48m
+    22/90  smsemoa     r101_21       2       105     105   35363843.68   1677.2s         ok  ETA:5h36m
+    23/90  smsemoa     rc201_21      1       105     105  120532918.50   2407.1s         ok  ETA:5h19m
+    24/90  moead_ws    r201_21       5       105      80   93737990.27   2947.1s         ok  ETA:5h20m
+    25/90  moead_ws    c101_21       4       105      45   55710497.75   2483.6s         ok  ETA:5h07m
+    26/90  smsemoa     r201_21       5       105     104   71191753.22   2641.7s         ok  ETA:4h54m
+    27/90  moead_ws    c101_21       1       105      54  543245322.28   2507.7s         ok  ETA:4h47m
+    28/90  nsga2       c201_21       4       105      94   76617562.09   3048.1s         ok  ETA:4h47m
+    29/90  moead_ws    r101_21       4       105      84   92384586.70   2188.6s         ok  ETA:4h34m
+    30/90  moead_ws    c201_21       3       105      22  319794792.65   3341.2s         ok  ETA:4h29m
+    31/90  smsemoa     c101_21       2       105      99   61430792.95   1799.8s         ok  ETA:4h18m
+    32/90  moead_ws    r101_21       2       105      78   82459052.94   2139.5s         ok  ETA:4h22m
+    33/90  nsga2       r101_21       3       105     103   35088661.37   1684.5s         ok  ETA:4h21m
+    34/90  smsemoa     rc201_21      4       105     105  239538295.17   2264.2s         ok  ETA:4h14m
+    35/90  nsga2       rc101_21      4       105     105  108593062.56   1658.1s         ok  ETA:4h08m
+    36/90  smsemoa     r201_21       3       105     101  237384579.51   2467.5s         ok  ETA:4h01m
+    37/90  moead_ws    c201_21       5       105      84  272660037.18   3131.7s         ok  ETA:3h51m
+    38/90  moead_ws    r201_21       2       105      44   30108937.46   3003.7s         ok  ETA:3h50m
+    39/90  nsga2       r201_21       4       105     101  204165450.02   2432.4s         ok  ETA:3h49m
+    40/90  moead_ws    c201_21       2       105      94  442477371.63   3325.5s         ok  ETA:3h51m
+    41/90  smsemoa     c201_21       1       105      79   99719902.51   2972.9s         ok  ETA:3h41m
+    42/90  moead_ws    rc101_21      3       105      65   90288390.63   2125.8s         ok  ETA:3h33m
+    43/90  smsemoa     r101_21       4       105     105   22980580.84   1624.3s         ok  ETA:3h25m
+    44/90  nsga2       c101_21       3       105      85  124516604.48   1823.7s         ok  ETA:3h20m
+    45/90  smsemoa     c201_21       4       105      93  109538191.39   2897.1s         ok  ETA:3h12m
+    46/90  moead_ws    c101_21       5       105      97  466811027.70   2489.5s         ok  ETA:3h10m
+    47/90  nsga2       c201_21       3       105      77  135759296.38   2956.9s         ok  ETA:3h06m
+    48/90  nsga2       r201_21       2       105     104  221446750.83   2435.1s         ok  ETA:3h02m
+    49/90  nsga2       rc101_21      3       105     100   72315505.69   1665.5s         ok  ETA:2h58m
+    50/90  nsga2       rc101_21      5       105     105   38531664.75   1692.4s         ok  ETA:2h52m
+    51/90  moead_ws    rc101_21      1       105      76   88424074.20   2098.1s         ok  ETA:2h48m
+    52/90  moead_ws    c201_21       4       105      93  180872281.01   3218.6s         ok  ETA:2h47m
+    53/90  smsemoa     c101_21       1       105     105   72518335.83   1793.1s         ok  ETA:2h40m
+    54/90  smsemoa     r201_21       4       105     105   30427163.71   2726.0s         ok  ETA:2h34m
+    55/90  smsemoa     rc101_21      3       105     105   69698948.97   1629.1s         ok  ETA:2h30m
+    56/90  nsga2       c201_21       1       105      80   46607486.44   2699.3s         ok  ETA:2h24m
+    57/90  nsga2       c201_21       2       105      85  152021111.43   2870.1s         ok  ETA:2h19m
+    58/90  smsemoa     rc101_21      4       105     105   43878319.18   1746.9s         ok  ETA:2h15m
+    59/90  nsga2       rc101_21      2       105      94   98049049.99   1598.0s         ok  ETA:2h09m
+    60/90  moead_ws    r201_21       4       105      42   70022935.52   2991.7s         ok  ETA:2h06m
+    61/90  smsemoa     r101_21       5       105     102   31905821.29   1672.5s         ok  ETA:2h02m
+    62/90  nsga2       rc101_21      1       105     104   56877331.62   1620.3s         ok  ETA:1h56m
+    63/90  moead_ws    r101_21       5       105      63   43463830.51   2151.3s         ok  ETA:1h53m
+    64/90  nsga2       c201_21       5       105      76  135801720.89   3129.3s         ok  ETA:1h47m
+    65/90  nsga2       c101_21       1       105     100  127166987.46   1784.4s         ok  ETA:1h42m
+    66/90  smsemoa     rc101_21      5       105     101   56449417.42   1710.2s         ok  ETA:1h39m
+    67/90  smsemoa     rc201_21      2       105     105   74753461.41   2354.9s         ok  ETA:1h34m
+    68/90  moead_ws    rc101_21      4       105      63  153408859.02   2146.2s         ok  ETA:1h31m
+    69/90  moead_ws    rc201_21      3       105      56  303542349.67   2721.6s         ok  ETA:1h27m
+    70/90  smsemoa     rc201_21      5       105      96  287567630.69   2384.5s         ok  ETA:1h23m
+    71/90  smsemoa     c101_21       5       105     105  132221718.41   1736.7s         ok  ETA:1h18m
+    72/90  nsga2       rc201_21      1       105     105  279240716.67   2288.8s         ok  ETA:1h13m
+    73/90  smsemoa     r201_21       2       105     104   75922052.12   2528.9s         ok  ETA:1h10m
+    74/90  smsemoa     rc101_21      1       105     105   19648515.36   1747.7s         ok  ETA:1h05m
+    75/90  nsga2       rc201_21      3       105     101  476823945.96   2249.2s         ok  ETA:1h00m
+    76/90  nsga2       rc201_21      5       105     105  312545678.00   2300.2s         ok  ETA:0h55m
+    77/90  nsga2       c101_21       5       105     103  144916892.88   1755.2s         ok  ETA:0h52m
+    78/90  smsemoa     rc201_21      3       105     105  261891966.45   2247.8s         ok  ETA:0h48m
+    79/90  moead_ws    rc101_21      5       105      69  105988164.49   2117.7s         ok  ETA:0h44m
+    80/90  nsga2       r101_21       2       105     105   52721300.46   1685.9s         ok  ETA:0h40m
+    81/90  nsga2       r101_21       4       105     103   52393239.88   1647.4s         ok  ETA:0h36m
+    82/90  smsemoa     r201_21       1       105     105   43487049.35   2664.2s         ok  ETA:0h32m
+    83/90  nsga2       rc201_21      4       105     104  266821872.55   2210.4s         ok  ETA:0h28m
+    84/90  moead_ws    c101_21       2       105      52  180290942.03   2312.1s         ok  ETA:0h24m
+    85/90  nsga2       c101_21       4       105      92  194816937.93   1777.2s         ok  ETA:0h20m
+    86/90  smsemoa     c201_21       5       105      97  100621128.35   2949.0s         ok  ETA:0h16m
+    87/90  nsga2       r201_21       3       105     105   50505156.71   2590.3s         ok  ETA:0h11m
+    88/90  nsga2       r101_21       5       105      92   80907195.90   1528.6s         ok  ETA:0h07m
+    89/90  smsemoa     rc101_21      2       105     101   24926646.82   1489.8s         ok  ETA:0h03m
+    90/90  moead_ws    c201_21       1       105      88  311151832.52   2871.5s         ok  ETA:0h00m
+
+────────────────────────────────────────────────────────────────────────
+  Concluído em 5h 59m 32s  |  Erros: 0/90
+  index.csv : /home/rafael/MOEA_EVRP_TCC/results/stopping_criterion_20260411_210157/index.csv
+
+════════════════════════════════════════════════════════════════════════
+ANÁLISE DO CRITÉRIO DE PARADA
+════════════════════════════════════════════════════════════════════════
+  90 runs ok  |  6 instâncias  |  3 algoritmos
+
+  Calculando ref_points por instância...
+    c101_21: ref_point=[35.2, 4079.7, 34683.9]
+    c201_21: ref_point=[16.5, 4135.1, 96249.4]
+    r101_21: ref_point=[51.7, 4010.3, 3664.7]
+    r201_21: ref_point=[15.4, 3313.0, 22139.3]
+    rc101_21: ref_point=[46.2, 4511.1, 3388.9]
+    rc201_21: ref_point=[17.6, 4384.5, 25319.5]
+
+  Construindo curvas de HV...
+
+  Identificando N* por (algoritmo, instância)...
+    moead_ws    c101_21       N*=     650,055  HV_final=862956021.84  (5 runs)
+    moead_ws    c201_21       N*=     160,020  HV_final=1008531021.57  (5 runs)
+    moead_ws    r101_21       N*=     430,080  HV_final=166664273.39  (5 runs)
+    moead_ws    r201_21       N*=     370,020  HV_final=206630516.45  (5 runs)
+    moead_ws    rc101_21      N*=     490,035  HV_final=151065277.60  (5 runs)
+    moead_ws    rc201_21      N*=     440,055  HV_final=450892925.46  (5 runs)
+    nsga2       c101_21       N*=     570,045  HV_final=1386258808.02  (5 runs)
+    nsga2       c201_21       N*=     790,020  HV_final=3404735144.68  (5 runs)
+    nsga2       r101_21       N*=     840,000  HV_final=187064163.09  (5 runs)
+    nsga2       r201_21       N*=     590,100  HV_final=383246626.71  (5 runs)
+    nsga2       rc101_21      N*=     920,010  HV_final=171338177.95  (5 runs)
+    nsga2       rc201_21      N*=     690,060  HV_final=737918653.31  (5 runs)
+    smsemoa     c101_21       N*=     550,095  HV_final=1511663276.01  (5 runs)
+    smsemoa     c201_21       N*=     570,045  HV_final=3179232120.94  (5 runs)
+    smsemoa     r101_21       N*=     540,015  HV_final=187543974.31  (5 runs)
+    smsemoa     r201_21       N*=     530,040  HV_final=440952207.45  (5 runs)
+    smsemoa     rc101_21      N*=     570,045  HV_final=173156691.37  (5 runs)
+    smsemoa     rc201_21      N*=     620,025  HV_final=812040416.65  (5 runs)
+
+  ────────────────────────────────────────────────────────────
+  N* por (algo, inst): 18 convergidos / 18 total
+  max(N*)             = 920,010
+  × 120% margem     = 1,104,012
+  arredondado         = 1,110,000  ← critério de parada oficial
+
+  stopping_criterion_analysis.csv → /home/rafael/MOEA_EVRP_TCC/results/stopping_criterion_20260411_210157/stopping_criterion_analysis.csv
+  preliminary_comparison.csv    → /home/rafael/MOEA_EVRP_TCC/results/stopping_criterion_20260411_210157/preliminary_comparison.csv
+
+  COMPARAÇÃO PRELIMINAR (HV mediano, ref_point consistente por instância):
+  Instância    moead_ws    nsga2       smsemoa     Vencedor
+  ────────────────────────────────────────────────────────────────────────
+  c101_21      862956021.84  1386258808.02  1511663276.01  smsemoa
+  c201_21      1008531021.57  3404735144.68  3179232120.94  nsga2
+  r101_21      166664273.39  187064163.09  187543974.31  smsemoa
+  r201_21      206630516.45  383246626.71  440952207.45  smsemoa
+  rc101_21     151065277.60  171338177.95  173156691.37  smsemoa
+  rc201_21     450892925.46  737918653.31  812040416.65  smsemoa
+  ────────────────────────────────────────────────────────────────────────
+  Vitórias: moead_ws=0  nsga2=1  smsemoa=5
+  stopping_criterion_report.md  → /home/rafael/MOEA_EVRP_TCC/results/stopping_criterion_20260411_210157/stopping_criterion_report.md

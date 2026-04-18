@@ -67,12 +67,26 @@ import numpy as np
 # Constantes
 # ─────────────────────────────────────────────────────────────────────────────
 
-N_CONFIGS     = 50        # configurações por algoritmo
+N_CONFIGS     = 100       # dobro do v1 — melhor cobertura do espaço de parâmetros
 N_MACHINES    = 4
-N_WORKERS     = 10        # workers por máquina
+N_WORKERS     = 10        # workers de fallback (sobrescrito via --n-workers)
 POP_SIZE      = 105       # fixo em todos (Das-Dennis H=13, 3 objetivos)
-N_EVALS       = 400_000   # avaliações por run de tuning (~15 min/run × 2 — comparação mais robusta)
-SEED_GLOBAL   = 42
+N_EVALS       = 600_000   # 50% mais que v1 — convergência mais próxima do stopping criterion (850k)
+SEED_GLOBAL   = 43        # seed diferente do v1 (42) → configs independentes e não-redundantes
+
+# Mapeamento machine_id → máquina física
+# machine_id=1 → máquina 64 (Ryzen 9 7950X, 16c, 16 workers)  peso 32%
+# machine_id=2 → máquina 65 (Ryzen 9 7900X, 12c, 12 workers)  peso 24%
+# machine_id=3 → máquina 66 (Intel i9-10900F, 10c, 10 workers) peso 12%
+# machine_id=4 → máquina 67 (Ryzen 9 7950X, 16c, 16 workers)  peso 32%
+# Distribuição proporcional ao throughput real (medido no tuning v1)
+MACHINE_WEIGHTS = {1: 0.32, 2: 0.24, 3: 0.12, 4: 0.32}
+MACHINE_INFO = {
+    1: ("maq64 (7950X, 16c)",    16),
+    2: ("maq65 (7900X, 12c)",    12),
+    3: ("maq66 (i9-10900F, 10c)", 10),
+    4: ("maq67 (7950X, 16c)",    16),
+}
 
 # 6 instâncias representativas — mesmas do critério de parada
 TUNING_INSTANCES = {
@@ -103,11 +117,12 @@ CSV_FIELDS = [
 def _seed(alg_id: str, cfg_idx: int, inst: str) -> int:
     """
     Seed determinística baseada em (algoritmo, config, instância).
-    Prefixo "tuning_rs_" garante seeds diferentes da calibração e do piloto.
+    Prefixo "tuning_rs_v2_" garante seeds completamente independentes
+    do v1 ("tuning_rs_"), da calibração ("calib_") e do piloto ("pilot_").
     Independente do machine_id — a mesma tarefa dá o mesmo resultado
     em qualquer máquina, tornando reruns reprodutíveis.
     """
-    key = f"tuning_rs_{alg_id}_{cfg_idx}_{inst}"
+    key = f"tuning_rs_v2_{alg_id}_{cfg_idx}_{inst}"
     return int(hashlib.sha256(key.encode()).hexdigest(), 16) % (2 ** 32)
 
 
@@ -266,9 +281,25 @@ def generate(out_dir: str):
     idx_shuffled = rng_shuffle.permutation(len(tasks)).tolist()
     tasks_shuffled = [tasks[i] for i in idx_shuffled]
 
+    # Distribuição proporcional à capacidade de cada máquina.
+    # Round-robin simples (v1) distribui igualmente, mas as máquinas têm
+    # velocidades diferentes. Distribuição ponderada equaliza o wall-time.
+    boundaries = []
+    cumsum = 0.0
+    for m_id in sorted(MACHINE_WEIGHTS):
+        cumsum += MACHINE_WEIGHTS[m_id]
+        boundaries.append((m_id, cumsum))
+
+    n_total = len(tasks_shuffled)
     for pos, task in enumerate(tasks_shuffled):
-        task["task_id"]    = pos
-        task["machine_id"] = (pos % N_MACHINES) + 1
+        task["task_id"] = pos
+        frac = pos / n_total
+        for m_id, bound in boundaries:
+            if frac < bound:
+                task["machine_id"] = m_id
+                break
+        else:
+            task["machine_id"] = boundaries[-1][0]
 
     # ── Salva tasks ───────────────────────────────────────────────────────────
     tasks_path = os.path.join(out_dir, "all_tasks.json")
@@ -278,16 +309,23 @@ def generate(out_dir: str):
     print(f"  all_tasks.json  → {tasks_path}")
     print(f"  Total tasks: {len(tasks_shuffled)} "
           f"({N_CONFIGS} configs × 3 algs × {len(TUNING_INSTANCES)} instâncias)")
-
+    print()
+    # Throughput estimado por máquina (evals/s medidos no tuning v1)
+    # AMD 7950X/7900X: ~700 evals/s single-thread. Intel i9: ~354 evals/s.
+    machine_rate = {1: 700.0, 2: 700.0, 3: 354.0, 4: 700.0}
     for m in range(1, N_MACHINES + 1):
-        n_m = sum(1 for t in tasks_shuffled if t["machine_id"] == m)
-        print(f"    machine{m}: {n_m} tasks")
+        n_m           = sum(1 for t in tasks_shuffled if t["machine_id"] == m)
+        name, workers = MACHINE_INFO[m]
+        rate          = machine_rate[m]
+        est_h         = n_m * (N_EVALS / rate / workers) / 3600
+        print(f"    machine{m} ({name}): {n_m:>4} tasks, {workers:>2} workers, ~{est_h:.1f}h")
 
     print(f"\n  ✅ Próximos passos:")
     print(f"     scp {configs_path} {tasks_path} user@machine2:path/")
     print(f"     scp {configs_path} {tasks_path} user@machine3:path/")
     print(f"     scp {configs_path} {tasks_path} user@machine4:path/")
     print(f"     (ajuste os paths e usuários)")
+
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -1003,7 +1041,7 @@ def main():
 
     ap.add_argument("--machine-id",  type=int, choices=[1, 2, 3, 4],
                     help="ID da máquina (obrigatório com --run)")
-    ap.add_argument("--tuning-dir",  default=os.path.join(ROOT, "results", "tuning_rs"),
+    ap.add_argument("--tuning-dir",  default=os.path.join(ROOT, "results", "tuning_rs_v2"),
                     help="Diretório raiz do experimento de tuning")
     ap.add_argument("--n-workers",   type=int, default=N_WORKERS,
                     help=f"Workers paralelos (padrão: {N_WORKERS})")

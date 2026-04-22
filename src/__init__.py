@@ -7,6 +7,7 @@ from .parser import parse_instance
 from .decoder import Decoder
 from .problem import EVRPTWProblem
 from .sampling import TWBiasedSampling
+from .fixed_inversion import FixedInversionMutation
 
 __all__ = [
     'Node', 'NodeType', 'Context',
@@ -14,4 +15,5 @@ __all__ = [
     'Decoder',
     'EVRPTWProblem',
     'TWBiasedSampling',
+    'FixedInversionMutation',
 ]

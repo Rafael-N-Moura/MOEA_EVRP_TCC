@@ -67,25 +67,34 @@ import numpy as np
 # Constantes
 # ─────────────────────────────────────────────────────────────────────────────
 
-N_CONFIGS     = 100       # dobro do v1 — melhor cobertura do espaço de parâmetros
-N_MACHINES    = 4
+N_CONFIGS     = 100       # 100 configs/alg — resolução ~3× maior que o v1
+N_MACHINES    = 5         # 5 máquinas: maq64, maq65, maq66, maq67, Dell G15
 N_WORKERS     = 10        # workers de fallback (sobrescrito via --n-workers)
 POP_SIZE      = 105       # fixo em todos (Das-Dennis H=13, 3 objetivos)
 N_EVALS       = 600_000   # 50% mais que v1 — convergência mais próxima do stopping criterion (850k)
 SEED_GLOBAL   = 43        # seed diferente do v1 (42) → configs independentes e não-redundantes
 
-# Mapeamento machine_id → máquina física
-# machine_id=1 → máquina 64 (Ryzen 9 7950X, 16c, 16 workers)  peso 32%
-# machine_id=2 → máquina 65 (Ryzen 9 7900X, 12c, 12 workers)  peso 24%
-# machine_id=3 → máquina 66 (Intel i9-10900F, 10c, 10 workers) peso 12%
-# machine_id=4 → máquina 67 (Ryzen 9 7950X, 16c, 16 workers)  peso 32%
-# Distribuição proporcional ao throughput real (medido no tuning v1)
-MACHINE_WEIGHTS = {1: 0.32, 2: 0.24, 3: 0.12, 4: 0.32}
+# Mapeamento machine_id → (nome, n_workers_recomendado)
+# Pesos proporcionais ao throughput esperado com 600k evals/run:
+#   machine_id=1 → maq64  (Ryzen 9 7950X, 16c) — ~80 runs/h  peso 28.7%
+#   machine_id=2 → maq65  (Ryzen 9 7900X, 12c) — ~60 runs/h  peso 21.6%
+#   machine_id=3 → maq66  (i9-10900F, 10c)      — ~27 runs/h  peso  9.7%
+#   machine_id=4 → maq67  (Ryzen 9 7950X, 16c) — ~80 runs/h  peso 28.7%
+#   machine_id=5 → Dell G15 (i5-12500H, 8w)     — ~32 runs/h  peso 11.3%
+# Distribuição proporcional à capacidade equaliza o wall-time (~6.5h em todas)
+MACHINE_WEIGHTS = {
+    1: 0.287,   # maq64  — Ryzen 9 7950X, 16 workers
+    2: 0.216,   # maq65  — Ryzen 9 7900X, 12 workers
+    3: 0.097,   # maq66  — i9-10900F, 10 workers
+    4: 0.287,   # maq67  — Ryzen 9 7950X, 16 workers
+    5: 0.113,   # Dell G15 — i5-12500H, 8 workers (P+E cores híbridos)
+}
 MACHINE_INFO = {
-    1: ("maq64 (7950X, 16c)",    16),
-    2: ("maq65 (7900X, 12c)",    12),
-    3: ("maq66 (i9-10900F, 10c)", 10),
-    4: ("maq67 (7950X, 16c)",    16),
+    1: ("maq64 (Ryzen 9 7950X, 16c)",  16),
+    2: ("maq65 (Ryzen 9 7900X, 12c)",  12),
+    3: ("maq66 (i9-10900F, 10c)",       10),
+    4: ("maq67 (Ryzen 9 7950X, 16c)",  16),
+    5: ("Dell G15 (i5-12500H, 8w)",     8),
 }
 
 # 6 instâncias representativas — mesmas do critério de parada
@@ -175,16 +184,22 @@ def _hv(F: np.ndarray, ref_point: np.ndarray) -> float:
 
 def generate(out_dir: str):
     """
-    Gera all_configs.json (150 configs) e all_tasks.json (900 tasks).
+    Gera all_configs.json (300 configs) e all_tasks.json (1800 tasks).
 
-    Distribuição de parâmetros:
-      pc  ~ Uniform(0.0, 1.0)
-      pm  ~ LogUniform(0.001, 0.30)  — amostragem em log-espaço
-      n_neighbors      ~ IntUniform(3, 25)   [MOEA/D somente]
-      prob_neighbor_mating ~ Uniform(0,1)    [MOEA/D somente]
-      decomposition    ~ Cat{ws, tcheby, pbi} [MOEA/D somente]
-      ref_dirs_method  ~ Cat{das-dennis, energy} [MOEA/D somente]
-      pbi_theta        ~ Uniform(1.0, 10.0)  [MOEA/D+PBI somente]
+    Distribuições de amostragem (centradas nos defaults do pymoo):
+      pc  ~ Beta(3, 1.5)  — moda ~0.80, média ~0.67; explora [0.4, 1.0] (default OX = 0.9)
+      pm  ~ Beta(3, 1)    — moda  1.00, média  0.75; ~88% acima de 0.5 (default Inv = 1.0)
+
+      [MOEA/D somente]
+      n_neighbors          ~ IntUniform(3, 25)
+      prob_neighbor_mating ~ Beta(3, 1)        — prioriza alto (default 0.9)
+      decomposition        ~ Cat{ws, tcheby, pbi}  uniforme
+      ref_dirs_method      ~ Cat{das-dennis, energy}  uniforme
+      pbi_theta            ~ Uniform(1.0, 10.0)  [condicional: decomp == pbi]
+
+    Justificativa (banca): distribuições Beta(α>β) concentram amostras próximas
+    ao default do operador — prior forte do conhecimento da comunidade — enquanto
+    ainda exploram alternativas. Independente de qualquer resultado anterior.
     """
     os.makedirs(out_dir, exist_ok=True)
     rng = np.random.default_rng(SEED_GLOBAL)
@@ -193,13 +208,13 @@ def generate(out_dir: str):
 
     # ── NSGA-II ─────────────────────────────────────────────────────────────
     for i in range(1, N_CONFIGS + 1):
-        pc = float(rng.uniform(0.0, 1.0))
-        pm = float(np.exp(rng.uniform(np.log(0.001), np.log(0.30))))
+        pc = float(rng.beta(3, 1.5))   # moda ~0.80, média ~0.67 (default OX = 0.9)
+        pm = float(rng.beta(3, 1))     # moda  1.00, média  0.75 (default Inv = 1.0)
         configs.append({
             "algorithm_id":         "nsga2",
             "config_idx":           i,
             "pc":                   round(pc, 4),
-            "pm":                   round(pm, 5),
+            "pm":                   round(pm, 4),
             "pop_size":             POP_SIZE,
             "eliminate_duplicates": True,
             # campos MOEA/D — null para NSGA-II
@@ -212,13 +227,13 @@ def generate(out_dir: str):
 
     # ── SMS-EMOA ─────────────────────────────────────────────────────────────
     for i in range(1, N_CONFIGS + 1):
-        pc = float(rng.uniform(0.0, 1.0))
-        pm = float(np.exp(rng.uniform(np.log(0.001), np.log(0.30))))
+        pc = float(rng.beta(3, 1.5))   # moda ~0.80, média ~0.67 (default OX = 0.9)
+        pm = float(rng.beta(3, 1))     # moda  1.00, média  0.75 (default Inv = 1.0)
         configs.append({
             "algorithm_id":         "smsemoa",
             "config_idx":           i,
             "pc":                   round(pc, 4),
-            "pm":                   round(pm, 5),
+            "pm":                   round(pm, 4),
             "pop_size":             POP_SIZE,
             "eliminate_duplicates": True,
             "n_neighbors":          None,
@@ -232,10 +247,10 @@ def generate(out_dir: str):
     decomps     = ["weighted-sum", "tchebycheff", "pbi"]
     ref_methods = ["das-dennis", "energy"]
     for i in range(1, N_CONFIGS + 1):
-        pc          = float(rng.uniform(0.0, 1.0))
-        pm          = float(np.exp(rng.uniform(np.log(0.001), np.log(0.30))))
-        n_nb        = int(rng.integers(3, 26))   # [3, 25] inclusive
-        pnm         = float(rng.uniform(0.0, 1.0))
+        pc          = float(rng.beta(3, 1.5))    # moda ~0.80  (default OX = 0.9)
+        pm          = float(rng.beta(3, 1))      # moda  1.00  (default Inv = 1.0)
+        n_nb        = int(rng.integers(3, 26))   # IntUniform [3, 25]
+        pnm         = float(rng.beta(3, 1))      # moda 1.0 — prioriza alto (default 0.9)
         decomp      = str(decomps[int(rng.integers(0, 3))])
         ref_method  = str(ref_methods[int(rng.integers(0, 2))])
         pbi_theta   = float(rng.uniform(1.0, 10.0)) if decomp == "pbi" else None
@@ -243,7 +258,7 @@ def generate(out_dir: str):
             "algorithm_id":         "moead_ws",
             "config_idx":           i,
             "pc":                   round(pc, 4),
-            "pm":                   round(pm, 5),
+            "pm":                   round(pm, 4),
             "pop_size":             POP_SIZE,
             "eliminate_duplicates": False,  # MOEA/D não usa
             "n_neighbors":          n_nb,
@@ -293,7 +308,7 @@ def generate(out_dir: str):
     n_total = len(tasks_shuffled)
     for pos, task in enumerate(tasks_shuffled):
         task["task_id"] = pos
-        frac = pos / n_total
+        frac = (pos + 0.5) / n_total   # +0.5 centra no bin, evita borda superior
         for m_id, bound in boundaries:
             if frac < bound:
                 task["machine_id"] = m_id
@@ -310,9 +325,10 @@ def generate(out_dir: str):
     print(f"  Total tasks: {len(tasks_shuffled)} "
           f"({N_CONFIGS} configs × 3 algs × {len(TUNING_INSTANCES)} instâncias)")
     print()
-    # Throughput estimado por máquina (evals/s medidos no tuning v1)
-    # AMD 7950X/7900X: ~700 evals/s single-thread. Intel i9: ~354 evals/s.
-    machine_rate = {1: 700.0, 2: 700.0, 3: 354.0, 4: 700.0}
+    # Throughput estimado por máquina (evals/s medidos no tuning v1 + estimativa Dell)
+    # AMD 7950X/7900X: ~700 evals/s/worker. Intel i9: ~354 evals/s/worker.
+    # Dell G15 i5-12500H: ~480 evals/s/worker (P-cores) com throttling conservador.
+    machine_rate = {1: 700.0, 2: 700.0, 3: 354.0, 4: 700.0, 5: 480.0}
     for m in range(1, N_MACHINES + 1):
         n_m           = sum(1 for t in tasks_shuffled if t["machine_id"] == m)
         name, workers = MACHINE_INFO[m]
@@ -338,11 +354,10 @@ def _build_algorithm_from_config(task: dict):
     Ponto central de variação vs os experimentos anteriores (pc, pm configuráveis).
     """
     from pymoo.operators.crossover.ox import OrderCrossover
-    from pymoo.operators.mutation.inversion import InversionMutation
-    from src import TWBiasedSampling
+    from src import TWBiasedSampling, FixedInversionMutation
 
     crossover = OrderCrossover(prob=task["pc"])
-    mutation  = InversionMutation(prob=task["pm"])
+    mutation  = FixedInversionMutation(prob=task["pm"])  # fix: sem double-sampling
     ops = dict(
         sampling  = TWBiasedSampling(),
         crossover = crossover,
@@ -476,7 +491,7 @@ def run_task(task: dict) -> dict:
         front_dir = os.path.join(task["out_dir"], "fronts")
         os.makedirs(front_dir, exist_ok=True)
         front_fname = (f"{task['algorithm_id']}__{task['instance']}__"
-                       f"cfg{task['config_idx']:02d}.pkl")
+                       f"cfg{task['config_idx']:03d}.pkl")
         front_path  = os.path.join(front_dir, front_fname)
 
         compact = {
@@ -607,7 +622,8 @@ def run_machine(machine_id: int, tuning_dir: str, n_workers: int,
     total_machine = len(my_tasks)
     total_pending = len(pending)
 
-    est_s_per_run  = n_evals_eff / 354.0   # ~354 evals/s (calibrado do piloto)
+    est_s_per_run  = n_evals_eff / 354.0   # ~354 evals/s (calibrado do piloto, i9-10900F)
+    # NOTA: ETA conservador para máquinas AMD (maq1,2,4) e Dell (maq5) — ~700 e ~480 evals/s/worker.
     est_wall_h     = total_pending * est_s_per_run / n_workers / 3600
 
     print(f"\n{'='*68}")
@@ -709,7 +725,7 @@ def analyze(tuning_dir: str):
     print(f"  Total rows carregadas : {len(all_rows)}")
     print(f"  Status=ok             : {len(ok_rows)}")
 
-    missing = 900 - len(ok_rows)
+    missing = 1800 - len(ok_rows)   # 100 configs × 3 algs × 6 instâncias = 1800
     if missing > 0:
         print(f"  [AVISO] {missing} tasks faltando — resultados parciais")
 
@@ -908,7 +924,7 @@ def analyze(tuning_dir: str):
     md += [f"**Instâncias**: {', '.join(insts)}  \n"]
     md += [f"**Configs por algoritmo**: {N_CONFIGS}  \n"]
     md += [f"**N_evals por run**: {N_EVALS:,}  \n"]
-    md += [f"**Total runs OK**: {len(ok_rows)} / 900  \n\n---\n"]
+    md += [f"**Total runs OK**: {len(ok_rows)} / 1800  \n\n---\n"]
 
     for alg in algs:
         md += [f"\n## {alg.upper()}\n"]
@@ -989,8 +1005,8 @@ def analyze(tuning_dir: str):
 
     md += [f"\n---\n\n"]
     md += ["## Metodologia\n\n"]
-    md += ["- Todas as 150 configurações foram geradas deterministicamente "
-           "(seed=42) antes da execução.\n"]
+    md += ["- Todas as 300 configurações foram geradas deterministicamente "
+           "(seed=43) antes da execução.\n"]
     md += [f"- Cada configuração foi avaliada em {len(insts)} instâncias "
            f"({N_EVALS:,} avaliações cada).\n"]
     md += ["- Critério de seleção: **rank médio** sobre as instâncias "
@@ -1002,7 +1018,7 @@ def analyze(tuning_dir: str):
     md += [f"\n### Nota sobre dimensionalidade:\n"]
     md += ["NSGA-II e SMS-EMOA têm 2 parâmetros livres (pc, pm); "
            "MOEA/D-WS tem 6. Isso implica que com o mesmo número de "
-           "amostras (50), o MOEA/D-WS cobre um espaço 3× maior, "
+           "amostras (100), o MOEA/D-WS cobre um espaço 3× maior, "
            "reduzindo a probabilidade de encontrar a configuração ótima. "
            "Esta maior complexidade de configuração é um custo real da "
            "decomposição escalar e deve ser documentada no TCC.\n"]
@@ -1037,10 +1053,11 @@ def main():
     mode.add_argument("--run",        action="store_true",
                       help="Executa tasks desta máquina")
     mode.add_argument("--analyze",    action="store_true",
-                      help="Analisa resultados das 4 máquinas")
+                      help="Analisa resultados das 5 máquinas")
 
-    ap.add_argument("--machine-id",  type=int, choices=[1, 2, 3, 4],
-                    help="ID da máquina (obrigatório com --run)")
+    ap.add_argument("--machine-id",  type=int, choices=[1, 2, 3, 4, 5],
+                    help="ID da máquina (obrigatório com --run): "
+                         "1=maq64, 2=maq65, 3=maq66, 4=maq67, 5=DellG15")
     ap.add_argument("--tuning-dir",  default=os.path.join(ROOT, "results", "tuning_rs_v2"),
                     help="Diretório raiz do experimento de tuning")
     ap.add_argument("--n-workers",   type=int, default=N_WORKERS,

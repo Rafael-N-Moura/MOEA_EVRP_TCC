@@ -54,6 +54,11 @@ os.environ.setdefault("NUMEXPR_NUM_THREADS", "1")
 import sys, time, csv, json, pickle, hashlib, random, argparse, warnings, traceback
 from datetime import datetime
 from multiprocessing import Pool
+import multiprocessing
+try:
+    multiprocessing.set_start_method("fork", force=True)
+except RuntimeError:
+    pass
 
 warnings.filterwarnings("ignore")
 
@@ -678,7 +683,7 @@ def run_machine(machine_id: int, tuning_dir: str, n_workers: int,
                   f"{summ['n_pareto']:>4}  "
                   f"{summ['hv_local']:>14.0f}  "
                   f"{summ['elapsed_s']:>6.0f}s  "
-                  f"{status_str}")
+                  f"{status_str}", flush=True)
 
     elapsed_total = time.perf_counter() - global_start
     h, rem = divmod(int(elapsed_total), 3600)

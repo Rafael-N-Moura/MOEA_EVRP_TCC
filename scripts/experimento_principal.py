@@ -980,21 +980,18 @@ def run_machine(machine_id: int, experiment_dir: str,
         )
 
     # ── Execução paralela ─────────────────────────────────────────────────────
-    # Python 3.14+ tem bugs com multiprocessing.Pool pipes em algumas plataformas
-    # (maq66 i9-10900F). ProcessPoolExecutor usa implementação diferente de IPC
-    # que não sofre do mesmo problema.
-    if sys.version_info >= (3, 14):
-        from concurrent.futures import ProcessPoolExecutor, as_completed
-        ctx = multiprocessing.get_context("fork")
-        with ProcessPoolExecutor(max_workers=n_workers, mp_context=ctx) as exe:
-            futures = {exe.submit(run_task, t): t for t in pending}
-            for fut in as_completed(futures):
-                summ = fut.result()
-                _handle_result(summ)
-    else:
-        with Pool(processes=n_workers, maxtasksperchild=1) as pool:
-            for summ in pool.imap_unordered(run_task, pending):
-                _handle_result(summ)
+    # Usa ProcessPoolExecutor em vez de multiprocessing.Pool para evitar
+    # BrokenPipeError em Python 3.14 (maq66). ProcessPoolExecutor funciona
+    # em Python >= 3.2 e usa implementação de IPC diferente.
+    # max_tasks_per_child=1: recicla worker após cada run (evita memory leak).
+    from concurrent.futures import ProcessPoolExecutor, as_completed
+    ctx = multiprocessing.get_context("fork")
+    with ProcessPoolExecutor(max_workers=n_workers, mp_context=ctx,
+                             max_tasks_per_child=1) as exe:
+        futures = {exe.submit(run_task, t): t for t in pending}
+        for fut in as_completed(futures):
+            summ = fut.result()
+            _handle_result(summ)
 
     # ── Resumo final ──────────────────────────────────────────────────────────
     elapsed_total = time.perf_counter() - global_start

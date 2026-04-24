@@ -943,7 +943,7 @@ def run_machine(machine_id: int, experiment_dir: str,
     errors = 0
 
     # ── Execução paralela com Pool ────────────────────────────────────────────
-    with Pool(processes=n_workers) as pool:
+    with Pool(processes=n_workers, maxtasksperchild=1) as pool:
         for summ in pool.imap_unordered(run_task, pending):
             done += 1
             if summ["status"] != "ok":

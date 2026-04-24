@@ -92,7 +92,25 @@ class ConvergenceCallback(Callback):
 
         cv_arr = algorithm.pop.get("_cv")
         F_real = algorithm.pop.get("_F_real")
+
+        # Fallbacks robustos para MOEA/D, que pode não propagar os atributos
+        # customizados (_cv, _F_real) da mesma forma que NSGA-II/SMS-EMOA
+        # dependendo da versão do pymoo.
+        if cv_arr is None:
+            cv_arr = algorithm.pop.get("CV")
+        if F_real is None:
+            F_real = algorithm.pop.get("F")
+
+        # Se ainda None após fallbacks, registra snapshot vazio mas não aborta
         if cv_arr is None or F_real is None:
+            self.history.append({
+                "n_eval":     int(n_eval),
+                "n_feasible": 0,
+                "F_pareto":   np.empty((0, 3)),
+                "best_f1":    float("nan"),
+                "best_f2":    float("nan"),
+                "best_f3":    float("nan"),
+            })
             return
 
         mask   = cv_arr[:, 0] <= 1e-9

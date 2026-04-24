@@ -983,11 +983,11 @@ def run_machine(machine_id: int, experiment_dir: str,
     # Usa ProcessPoolExecutor em vez de multiprocessing.Pool para evitar
     # BrokenPipeError em Python 3.14 (maq66). ProcessPoolExecutor funciona
     # em Python >= 3.2 e usa implementação de IPC diferente.
-    # max_tasks_per_child=1: recicla worker após cada run (evita memory leak).
+    # Nota: max_tasks_per_child é incompatível com fork no Python 3.14,
+    # então não é usado. O fork é obrigatório para herdar sys.path e env vars.
     from concurrent.futures import ProcessPoolExecutor, as_completed
     ctx = multiprocessing.get_context("fork")
-    with ProcessPoolExecutor(max_workers=n_workers, mp_context=ctx,
-                             max_tasks_per_child=1) as exe:
+    with ProcessPoolExecutor(max_workers=n_workers, mp_context=ctx) as exe:
         futures = {exe.submit(run_task, t): t for t in pending}
         for fut in as_completed(futures):
             summ = fut.result()

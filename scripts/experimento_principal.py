@@ -942,42 +942,59 @@ def run_machine(machine_id: int, experiment_dir: str,
     done   = len(completed)
     errors = 0
 
-    # ── Execução paralela com Pool ────────────────────────────────────────────
-    with Pool(processes=n_workers, maxtasksperchild=1) as pool:
-        for summ in pool.imap_unordered(run_task, pending):
-            done += 1
-            if summ["status"] != "ok":
-                errors += 1
+    # ── Helper de progresso (compartilhado entre Pool e ProcessPoolExecutor) ──
+    def _handle_result(summ):
+        nonlocal done, errors
+        done += 1
+        if summ["status"] != "ok":
+            errors += 1
 
-            # Registra resultado no CSV
-            write_csv_row(index_csv, summ)
+        # Registra resultado no CSV
+        write_csv_row(index_csv, summ)
 
-            # ETA dinâmico baseado no tempo real decorrido
-            elapsed_total = time.perf_counter() - global_start
-            frac  = done / total_machine if total_machine > 0 else 1.0
-            eta_s = (elapsed_total / frac - elapsed_total) if frac > 0 else 0.0
-            eta   = f"{int(eta_s // 3600)}h{int((eta_s % 3600) // 60):02d}m"
+        # ETA dinâmico baseado no tempo real decorrido
+        elapsed_total = time.perf_counter() - global_start
+        frac  = done / total_machine if total_machine > 0 else 1.0
+        eta_s = (elapsed_total / frac - elapsed_total) if frac > 0 else 0.0
+        eta   = f"{int(eta_s // 3600)}h{int((eta_s % 3600) // 60):02d}m"
 
-            # Linha de progresso
-            if summ["status"] == "ok":
-                status_str = f"ok  ETA:{eta}"
-            else:
-                err_short  = summ.get("error_msg", "")[:22]
-                status_str = f"ERRO: {err_short}"
+        # Linha de progresso
+        if summ["status"] == "ok":
+            status_str = f"ok  ETA:{eta}"
+        else:
+            err_short  = summ.get("error_msg", "")[:22]
+            status_str = f"ERRO: {err_short}"
 
-            print(
-                f"  {done:>6}/{total_machine}  "
-                f"{summ['algorithm_id']:<10}  "
-                f"{summ['instance']:<12}  "
-                f"{summ['run_idx']:>3}  "
-                f"{summ['n_feasible']:>5}  "
-                f"{summ['n_pareto']:>4}  "
-                f"{summ['n_f1_layers']:>4}  "
-                f"{summ['hv_local']:>12.0f}  "
-                f"{summ['elapsed_s']:>6.0f}s  "
-                f"{status_str}",
-                flush=True,
-            )
+        print(
+            f"  {done:>6}/{total_machine}  "
+            f"{summ['algorithm_id']:<10}  "
+            f"{summ['instance']:<12}  "
+            f"{summ['run_idx']:>3}  "
+            f"{summ['n_feasible']:>5}  "
+            f"{summ['n_pareto']:>4}  "
+            f"{summ['n_f1_layers']:>4}  "
+            f"{summ['hv_local']:>12.0f}  "
+            f"{summ['elapsed_s']:>6.0f}s  "
+            f"{status_str}",
+            flush=True,
+        )
+
+    # ── Execução paralela ─────────────────────────────────────────────────────
+    # Python 3.14+ tem bugs com multiprocessing.Pool pipes em algumas plataformas
+    # (maq66 i9-10900F). ProcessPoolExecutor usa implementação diferente de IPC
+    # que não sofre do mesmo problema.
+    if sys.version_info >= (3, 14):
+        from concurrent.futures import ProcessPoolExecutor, as_completed
+        ctx = multiprocessing.get_context("fork")
+        with ProcessPoolExecutor(max_workers=n_workers, mp_context=ctx) as exe:
+            futures = {exe.submit(run_task, t): t for t in pending}
+            for fut in as_completed(futures):
+                summ = fut.result()
+                _handle_result(summ)
+    else:
+        with Pool(processes=n_workers, maxtasksperchild=1) as pool:
+            for summ in pool.imap_unordered(run_task, pending):
+                _handle_result(summ)
 
     # ── Resumo final ──────────────────────────────────────────────────────────
     elapsed_total = time.perf_counter() - global_start

@@ -53,14 +53,18 @@ from datetime import datetime
 from multiprocessing import Pool
 import multiprocessing
 
+# Força UTF-8 no stdout/stderr para evitar UnicodeEncodeError em terminais
+# Windows que usam cp1252 (e.g. PowerShell sem PYTHONUTF8=1).
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+if hasattr(sys.stderr, "reconfigure"):
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+
 # Fix para Python >= 3.14 onde "spawn" passa a ser o default em macOS/Linux.
 # O "fork" é necessário para que os sub-processos herdem o estado do processo
 # principal (ROOT no sys.path, variáveis de ambiente de threading, etc.) sem
 # custo de reimportação. Em caso de conflito (método já definido), ignora.
-try:
-    multiprocessing.set_start_method("fork", force=True)
-except RuntimeError:
-    pass
+
 
 warnings.filterwarnings("ignore")
 
@@ -489,7 +493,7 @@ def generate(out_dir: str):
     print(f"\n{'='*68}")
     print(f"  EXPERIMENTO PRINCIPAL — GERAÇÃO DE TAREFAS")
     print(f"{'='*68}")
-    print(f"  all_tasks.json → {tasks_path}")
+    print(f"  all_tasks.json -> {tasks_path}")
     print(f"  Total tasks    : {len(all_tasks)}")
     print(f"  (50 instâncias × 3 algoritmos × {N_RUNS} runs)")
     print()
@@ -524,7 +528,7 @@ def generate(out_dir: str):
         print(f"    instâncias : {', '.join(my_insts)}")
         print()
 
-    print(f"  ✅ Próximos passos:")
+    print(f"  [OK] Proximos passos:")
     print(f"     scp {tasks_path} user@maq65:~/MOEA_EVRP_TCC/results/experimento_principal/")
     print(f"     scp {tasks_path} user@maq66:~/MOEA_EVRP_TCC/results/experimento_principal/")
     print(f"     scp {tasks_path} user@maq67:~/MOEA_EVRP_TCC/results/experimento_principal/")
@@ -890,7 +894,7 @@ def run_machine(machine_id: int, experiment_dir: str,
         for t in pending:
             t["out_dir"]        = dry_dir
             t["n_evals_budget"] = n_evals_eff
-        print(f"  [DRY-RUN] 1 task, {n_evals_eff:,} evals, 1 worker → {dry_dir}")
+        print(f"  [DRY-RUN] 1 task, {n_evals_eff:,} evals, 1 worker -> {dry_dir}")
     else:
         # Filtra apenas os pendentes (não concluídos)
         pending = [
@@ -929,7 +933,7 @@ def run_machine(machine_id: int, experiment_dir: str,
     print(f"{'='*68}\n")
 
     if not pending:
-        print("  ✅ Todos os runs concluídos — nada a executar.")
+        print("  [OK] Todos os runs concluidos - nada a executar.")
         return
 
     # ── Cabeçalho da tabela de progresso ─────────────────────────────────────
@@ -983,10 +987,10 @@ def run_machine(machine_id: int, experiment_dir: str,
     elapsed_total = time.perf_counter() - global_start
     h, rem = divmod(int(elapsed_total), 3600)
     m, s   = divmod(rem, 60)
-    print(f"\n  Concluído em {h}h {m:02d}m {s:02d}s  |  "
+    print(f"\n  Concluido em {h}h {m:02d}m {s:02d}s  |  "
           f"Erros: {errors}/{total_pending}  |  "
           f"Total ok: {done - errors - len(completed)}/{total_pending}")
-    print(f"  index.csv → {index_csv}")
+    print(f"  index.csv -> {index_csv}")
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -1040,7 +1044,7 @@ def analyze(experiment_dir: str):
     if missing > 0:
         print(f"  [AVISO] {missing} runs faltando de {expected} esperados")
     else:
-        print(f"  ✅ Todos os {expected} runs coletados!")
+        print(f"  [OK] Todos os {expected} runs coletados!")
 
     # Salva merged_index.csv para inspeção
     if ok_rows:
@@ -1051,9 +1055,9 @@ def analyze(experiment_dir: str):
             w.writeheader()
             for r in ok_rows:
                 w.writerow({k: r.get(k, "") for k in fields_merged})
-        print(f"\n  merged_index.csv → {merged_path}")
+        print(f"\n  merged_index.csv -> {merged_path}")
 
-    print(f"\n  ⚠️  Análise completa (passos 2-8) não implementada ainda.")
+    print(f"\n  [AVISO] Analise completa (passos 2-8) nao implementada ainda.")
     print(f"     Implemente após a coleta completa dos dados de todas as máquinas.")
     print(f"     Consulte experimento_principal_parte_5.md para o pipeline completo.")
 

@@ -1,0 +1,62 @@
+{
+  "hv": {
+    "metric": "hv",
+    "avg_ranks": {
+      "nsga2": 1.76,
+      "smsemoa": 1.24,
+      "moead_ws": 3.0
+    },
+    "friedman_stat": 81.76,
+    "friedman_p": 0.0,
+    "friedman_sig": true,
+    "cd": 0.4686,
+    "nemenyi": {
+      "nsga2_vs_smsemoa": {
+        "diff": 0.52,
+        "cd": 0.4686,
+        "significant": true
+      },
+      "nsga2_vs_moead_ws": {
+        "diff": 1.24,
+        "cd": 0.4686,
+        "significant": true
+      },
+      "smsemoa_vs_moead_ws": {
+        "diff": 1.76,
+        "cd": 0.4686,
+        "significant": true
+      }
+    },
+    "demsar_diagram": "/Users/rafaelmoura/MOEA_EVRP_TCC_2/MOEA_EVRP_TCC/results/main_experiment/figures/demsar_hv.png"
+  },
+  "igd_plus": {
+    "metric": "igd_plus",
+    "avg_ranks": {
+      "smsemoa": 1.16,
+      "nsga2": 1.84,
+      "moead_ws": 3.0
+    },
+    "friedman_stat": 86.56,
+    "friedman_p": 0.0,
+    "friedman_sig": true,
+    "cd": 0.4686,
+    "nemenyi": {
+      "nsga2_vs_smsemoa": {
+        "diff": 0.68,
+        "cd": 0.4686,
+        "significant": true
+      },
+      "nsga2_vs_moead_ws": {
+        "diff": 1.16,
+        "cd": 0.4686,
+        "significant": true
+      },
+      "smsemoa_vs_moead_ws": {
+        "diff": 1.84,
+        "cd": 0.4686,
+        "significant": true
+      }
+    },
+    "demsar_diagram": "/Users/rafaelmoura/MOEA_EVRP_TCC_2/MOEA_EVRP_TCC/results/main_experiment/figures/demsar_igd_plus.png"
+  }
+}

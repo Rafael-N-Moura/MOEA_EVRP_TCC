@@ -1,0 +1,7 @@
+pair,metric,rho,p_value,significant,n
+nsga2_vs_smsemoa,hv_delta,-0.065,0.653717,False,50
+nsga2_vs_moead_ws,hv_delta,-0.5853,8e-06,True,50
+smsemoa_vs_moead_ws,hv_delta,-0.5667,1.8e-05,True,50
+nsga2_vs_smsemoa,igd_delta,-0.3213,0.022916,True,50
+nsga2_vs_moead_ws,igd_delta,-0.7638,0.0,True,50
+smsemoa_vs_moead_ws,igd_delta,-0.637,1e-06,True,50

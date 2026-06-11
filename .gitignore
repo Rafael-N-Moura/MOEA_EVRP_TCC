@@ -1,0 +1,138 @@
+# ──────────────────────────────────────────────
+# Python
+# ──────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+
+# ──────────────────────────────────────────────
+# macOS
+# ──────────────────────────────────────────────
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# ──────────────────────────────────────────────
+# Dados binários gerados (não versionados)
+# ──────────────────────────────────────────────
+*.pkl
+*.pickle
+
+# ──────────────────────────────────────────────
+# Logs de execução (raiz)
+# ──────────────────────────────────────────────
+*.log
+variacao_criterio_de_parada.txt
+maquinas.txt
+
+# ──────────────────────────────────────────────
+# Notas e rascunhos de desenvolvimento
+# ──────────────────────────────────────────────
+ajustes_script_tuning.md
+busca_local_proposta.md
+busca_local_refinamento.md
+convergencia.md
+especificacao_tcc.md
+experimento_piloto.md
+experimento_principal_parte_1.md
+experimento_principal_parte_2.md
+experimento_principal_parte_3.md
+experimento_principal_parte_4.md
+experimento_principal_parte_5.md
+hypertuning_random_search.md
+mudança_dos_inviaveis.md
+novo_tuning.md
+output_formal.md
+outras_metricas_analise.md
+paralelizacao_e_parada.md
+plano_analise.md
+plano_validacao.md
+pm_bug.md
+pontos_de_melhora_stopping_criterion.md
+proximos_passos.md
+script_MOEAD.md
+script_experimento_principal.md
+script_validacao.md
+testes_pc_pm.md
+tuning_reestruturacao.md
+visualizacoes_graficas.md
+vizualizacoes_graficas_3d.md
+paper_schneider.md
+"The electric vehicle routing problem with time windows and recharging stations-2.md"
+docs/
+
+# ──────────────────────────────────────────────
+# Resultados intermediários / de desenvolvimento
+# (mantemos apenas results/main_experiment/)
+# ──────────────────────────────────────────────
+results/2obj_experiment_*/
+results/audit_ws_*.json
+results/benchmark_*/
+results/best_small_instances.txt
+results/calibration/
+results/compare_pm_pc_*/
+results/convergence_log*.csv
+results/convergence_validation/
+results/etapa1_*.png
+results/ht_contention_*/
+results/main_experiment_20260411_181906/
+results/main_experiment/.DS_Store
+results/moead_config_sweep*.csv
+results/moead_config_sweep_summary.json
+results/moead_pareto_front*.json
+results/moead_population*.csv
+results/moead_tuning_*/
+results/pareto_front_*.csv
+results/pilot_*/
+results/progression/
+results/split_test/
+results/stopping_criterion_*/
+results/sweep_pm_pc/
+results/test2_pc_pm/
+results/timing_large_*.csv
+results/timing_large_*.json
+results/tuning/
+results/tuning_rs/
+results/tuning_rs_v2/
+results/validation_gen_*/
+results/master_validation.log
+
+# ──────────────────────────────────────────────
+# Scripts de exploração/debug (não usados no TCC)
+# ──────────────────────────────────────────────
+scripts/benchmark_c101C10.py
+scripts/benchmark_timing.py
+scripts/calibrate.py
+scripts/compare_pm_pc.py
+scripts/convergence_validation.py
+scripts/experimento_principal.py
+scripts/export_final_pareto_front.py
+scripts/ht_contention_test.py
+scripts/make_plots_3d.py
+scripts/moead_config_sweep.py
+scripts/moead_tuning.py
+scripts/run_2obj_experiment.py
+scripts/stopping_criterion.py
+scripts/sweep_pm_pc.py
+scripts/timing_large_instance.py
+scripts/tune.py
+scripts/validation_audit_ws.py
+scripts/validation_generalization.py
+
+# ──────────────────────────────────────────────
+# Testes de debug/exploração
+# ──────────────────────────────────────────────
+tests/extract_pareto.py
+tests/generate_csv_logs.py
+tests/run_moead_debug.py
+tests/run_small_instances.py
+tests/run_smsemoa_debug.py
+tests/show_random_route.py
+tests/test_4obj.py
+tests/test_r201.py
+tests/test_relaxed_split.py
+tests/test_split_comparison.py
+tests/test_violation_breakdown.py
+tests/verify_jumps.py

@@ -1,4 +1,0 @@
-timestamp,instance,run,seed,algorithm,n_evals_target,effective_pop,effective_evals,elapsed_s,ms_per_eval,n_feasible,n_total,hv,local_search,machine_node,platform,python
-20260409_175720,rc101_21,1,1,NSGA-II,5000,105,5040,5.921,1.1747,105,105,160832170.00270212,False,pesquisa,Linux-6.6.128-1-MANJARO-x86_64-with-glibc2.43,3.14.3
-20260409_175720,rc101_21,1,1,MOEA/D,5000,105,5040,7.565,1.501,105,105,116892738.29842122,False,pesquisa,Linux-6.6.128-1-MANJARO-x86_64-with-glibc2.43,3.14.3
-20260409_175720,rc101_21,1,1,SMS-EMOA,5000,105,5040,5.986,1.1877,105,105,153691684.89971423,False,pesquisa,Linux-6.6.128-1-MANJARO-x86_64-with-glibc2.43,3.14.3
